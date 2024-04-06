@@ -21,6 +21,7 @@ spring:
       ddl-auto: update
     show-sql: true
 
+
 server:
   port: 8080
 
@@ -32,8 +33,8 @@ logging:
 
 # System properties 통합
 james:
-  host: localhost
   admin:
+    host: localhost
     port: ${JAMES_WEB_ADMIN_PORT:8000}
 
 file:

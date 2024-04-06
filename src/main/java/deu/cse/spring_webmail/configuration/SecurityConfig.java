@@ -21,11 +21,11 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable
                 )
-                .headers((headers) ->
+                .headers(headers ->
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable
                         )
                 )
-                .authorizeHttpRequests((authorizeRequests) ->
+                .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .anyRequest().permitAll()
                 );

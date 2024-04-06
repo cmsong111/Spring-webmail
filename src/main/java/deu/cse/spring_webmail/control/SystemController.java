@@ -48,7 +48,7 @@ public class SystemController {
     private String ADMINISTRATOR = "admin";
     @Value("${james.admin.port}")
     private Integer JAMES_CONTROL_PORT;
-    @Value("${james.host}")
+    @Value("${james.admin.host}")
     private String JAMES_HOST;
 
     @GetMapping("/")
