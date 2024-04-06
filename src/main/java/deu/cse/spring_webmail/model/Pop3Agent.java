@@ -4,18 +4,14 @@
  */
 package deu.cse.spring_webmail.model;
 
-import jakarta.mail.FetchProfile;
-import jakarta.mail.Flags;
-import jakarta.mail.Folder;
-import jakarta.mail.Message;
-import jakarta.mail.Session;
-import jakarta.mail.Store;
-import java.util.Properties;
+import jakarta.mail.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Properties;
 
 /**
  *
@@ -118,9 +114,8 @@ public class Pop3Agent {
         } catch (Exception ex) {
             log.error("Pop3Agent.getMessageList() : exception = {}", ex.getMessage());
             result = "Pop3Agent.getMessageList() : exception = " + ex.getMessage();
-        } finally {
-            return result;
         }
+        return result;
     }
 
     public String getMessage(int n) {

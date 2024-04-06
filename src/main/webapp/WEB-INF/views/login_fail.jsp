@@ -23,7 +23,7 @@
     </head>
     <body onload="setTimeout('gohome()', 5000)">
 
-        <%@include file="header.jspf"%>
+        <%@include file="fragments/header.jspf"%>
 
         <p id="login_fail">
             <%= request.getParameter("userid")%>님, 로그인이 실패하였습니다.

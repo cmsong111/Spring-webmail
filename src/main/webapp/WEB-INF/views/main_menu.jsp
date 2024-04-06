@@ -21,10 +21,10 @@
 -->
 
 <html>
+<%@include file="fragments/head.jspf" %>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
         <title>주메뉴 화면</title>
-        <link type="text/css" rel="stylesheet" href="css/main_style.css" />
         <script>
             <c:if test="${!empty msg}">
             alert("${msg}");
@@ -32,10 +32,10 @@
         </script>
     </head>
     <body>
-        <%@include file="header.jspf"%>
+        <%@include file="fragments/header.jspf"%>
 
         <div id="sidebar">
-            <jsp:include page="sidebar_menu.jsp" />
+            <jsp:include page="fragments/sidebar_menu.jsp" />
         </div>
 
         <!-- 메시지 삭제 링크를 누르면 바로 삭제되어 실수할 수 있음. 해결 방법은? -->

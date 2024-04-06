@@ -14,7 +14,7 @@
         <link type="text/css" rel="stylesheet" href="css/main_style.css" />
     </head>
     <body>
-        <%@include file="../header.jspf"%>
+        <%@include file="../fragments/header.jspf"%>
 
         <div id="sidebar">
             <jsp:include page="sidebar_read_menu.jsp" />

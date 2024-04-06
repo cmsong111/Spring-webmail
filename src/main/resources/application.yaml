@@ -39,8 +39,7 @@ server:
 
 logging:
   level:
-    deu.cse.spring_webmail: DEBUG
-
+    org.springframework: INFO
 
 # System properties 통합
 james:

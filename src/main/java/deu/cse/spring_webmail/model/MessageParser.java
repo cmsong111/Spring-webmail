@@ -10,8 +10,6 @@ import jakarta.mail.Message;
 import jakarta.mail.Multipart;
 import jakarta.mail.Part;
 import jakarta.mail.internet.MimeUtility;
-import java.io.File;
-import java.io.FileOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  *

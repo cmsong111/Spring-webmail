@@ -4,14 +4,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ page import="deu.cse.spring_webmail.user.User" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <!DOCTYPE html>
 
 <html>
+<%@include file="../fragments/head.jspf" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>사용자 관리 메뉴</title>
@@ -23,7 +24,7 @@
     </script>
 </head>
 <body>
-<%@ include file="../header.jspf" %>
+<%@ include file="../fragments/header.jspf" %>
 
 <div id="sidebar">
     <jsp:include page="sidebar_admin_menu.jsp"/>

@@ -5,15 +5,11 @@
 package deu.cse.spring_webmail.control;
 
 import deu.cse.spring_webmail.auth.AuthService;
-import deu.cse.spring_webmail.auth.AuthServiceImpl;
-import deu.cse.spring_webmail.model.Pop3Agent;
-import deu.cse.spring_webmail.user.User;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,61 +34,9 @@ public class SystemController {
 
     AuthService authService;
 
-    @RequestMapping(value = "/login.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginDo(@RequestParam Integer menu, HttpServletRequest request, HttpSession session) {
-        String url = "";
-        log.debug("로그인 처리: menu = {}", menu);
-        switch (menu) {
-            case CommandType.LOGIN:
-                String userid = request.getParameter("userid");
-                String password = request.getParameter("passwd");
-
-                // Check the login information is valid using <<model>>Pop3Agent.
-
-                // Now call the correct page according to its validation result.
-                if (authService.authenticate(userid, password)) {
-                    if (isAdmin(userid)) {
-                        // HttpSession 객체에 userid를 등록해 둔다.
-                        session.setAttribute("userid", userid);
-                        // response.sendRedirect("admin_menu.jsp");
-                        url = "redirect:/admin_menu";
-                    } else {
-                        // HttpSession 객체에 userid와 password를 등록해 둔다.
-                        session.setAttribute("userid", userid);
-                        session.setAttribute("password", password);
-                        // response.sendRedirect("main_menu.jsp");
-                        url = "redirect:/main_menu";  // URL이 http://localhost:8080/webmail/main_menu 이와 같이 됨.
-                        // url = "/main_menu";  // URL이 http://localhost:8080/webmail/login.do?menu=91 이와 같이 되어 안 좋음
-                    }
-                } else {
-                    // RequestDispatcher view = request.getRequestDispatcher("login_fail.jsp");
-                    // view.forward(request, response);
-                    url = "redirect:/login_fail";
-                }
-                break;
-            case CommandType.LOGOUT:
-                session.invalidate();
-                url = "redirect:/";  // redirect: 반드시 넣어야만 컨텍스트 루트로 갈 수 있음
-                break;
-            default:
-                break;
-        }
-        return url;
-    }
-
     @GetMapping("/login_fail")
     public String loginFail() {
         return "login_fail";
-    }
-
-    protected boolean isAdmin(String userid) {
-        boolean status = false;
-
-        if (userid.equals("admin")) {
-            status = true;
-        }
-
-        return status;
     }
 
     @GetMapping("/main_menu")
@@ -105,6 +49,7 @@ public class SystemController {
     }
 
     @GetMapping("/admin_menu")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminMenu(Model model) {
         model.addAttribute("userList", authService.getUserList());
         return "admin/admin_menu";
