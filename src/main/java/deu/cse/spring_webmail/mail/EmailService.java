@@ -21,11 +21,11 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    public boolean sendMail(String to, String cc, String subject, String body) {
+    public boolean sendMail(String from, String to, String cc, String subject, String body) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, false, "UTF-8");
-            mimeMessageHelper.setFrom(to);
+            mimeMessageHelper.setFrom(from);
             mimeMessageHelper.setTo(to);
             if (cc != null && !cc.isEmpty())
                 mimeMessageHelper.setCc(cc);
@@ -40,12 +40,12 @@ public class EmailService {
     }
 
 
-    public boolean sendEmail(String to, String cc, String subject, String body, List<MultipartFile> multipartFiles) {
+    public boolean sendEmail(String from, String to, String cc, String subject, String body, List<MultipartFile> multipartFiles) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
-            mimeMessageHelper.setFrom(to);
+            mimeMessageHelper.setFrom(from);
             mimeMessageHelper.setTo(to);
             if (cc != null && !cc.isEmpty())
                 mimeMessageHelper.setCc(cc);

@@ -19,9 +19,25 @@
     <jsp:include page="sidebar_read_menu.jsp"/>
 </div>
 
-<div id="msgBody">
-    ${msg}
-</div>
+<table>
+    <caption>메일</caption>
+    <tr>
+        <th>보낸 사람</th>
+        <td>${message.headerBytes().from[0]}</td>
+    </tr>
+    <tr>
+        <th>제목</th>
+        <td>${message.headerBytes().subject}</td>
+    </tr>
+    <tr>
+        <th>내용</th>
+        <td>${message.mimeMessage()}</td>
+    </tr>
+    <tr>
+        <th>보낸 시간</th>
+        <td>${message.headerBytes().sentDate}</td>
+    </tr>
+</table>
 
 <%@include file="../footer.jspf" %>
 </body>

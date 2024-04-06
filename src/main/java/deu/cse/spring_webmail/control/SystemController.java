@@ -5,6 +5,7 @@
 package deu.cse.spring_webmail.control;
 
 import deu.cse.spring_webmail.auth.AuthService;
+import deu.cse.spring_webmail.mail.MailService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ import java.util.List;
 public class SystemController {
 
     AuthService authService;
+    MailService mailService;
 
     @GetMapping("/login_fail")
     public String loginFail() {
@@ -40,11 +43,9 @@ public class SystemController {
     }
 
     @GetMapping("/main_menu")
-    public String mainMenu(Model model, HttpSession session) {
-        String userid = (String) session.getAttribute("userid");
-
-        String messageList = "메시지 목록이 없습니다.";
-        model.addAttribute("messageList", userid);
+    public String mainMenu(Model model, HttpSession session, Principal principal) {
+        String userid = principal.getName();
+        model.addAttribute("messageList", mailService.getMailsByUserName(userid));
         return "main_menu";
     }
 

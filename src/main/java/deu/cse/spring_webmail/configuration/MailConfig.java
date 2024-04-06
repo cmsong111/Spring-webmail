@@ -19,7 +19,7 @@ public class MailConfig {
         return mailSender;
     }
 
-    private Properties getProperties() {
+    protected Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty("mail.debug", "false");
         properties.setProperty("mail.smtp.host", "localhost");

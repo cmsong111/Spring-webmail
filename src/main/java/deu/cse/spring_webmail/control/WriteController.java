@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public class WriteController {
     public String writeMailDo(@RequestParam String to, @RequestParam String cc,
                               @RequestParam String subj, @RequestParam String body,
                               @RequestParam(name = "file1") MultipartFile upFile,
-                              RedirectAttributes attrs) throws MessagingException {
+                              RedirectAttributes attrs, Principal principal) throws MessagingException {
         log.debug("write_mail.do called...");
 
         List<MultipartFile> files = new java.util.ArrayList<MultipartFile>();
@@ -57,11 +58,12 @@ public class WriteController {
             files.add(upFile);
         }
         boolean sendSuccessful;
+        String from = principal.getName() + "@localhost";
 
         if (files.isEmpty()) {
-            sendSuccessful = emailService.sendMail(to, cc, subj, body);
+            sendSuccessful = emailService.sendMail(from, to, cc, subj, body);
         } else {
-            sendSuccessful = emailService.sendEmail(to, cc, subj, body, files);
+            sendSuccessful = emailService.sendEmail(from, to, cc, subj, body, files);
         }
 
         if (sendSuccessful) {

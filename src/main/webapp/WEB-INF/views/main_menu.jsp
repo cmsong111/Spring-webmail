@@ -10,39 +10,47 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
-
-<!-- 제어기에서 처리하면 로직 관련 소스 코드 제거 가능!
-<jsp:useBean id="pop3" scope="page" class="deu.cse.spring_webmail.model.Pop3Agent"/>
-<%
-    pop3.setHost((String) session.getAttribute("host"));
-    pop3.setUserid((String) session.getAttribute("userid"));
-    pop3.setPassword((String) session.getAttribute("password"));
-%>
--->
-
 <html lang="ko">
-<%@include file="fragments/head.jspf" %>
 <head>
-
+    <%@include file="fragments/head.jspf" %>
     <title>주메뉴 화면</title>
-    <script>
-        <c:if test="${!empty msg}">
-        alert("${msg}");
-        </c:if>
-    </script>
 </head>
 <body>
 <%@include file="fragments/header.jspf" %>
-
 <div id="sidebar">
     <jsp:include page="fragments/sidebar_menu.jsp"/>
 </div>
 
 <!-- 메시지 삭제 링크를 누르면 바로 삭제되어 실수할 수 있음. 해결 방법은? -->
-<div id="main">
-    ${messageList}
+<div id="main" class="container">
+    <table class="table table-bordered">
+        <caption>메일 목록</caption>
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">보낸 사람</th>
+            <th scope="col">읽음 여부</th>
+            <th scope="col">수신 날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="message" items="${messageList}" varStatus="status">
+            <tr>
+                <td>${message.mailUid()}</td>
+                <td>${message.headerBytes().subject}</td>
+                <td>${message.headerBytes().from[0]}</td>
+                <td>${message.mailIsSeen()}</td>
+                <td>${message.headerBytes().sentDate}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
 
-<%@include file="footer.jspf" %>
+<footer>
+    <%@include file="footer.jspf" %>
+</footer>
+
 </body>
 </html>

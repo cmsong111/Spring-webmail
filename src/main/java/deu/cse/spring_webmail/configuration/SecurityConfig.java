@@ -1,5 +1,6 @@
 package deu.cse.spring_webmail.configuration;
 
+
 import deu.cse.spring_webmail.user.UserService;
 import jakarta.servlet.DispatcherType;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.util.PathMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -22,9 +22,8 @@ public class SecurityConfig {
     private UserService userService;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, PathMatcher mvcPathMatcher) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
