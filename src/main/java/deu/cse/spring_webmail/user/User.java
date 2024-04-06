@@ -29,7 +29,6 @@ public class User implements UserDetails {
     private Integer version;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('USER')")
     private Role role;
 
 

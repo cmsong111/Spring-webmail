@@ -1,5 +1,6 @@
 package deu.cse.spring_webmail.auth;
 
+import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,12 @@ public class AuthServiceImpl implements AuthService {
         String encodedPassword = passwordEncoder.encode(password);
         jamesWebAdmin.addUser(userid, encodedPassword);
 
-        // 사용자 추가 성공시 사용자 정보 반환
+        // 사용자 역할 설정
+        User user = userRepository.findById(userid).orElse(null);
+        user.setRole(Role.USER);
+        userRepository.save(user);
+
+
         return true;
     }
 
