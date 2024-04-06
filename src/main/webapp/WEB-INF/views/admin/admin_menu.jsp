@@ -38,13 +38,15 @@
             <th>이름</th>
             <th>암호화 알고리즘</th>
             <th>비밀번호</th>
+            <th>역할</th>
             <th>버전</th>
         </tr>
         <c:forEach items="${userList}" var="user">
             <tr>
-                <td> ${user.userName} </td>
+                <td> ${user.getUsername()} </td>
                 <td> ${user.passwordHashAlgorithm}</td>
                 <td> ${user.password} </td>
+                <td> ${user.role} </td>
                 <td> ${user.version} </td>
             </tr>
         </c:forEach>

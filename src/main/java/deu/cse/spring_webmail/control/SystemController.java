@@ -11,6 +11,7 @@ import deu.cse.spring_webmail.user.User;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,17 +31,12 @@ import java.util.List;
  *
  * @author skylo
  */
-@Controller
 @Slf4j
+@Controller
+@AllArgsConstructor
 public class SystemController {
 
     AuthService authService;
-
-    @Autowired
-    SystemController(AuthServiceImpl authService) {
-        this.authService = authService;
-
-    }
 
     @RequestMapping(value = "/login.do", method = {RequestMethod.GET, RequestMethod.POST})
     public String loginDo(@RequestParam Integer menu, HttpServletRequest request, HttpSession session) {
@@ -101,13 +97,10 @@ public class SystemController {
 
     @GetMapping("/main_menu")
     public String mainMenu(Model model, HttpSession session) {
-        Pop3Agent pop3 = new Pop3Agent();
-        pop3.setHost((String) session.getAttribute("host"));
-        pop3.setUserid((String) session.getAttribute("userid"));
-        pop3.setPassword((String) session.getAttribute("password"));
+        String userid = (String) session.getAttribute("userid");
 
-        String messageList = pop3.getMessageList();
-        model.addAttribute("messageList", messageList);
+        String messageList = "메시지 목록이 없습니다.";
+        model.addAttribute("messageList", userid);
         return "main_menu";
     }
 

@@ -1,0 +1,3 @@
+# Default Admin User (admin/admin)
+INSERT IGNORE INTO JAMES_USER (USER_NAME, PASSWORD_HASH_ALGORITHM, PASSWORD, version, role)
+    VALUE ('admin', 'NONE', '$2a$10$TfCHDCPSRNC85C3mq/FIB.CX94NMDNmrKn.BPqxIInQvcrYCWf7R.', 1, 'ADMIN');
