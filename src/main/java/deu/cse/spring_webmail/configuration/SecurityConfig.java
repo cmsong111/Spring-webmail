@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 .loginProcessingUrl("/login.do")
                                 .usernameParameter("userid")
                                 .passwordParameter("password")
-                                .defaultSuccessUrl("/main_menu", true)
+                                .defaultSuccessUrl("/mail", true)
                                 .failureUrl("/login_fail")
                                 .permitAll()
                 )
@@ -52,19 +52,5 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
-    }
-
-    // Spring Security "//" double slash issue
-    @Bean
-    public HttpFirewall allowUrlEncodedDoubleSlashHttpFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedDoubleSlash(true);
-        return firewall;
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.httpFirewall(
-                allowUrlEncodedDoubleSlashHttpFirewall());
     }
 }

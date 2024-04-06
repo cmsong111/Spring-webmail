@@ -17,7 +17,7 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="/main_menu" class="nav-link active" aria-current="page">
+            <a href="/mail" class="nav-link active" aria-current="page">
                 <svg class="bi pe-none me-2" width="16" height="16">
                     <use xlink:href="#home"/>
                 </svg>
@@ -25,7 +25,7 @@
             </a>
         </li>
         <li>
-            <a href="/main_menu" class="nav-link link-body-emphasis">
+            <a href="/mail" class="nav-link link-body-emphasis">
                 <svg class="bi pe-none me-2" width="16" height="16">
                     <use xlink:href="#speedometer2"/>
                 </svg>
@@ -33,7 +33,7 @@
             </a>
         </li>
         <li>
-            <a href="/main_menu" class="nav-link link-body-emphasis">
+            <a href="/mail" class="nav-link link-body-emphasis">
                 <svg class="bi pe-none me-2" width="16" height="16">
                     <use xlink:href="#table"/>
                 </svg>
@@ -41,7 +41,7 @@
             </a>
         </li>
         <li>
-            <a href="/main_menu" class="nav-link link-body-emphasis">
+            <a href="/mail" class="nav-link link-body-emphasis">
                 <svg class="bi pe-none me-2" width="16" height="16">
                     <use xlink:href="#grid"/>
                 </svg>
@@ -49,7 +49,7 @@
             </a>
         </li>
         <li>
-            <a href="/main_menu" class="nav-link link-body-emphasis">
+            <a href="/mail" class="nav-link link-body-emphasis">
                 <svg class="bi pe-none me-2" width="16" height="16">
                     <use xlink:href="#people-circle"/>
                 </svg>

@@ -24,7 +24,7 @@
 <%@include file="fragments/header.jspf" %>
 
 <p id="login_fail">
-    <%= request.getParameter("userid")%>님, 로그인이 실패하였습니다.
+    로그인에 실패하였습니다.
 
     올바른 사용자 ID와 암호를 사용하여 로그인하시기 바랍니다.
 

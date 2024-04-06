@@ -2,7 +2,6 @@ package deu.cse.spring_webmail.mail;
 
 import jakarta.mail.internet.MimeMessage;
 
-import java.sql.Blob;
 import java.sql.Timestamp;
 
 public record MailDto(MailBox mailbox,

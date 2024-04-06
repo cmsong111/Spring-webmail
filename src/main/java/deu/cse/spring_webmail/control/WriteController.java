@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class WriteController {
                               RedirectAttributes attrs, Principal principal) throws MessagingException {
         log.debug("write_mail.do called...");
 
-        List<MultipartFile> files = new java.util.ArrayList<MultipartFile>();
+        List<MultipartFile> files = new ArrayList<>();
         // 첨부파일이 있을 경우, 업로드 처리
         if (upFile != null && !upFile.isEmpty()) {
             files.add(upFile);

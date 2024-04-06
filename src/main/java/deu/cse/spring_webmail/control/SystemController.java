@@ -5,6 +5,7 @@
 package deu.cse.spring_webmail.control;
 
 import deu.cse.spring_webmail.auth.AuthService;
+import deu.cse.spring_webmail.auth.LoginForm;
 import deu.cse.spring_webmail.mail.MailService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
@@ -62,16 +63,16 @@ public class SystemController {
     }
 
     @PostMapping("/add_user.do")
-    public String addUserDo(@RequestParam String id, @RequestParam String password,
+    public String addUserDo(String username, String password,
                             RedirectAttributes attrs) {
 
+        LoginForm loginForm = new LoginForm(username, password);
+
         try {
-            // if (addUser successful)  사용자 등록 성공 팦업창
-            // else 사용자 등록 실패 팝업창
-            if (authService.addUser(id, password)) {
-                attrs.addFlashAttribute("msg", String.format("사용자(%s) 추가를 성공하였습니다.", id));
+            if (authService.addUser(loginForm)) {
+                attrs.addFlashAttribute("msg", String.format("사용자(%s) 추가를 성공하였습니다.", loginForm.username()));
             } else {
-                attrs.addFlashAttribute("msg", String.format("사용자(%s) 추가를 실패하였습니다.", id));
+                attrs.addFlashAttribute("msg", String.format("사용자(%s) 추가를 실패하였습니다.", loginForm.username()));
             }
         } catch (Exception ex) {
             log.error("add_user.do: 시스템 접속에 실패했습니다. 예외 = {}", ex.getMessage());

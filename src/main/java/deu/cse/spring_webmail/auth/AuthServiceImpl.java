@@ -27,29 +27,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean addUser(String userid, String password) {
+    public boolean addUser(LoginForm loginForm) {
         // 이미 사용중인 아이디인 경우 null 반환
-        if (!isAvailableUserId(userid)) {
+        if (!isAvailableUserId(loginForm.username())) {
             return false;
         }
 
         // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(password);
-        jamesWebAdmin.addUser(userid, encodedPassword);
+        String encodedPassword = passwordEncoder.encode(loginForm.password());
+        jamesWebAdmin.addUser(loginForm.username(), encodedPassword);
 
         // 사용자 역할 설정
-        User user = userRepository.findById(userid).orElse(null);
+        User user = userRepository.findById(loginForm.username()).orElse(null);
         user.setRole(Role.USER);
         userRepository.save(user);
-
 
         return true;
     }
 
     @Override
-    public boolean authenticate(String userid, String password) {
-        User user = userRepository.findById(userid).orElse(null);
-        return user != null && passwordEncoder.matches(password, user.getPassword());
+    public boolean authenticate(LoginForm loginForm) {
+        User user = userRepository.findById(loginForm.username()).orElse(null);
+        return user != null && passwordEncoder.matches(loginForm.password(), user.getPassword());
     }
 
     @Override

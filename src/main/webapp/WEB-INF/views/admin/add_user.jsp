@@ -27,8 +27,8 @@
             <legend>사용자 추가 폼</legend>
 
             <div class="form-group">
-                <label for="id">사용자 ID</label>
-                <input type="text" id="id" name="id" class="form-control" required>
+                <label for="username">사용자 ID</label>
+                <input type="text" id="username" name="username" class="form-control" required>
             </div>
 
             <div class="form-group">

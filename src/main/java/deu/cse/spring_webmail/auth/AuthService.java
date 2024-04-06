@@ -18,20 +18,18 @@ public interface AuthService {
     /**
      * 사용자 추가 메소드
      *
-     * @param userid   사용자 아이디
-     * @param password 사용자 비밀번호
+     * @param loginForm 사용자 정보
      * @return 사용자 추가 성공 여부
      */
-    boolean addUser(String userid, String password);
+    boolean addUser(LoginForm loginForm);
 
     /**
      * 사용자 인증 메소드
      *
-     * @param userid   사용자 아이디
-     * @param password 사용자 비밀번호
+     * @param loginForm 사용자 정보
      * @return 인증된 사용자 정보
      */
-    boolean authenticate(String userid, String password);
+    boolean authenticate(LoginForm loginForm);
 
     /**
      * 사용자 삭제 메소드

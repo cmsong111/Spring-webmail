@@ -27,11 +27,13 @@
     <%-- <jsp:include page="mail_send_form.jsp" /> --%>
     <form enctype="multipart/form-data" method="POST" action="write_mail.do">
         <table>
+            <caption>
+                메일 쓰기
+            </caption>
             <tr>
                 <td> 수신</td>
                 <td><input type="text" name="to" size="80"
-                           value="${!empty param['sender'] ? param['sender'] : ''}"
-                    <!--    value=<%=request.getParameter("recv") == null ? "" : request.getParameter("recv")%>  -->
+                           value="${!empty param['sender'] ? param['sender'] : ''}">
                 </td>
             </tr>
             <tr>

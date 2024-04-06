@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class MailService {
     public List<MailDto> getMailsByUserName(String userName) {
         MailBox mailBox = getMailBoxByUserName(userName);
         if (mailBox == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         return getMailsByMailBoxId(mailBox.getMailboxId()).stream().map(mailMapper::toDto)

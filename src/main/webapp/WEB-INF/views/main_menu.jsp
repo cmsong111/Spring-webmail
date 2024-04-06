@@ -38,7 +38,7 @@
         <c:forEach var="message" items="${messageList}" varStatus="status">
             <tr>
                 <td>${message.mailUid()}</td>
-                <td>${message.headerBytes().subject}</td>
+                <td><a href="/mail/${message.mailUid()}">${message.headerBytes().subject}</a></td>
                 <td>${message.headerBytes().from[0]}</td>
                 <td>${message.mailIsSeen()}</td>
                 <td>${message.headerBytes().sentDate}</td>
