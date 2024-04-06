@@ -7,8 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
-
-<html>
+<html lang="ko">
 <%@include file="fragments/head.jspf" %>
 <head>
     <title>로그인</title>
@@ -17,12 +16,21 @@
 <%@include file="fragments/header.jspf" %>
 
 
-<div id="login_form">
-    <form method="POST" action="login.do">
-        사용자: <input type="text" name="userid" size="20" autofocus> <br/>
-        암&nbsp;&nbsp;&nbsp;호: <input type="password" name="password" size="20"> <br/> <br/>
-        <input type="submit" value="로그인" name="B1">&nbsp;&nbsp;&nbsp;
-        <input type="reset" value="다시 입력" name="B2">
+<div id="login_form" class="container">
+    <form method="POST" action="/login.do" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="userid" class="form-label">사용자</label>
+            <input type="text" class="form-control" id="userid" name="userid" size="20" autofocus required>
+            <div class="invalid-feedback">사용자를 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">암호</label>
+            <input type="password" class="form-control" id="password" name="password" size="20" required>
+            <div class="invalid-feedback">암호를 입력해주세요.</div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="B1">로그인</button>
+        <button type="button" class="btn btn-secondary" name="B2" onclick="location.href='join'">회원가입</button>
+        <button type="reset" class="btn btn-secondary" name="B2">다시 입력</button>
     </form>
 </div>
 

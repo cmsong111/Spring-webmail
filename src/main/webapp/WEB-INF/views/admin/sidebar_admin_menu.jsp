@@ -5,11 +5,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html>
 
-<html>
+<html lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>웹메일 시스템 메뉴</title>
@@ -21,6 +22,6 @@
 
 <p><a href="add_user">사용자 추가</a></p>
 <p><a href="delete_user"> 사용자 제거</a></p>
-<p><a href="/logout">로그아웃</a></p>
+<p><a href="<c:url value="/logout"/>">로그아웃</a></p>
 </body>
 </html>

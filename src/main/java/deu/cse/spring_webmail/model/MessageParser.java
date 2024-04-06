@@ -22,26 +22,46 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
- *
  * @author skylo
  */
 @Slf4j
 @RequiredArgsConstructor
 public class MessageParser {
-    @NonNull @Getter @Setter private Message message;
-    @NonNull @Getter @Setter private String userid;
-    @Getter @Setter private String toAddress;
-    @Getter @Setter private String fromAddress;
-    @Getter @Setter private String ccAddress;
-    @Getter @Setter private String sentDate;
-    @Getter @Setter private String subject;
-    @Getter @Setter private String body;
-    @Getter @Setter private String fileName;
-    @Getter @Setter private String downloadTempDir = "C:/temp/download/";
-
     @Value("${file.download_folder}")
     String downloadPath;
-    
+    @NonNull
+    @Getter
+    @Setter
+    private Message message;
+    @NonNull
+    @Getter
+    @Setter
+    private String userid;
+    @Getter
+    @Setter
+    private String toAddress;
+    @Getter
+    @Setter
+    private String fromAddress;
+    @Getter
+    @Setter
+    private String ccAddress;
+    @Getter
+    @Setter
+    private String sentDate;
+    @Getter
+    @Setter
+    private String subject;
+    @Getter
+    @Setter
+    private String body;
+    @Getter
+    @Setter
+    private String fileName;
+    @Getter
+    @Setter
+    private String downloadTempDir = "C:/temp/download/";
+
     public MessageParser(Message message, String userid, HttpServletRequest request) {
         this(message, userid);
         downloadTempDir = request.getServletContext().getRealPath(downloadPath);

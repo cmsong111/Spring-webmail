@@ -11,17 +11,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="ko">
 <%@include file="../fragments/head.jspf" %>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>사용자 관리 메뉴</title>
-    <link type="text/css" rel="stylesheet" href="css/main_style.css"/>
-    <script>
-        <c:if test="${!empty msg}">
-        alert("${msg}");
-        </c:if>
-    </script>
 </head>
 <body>
 <%@ include file="../fragments/header.jspf" %>
@@ -35,6 +28,7 @@
     <h2> 메일 사용자 목록 </h2>
 
     <table>
+        <caption>사용자 목록</caption>
         <tr>
             <th>이름</th>
             <th>암호화 알고리즘</th>

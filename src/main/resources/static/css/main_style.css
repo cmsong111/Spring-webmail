@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 
 
-root { 
+root {
     display: block;
 }
 
@@ -29,7 +29,7 @@ td, th {
 }
 
 th {
-    background-color:  gray;
+    background-color: gray;
     color: white;
 }
 
@@ -87,7 +87,7 @@ td#subject {
     margin-right: 10px;
     padding: 10px;
     text-align: left;
-    border: thin solid ;
+    border: thin solid;
 }
 
 #msgBody {
@@ -103,7 +103,7 @@ a:visited {
 }
 
 a:hover {
-    color:  aqua;
+    color: aqua;
     background: fuchsia;
 }
 
