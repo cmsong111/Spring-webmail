@@ -20,9 +20,9 @@ public interface AuthService {
      *
      * @param userid   사용자 아이디
      * @param password 사용자 비밀번호
-     * @return 추가된 사용자 정보
+     * @return 사용자 추가 성공 여부
      */
-    User addUser(String userid, String password);
+    boolean addUser(String userid, String password);
 
     /**
      * 사용자 인증 메소드
@@ -31,7 +31,7 @@ public interface AuthService {
      * @param password 사용자 비밀번호
      * @return 인증된 사용자 정보
      */
-    User authenticate(String userid, String password);
+    boolean authenticate(String userid, String password);
 
     /**
      * 사용자 삭제 메소드
@@ -50,6 +50,15 @@ public interface AuthService {
      * @return 비밀번호 변경된 사용자 정보
      */
     User changePassword(String userid, String oldPassword, String newPassword);
+
+    /**
+     * 비밀번호 변경 메소드 (관리자용 메소드)
+     *
+     * @param userid      사용자 아이디
+     * @param newPassword 사용자 새 비밀번호
+     * @return 비밀번호 변경된 사용자 정보
+     */
+    User changePassword(String userid, String newPassword);
 
     /**
      * 사용자 목록 조회 메소드

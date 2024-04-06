@@ -3,11 +3,13 @@ package deu.cse.spring_webmail.auth;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -24,10 +26,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User addUser(String userid, String password) {
+    public boolean addUser(String userid, String password) {
         // 이미 사용중인 아이디인 경우 null 반환
         if (!isAvailableUserId(userid)) {
-            return null;
+            return false;
         }
 
         // 비밀번호 암호화
@@ -35,16 +37,13 @@ public class AuthServiceImpl implements AuthService {
         jamesWebAdmin.addUser(userid, encodedPassword);
 
         // 사용자 추가 성공시 사용자 정보 반환
-        return userRepository.findById(userid).orElse(null);
+        return true;
     }
 
     @Override
-    public User authenticate(String userid, String password) {
+    public boolean authenticate(String userid, String password) {
         User user = userRepository.findById(userid).orElse(null);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return user;
-        }
-        return null;
+        return user != null && passwordEncoder.matches(password, user.getPassword());
     }
 
     @Override
@@ -54,6 +53,17 @@ public class AuthServiceImpl implements AuthService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public User changePassword(String userid, String newPassword) {
+        User user = userRepository.findById(userid).orElse(null);
+        if (user != null) {
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            jamesWebAdmin.changePassword(userid, encodedPassword);
+            return userRepository.findById(userid).orElse(null);
+        }
+        return null;
     }
 
     @Override

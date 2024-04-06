@@ -4,14 +4,15 @@
  */
 package deu.cse.spring_webmail.control;
 
+import deu.cse.spring_webmail.auth.AuthService;
+import deu.cse.spring_webmail.auth.AuthServiceImpl;
 import deu.cse.spring_webmail.model.Pop3Agent;
-import deu.cse.spring_webmail.model.UserAdminAgent;
+import deu.cse.spring_webmail.user.User;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,49 +34,27 @@ import java.util.List;
 @Slf4j
 public class SystemController {
 
+    AuthService authService;
+
     @Autowired
-    private ServletContext ctx;
-    @Autowired
-    private HttpSession session;
-    @Autowired
-    private HttpServletRequest request;
+    SystemController(AuthServiceImpl authService) {
+        this.authService = authService;
 
-
-    private String ROOT_ID = "root";
-
-    private String ROOT_PASSWORD = "root";
-
-    private String ADMINISTRATOR = "admin";
-    @Value("${james.admin.port}")
-    private Integer JAMES_CONTROL_PORT;
-    @Value("${james.admin.host}")
-    private String JAMES_HOST;
-
-    @GetMapping("/")
-    public String index() {
-        log.debug("index() called...");
-        session.setAttribute("host", JAMES_HOST);
-        session.setAttribute("debug", "false");
-
-        return "/index";
     }
 
     @RequestMapping(value = "/login.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginDo(@RequestParam Integer menu) {
+    public String loginDo(@RequestParam Integer menu, HttpServletRequest request, HttpSession session) {
         String url = "";
         log.debug("로그인 처리: menu = {}", menu);
         switch (menu) {
             case CommandType.LOGIN:
-                String host = (String) request.getSession().getAttribute("host");
                 String userid = request.getParameter("userid");
                 String password = request.getParameter("passwd");
 
                 // Check the login information is valid using <<model>>Pop3Agent.
-                Pop3Agent pop3Agent = new Pop3Agent(host, userid, password);
-                boolean isLoginSuccess = pop3Agent.validate();
 
                 // Now call the correct page according to its validation result.
-                if (isLoginSuccess) {
+                if (authService.authenticate(userid, password)) {
                     if (isAdmin(userid)) {
                         // HttpSession 객체에 userid를 등록해 둔다.
                         session.setAttribute("userid", userid);
@@ -113,7 +92,7 @@ public class SystemController {
     protected boolean isAdmin(String userid) {
         boolean status = false;
 
-        if (userid.equals(this.ADMINISTRATOR)) {
+        if (userid.equals("admin")) {
             status = true;
         }
 
@@ -121,7 +100,7 @@ public class SystemController {
     }
 
     @GetMapping("/main_menu")
-    public String mainMenu(Model model) {
+    public String mainMenu(Model model, HttpSession session) {
         Pop3Agent pop3 = new Pop3Agent();
         pop3.setHost((String) session.getAttribute("host"));
         pop3.setUserid((String) session.getAttribute("userid"));
@@ -134,10 +113,7 @@ public class SystemController {
 
     @GetMapping("/admin_menu")
     public String adminMenu(Model model) {
-        log.debug("root.id = {}, root.password = {}, admin.id = {}",
-                ROOT_ID, ROOT_PASSWORD, ADMINISTRATOR);
-
-        model.addAttribute("userList", getUserList());
+        model.addAttribute("userList", authService.getUserList());
         return "admin/admin_menu";
     }
 
@@ -149,17 +125,11 @@ public class SystemController {
     @PostMapping("/add_user.do")
     public String addUserDo(@RequestParam String id, @RequestParam String password,
                             RedirectAttributes attrs) {
-        log.debug("add_user.do: id = {}, password = {}, port = {}",
-                id, password, JAMES_CONTROL_PORT);
 
         try {
-            String cwd = ctx.getRealPath(".");
-            UserAdminAgent agent = new UserAdminAgent(JAMES_HOST, JAMES_CONTROL_PORT, cwd,
-                    ROOT_ID, ROOT_PASSWORD, ADMINISTRATOR);
-
             // if (addUser successful)  사용자 등록 성공 팦업창
             // else 사용자 등록 실패 팝업창
-            if (agent.addUser(id, password)) {
+            if (authService.addUser(id, password)) {
                 attrs.addFlashAttribute("msg", String.format("사용자(%s) 추가를 성공하였습니다.", id));
             } else {
                 attrs.addFlashAttribute("msg", String.format("사용자(%s) 추가를 실패하였습니다.", id));
@@ -174,24 +144,22 @@ public class SystemController {
     @GetMapping("/delete_user")
     public String deleteUser(Model model) {
         log.debug("delete_user called");
-        model.addAttribute("userList", getUserList());
+        model.addAttribute("userList", authService.getUserList());
         return "admin/delete_user";
     }
 
     /**
      * @param selectedUsers <input type=checkbox> 필드의 선택된 이메일 ID. 자료형: String[]
-     * @param attrs
      * @return
      */
     @PostMapping("delete_user.do")
-    public String deleteUserDo(@RequestParam String[] selectedUsers, RedirectAttributes attrs) {
+    public String deleteUserDo(@RequestParam String[] selectedUsers) {
         log.debug("delete_user.do: selectedUser = {}", List.of(selectedUsers));
 
         try {
-            String cwd = ctx.getRealPath(".");
-            UserAdminAgent agent = new UserAdminAgent(JAMES_HOST, JAMES_CONTROL_PORT, cwd,
-                    ROOT_ID, ROOT_PASSWORD, ADMINISTRATOR);
-            agent.deleteUsers(selectedUsers);  // 수정!!!
+            for (String id : selectedUsers) {
+                authService.deleteUser(id);
+            }
         } catch (Exception ex) {
             log.error("delete_user.do : 예외 = {}", ex);
         }
@@ -199,17 +167,6 @@ public class SystemController {
         return "redirect:/admin_menu";
     }
 
-    private List<String> getUserList() {
-        String cwd = ctx.getRealPath(".");
-        UserAdminAgent agent = new UserAdminAgent(JAMES_HOST, JAMES_CONTROL_PORT, cwd,
-                ROOT_ID, ROOT_PASSWORD, ADMINISTRATOR);
-        List<String> userList = agent.getUserList();
-        log.debug("userList = {}", userList);
-
-        //(주의) root.id와 같이 '.'을 넣으면 안 됨.
-        userList.sort((e1, e2) -> e1.compareTo(e2));
-        return userList;
-    }
 
     @GetMapping("/img_test")
     public String imgTest() {
@@ -224,7 +181,7 @@ public class SystemController {
      */
     @RequestMapping(value = "/get_image/{imageName}")
     @ResponseBody
-    public byte[] getImage(@PathVariable String imageName) {
+    public byte[] getImage(@PathVariable String imageName, ServletContext ctx) {
         try {
             String folderPath = ctx.getRealPath("/WEB-INF/views/img_test/img");
             return getImageBytes(folderPath, imageName);
