@@ -4,7 +4,6 @@
  */
 package deu.cse.spring_webmail.model;
 
-import deu.cse.spring_webmail.PropertyReader;
 import jakarta.activation.DataHandler;
 import jakarta.mail.Address;
 import jakarta.mail.Message;
@@ -19,6 +18,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -37,11 +37,12 @@ public class MessageParser {
     @Getter @Setter private String body;
     @Getter @Setter private String fileName;
     @Getter @Setter private String downloadTempDir = "C:/temp/download/";
+
+    @Value("${file.download_folder}")
+    String downloadPath;
     
     public MessageParser(Message message, String userid, HttpServletRequest request) {
         this(message, userid);
-        PropertyReader props = new PropertyReader();
-        String downloadPath = props.getProperty("file.download_folder");
         downloadTempDir = request.getServletContext().getRealPath(downloadPath);
         File f = new File(downloadTempDir);
         if (!f.exists()) {

@@ -28,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Prof.Jong Min Lee
  */
 @Controller
-@PropertySource("classpath:/system.properties")
 @Slf4j
 public class WriteController {
     @Value("${file.upload_folder}")

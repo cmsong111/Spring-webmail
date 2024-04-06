@@ -6,29 +6,23 @@ package deu.cse.spring_webmail.control;
 
 import deu.cse.spring_webmail.model.Pop3Agent;
 import deu.cse.spring_webmail.model.UserAdminAgent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
-import javax.imageio.ImageIO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * 초기 화면과 관리자 기능(사용자 추가, 삭제)에 대한 제어기
@@ -36,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author skylo
  */
 @Controller
-@PropertySource("classpath:/system.properties")
 @Slf4j
 public class SystemController {
 
@@ -47,13 +40,13 @@ public class SystemController {
     @Autowired
     private HttpServletRequest request;
 
-    @Value("${root.id}")
-    private String ROOT_ID;
-    @Value("${root.password}")
-    private String ROOT_PASSWORD;
-    @Value("${admin.id}")
-    private String ADMINISTRATOR;  //  = "admin";
-    @Value("${james.control.port}")
+
+    private String ROOT_ID = "root";
+
+    private String ROOT_PASSWORD = "root";
+
+    private String ADMINISTRATOR = "admin";
+    @Value("${james.admin.port}")
     private Integer JAMES_CONTROL_PORT;
     @Value("${james.host}")
     private String JAMES_HOST;
@@ -155,7 +148,7 @@ public class SystemController {
 
     @PostMapping("/add_user.do")
     public String addUserDo(@RequestParam String id, @RequestParam String password,
-            RedirectAttributes attrs) {
+                            RedirectAttributes attrs) {
         log.debug("add_user.do: id = {}, password = {}, port = {}",
                 id, password, JAMES_CONTROL_PORT);
 
@@ -186,7 +179,6 @@ public class SystemController {
     }
 
     /**
-     *
      * @param selectedUsers <input type=checkbox> 필드의 선택된 이메일 ID. 자료형: String[]
      * @param attrs
      * @return
@@ -226,9 +218,9 @@ public class SystemController {
 
     /**
      * https://34codefactory.wordpress.com/2019/06/16/how-to-display-image-in-jsp-using-spring-code-factory/
-     * 
+     *
      * @param imageName
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/get_image/{imageName}")
     @ResponseBody
@@ -248,7 +240,7 @@ public class SystemController {
         byte[] imageInByte;
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
-            bufferedImage = ImageIO.read(new File(folderPath + File.separator + imageName) );
+            bufferedImage = ImageIO.read(new File(folderPath + File.separator + imageName));
             String format = imageName.substring(imageName.lastIndexOf(".") + 1);
             ImageIO.write(bufferedImage, format, byteArrayOutputStream);
             byteArrayOutputStream.flush();

@@ -1,0 +1,42 @@
+# application.yaml 파일은 application.properties 파일과 같은 역할을 한다.
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  servlet:
+    multipart:
+      file-size-threshold: 80MB
+      max-request-size: 80MB
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/${DATABASE_NAME:test}
+    username: ${DATABASE_USERNAME:test}
+    password: ${DATABASE_PASSWORD:test}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
+
+
+logging:
+  level:
+    deu.cse.spring_webmail: DEBUG
+
+
+# System properties 통합
+james:
+  host: localhost
+  admin:
+    port: ${JAMES_WEB_ADMIN_PORT:8000}
+
+file:
+  upload_folder: /WEB-INF/upload
+  download_folder: /WEB-INF/download
+  max_size: 52428800
