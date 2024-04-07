@@ -13,8 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 
@@ -99,4 +98,65 @@ class AuthServiceImplTest {
         //then
         assertFalse(result);
     }
+
+    @Test
+    @DisplayName("비밀번호 변경 테스트 - 비밀번호 변경 성공")
+    void changePassword() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.of(new User
+                ("test", "None", "encodedPassword", 1, Role.USER)));
+        given(passwordEncoder.encode("newPassword")).willReturn("newEncodedPassword");
+        given(jamesWebAdmin.changePassword("test", "newEncodedPassword")).willReturn(true);
+
+        //when
+        User result = authService.changePassword("test", "newPassword");
+
+        //then
+        assertTrue(result.getPassword().equals("newEncodedPassword"));
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 테스트 - 비밀번호 변경 실패(사용자 없음)")
+    void changePasswordFailNoUser() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.empty());
+
+        //when
+        User result = authService.changePassword("test", "newPassword");
+
+        //then
+        assertNull(result);
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 테스트 - 비밀번호 변경 실패(비밀번호 변경 실패 (서버측)")
+    void changePasswordFailChangePasswordFail() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.of(new User
+                ("test", "None", "encodedPassword", 1, Role.USER)));
+        given(passwordEncoder.encode("newPassword")).willReturn("newEncodedPassword");
+        given(jamesWebAdmin.changePassword("test", "newEncodedPassword")).willReturn(false);
+
+        //when
+        User result = authService.changePassword("test", "newPassword");
+
+        //then
+        assertNull(result);
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 테스트 - 비밀번호 변경 실패(비밀번호 불일치)")
+    void changePasswordFailWrongPassword() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.of(new User
+                ("test", "None", "encodedPassword", 1, Role.USER)));
+        given(passwordEncoder.matches("wrongPassword", "encodedPassword")).willReturn(false);
+
+        //when
+        User result = authService.changePassword("test", "wrongPassword", "newPassword");
+
+        //then
+        assertNull(result);
+    }
+    
 }

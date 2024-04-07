@@ -65,8 +65,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findById(userid).orElse(null);
         if (user != null) {
             String encodedPassword = passwordEncoder.encode(newPassword);
-            jamesWebAdmin.changePassword(userid, encodedPassword);
-            return userRepository.findById(userid).orElse(null);
+            if (jamesWebAdmin.changePassword(userid, encodedPassword)) {
+                user.setPassword(encodedPassword);
+                return user;
+            }
         }
         return null;
     }
