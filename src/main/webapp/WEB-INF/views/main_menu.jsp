@@ -34,6 +34,7 @@
                     <th scope="col">제목</th>
                     <th scope="col">보낸 사람</th>
                     <th scope="col">읽음 여부</th>
+                    <th scope="col">메일 분류</th>
                     <th scope="col">수신 날짜</th>
                 </tr>
                 </thead>
@@ -41,10 +42,11 @@
                 <c:forEach var="message" items="${messageList}" varStatus="status">
                     <tr>
                         <td>${message.mailUid()}</td>
-                        <td><a href="/mail/${message.mailUid()}">${message.headerBytes().subject}</a></td>
-                        <td>${message.headerBytes().from[0]}</td>
+                        <td><a href="/mail/${message.mailUid()}">${message.message().subject}</a></td>
+                        <td>${message.message().from[0]}</td>
                         <td>${message.mailIsSeen()}</td>
-                        <td>${message.headerBytes().sentDate}</td>
+                        <td>${message.mailMimeType()}</td>
+                        <td>${message.mailDate()}</td>
                     </tr>
                 </c:forEach>
                 </tbody>

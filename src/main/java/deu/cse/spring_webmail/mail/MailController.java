@@ -27,6 +27,7 @@ public class MailController {
     @GetMapping("/{id}")
     public String getMail(Model model, @PathVariable("id") Long id) {
         model.addAttribute("message", mailService.getMail(id));
+        model.addAttribute("id", id);
         return "read_mail/show_message";
     }
 }

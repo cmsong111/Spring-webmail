@@ -29,6 +29,14 @@
                 <svg class="bi pe-none me-2" width="16" height="16">
                     <use xlink:href="#speedometer2"/>
                 </svg>
+                읽지 않은 편지함
+            </a>
+        </li>
+        <li>
+            <a href="/mail" class="nav-link link-body-emphasis">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                    <use xlink:href="#speedometer2"/>
+                </svg>
                 중요 편지함
             </a>
         </li>
