@@ -22,7 +22,7 @@ public class JamesWebAdmin {
         restTemplate = new RestTemplate();
         headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/";
+        url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
     }
 
     public boolean addUser(String userid, String password) {
@@ -31,7 +31,7 @@ public class JamesWebAdmin {
 
         // Send request
         HttpEntity<String> request = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = restTemplate.exchange(url + userid, HttpMethod.PUT, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format(url, userid), HttpMethod.PUT, request, String.class);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new CustomException("Failed to add user: " + response.getStatusCode());
@@ -45,7 +45,7 @@ public class JamesWebAdmin {
 
         // Send request
         HttpEntity<String> request = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = restTemplate.exchange(url + userid, HttpMethod.PUT, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format(url, userid), HttpMethod.PUT, request, String.class);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new CustomException("Failed to change password: " + response.getStatusCode());
@@ -55,7 +55,7 @@ public class JamesWebAdmin {
 
     public boolean deleteUser(String userid) {
         // Send request
-        ResponseEntity<String> response = restTemplate.exchange(url + userid, HttpMethod.DELETE, null, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format(url, userid), HttpMethod.DELETE, null, String.class);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new CustomException("Failed to delete user: " + response.getStatusCode());

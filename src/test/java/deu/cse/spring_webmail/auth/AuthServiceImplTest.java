@@ -1,5 +1,6 @@
 package deu.cse.spring_webmail.auth;
 
+import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -56,4 +57,46 @@ class AuthServiceImplTest {
         assertTrue(result);
     }
 
+    @Test
+    @DisplayName("로그인 테스트 - 로그인 성공")
+    void authenticateSuccess() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.of(new User
+                ("test", "None", "encodedPassword", 1, Role.USER)));
+        given(passwordEncoder.matches("rightPassword", "encodedPassword")).willReturn(true);
+
+        //when
+        boolean result = authService.authenticate(new LoginForm("test", "rightPassword"));
+
+        //then
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("로그인 테스트 - 로그인 실패(아이디 없음)")
+    void authenticateFailNoUser() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.empty());
+
+        //when
+        boolean result = authService.authenticate(new LoginForm("test", "rightPassword"));
+
+        //then
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("로그인 테스트 - 로그인 실패(비밀번호 불일치)")
+    void authenticateFailWrongPassword() {
+        //given
+        given(userRepository.findById("test")).willReturn(Optional.of(new User
+                ("test", "None", "encodedPassword", 1, Role.USER)));
+        given(passwordEncoder.matches("wrongPassword", "encodedPassword")).willReturn(false);
+
+        //when
+        boolean result = authService.authenticate(new LoginForm("test", "wrongPassword"));
+
+        //then
+        assertFalse(result);
+    }
 }
