@@ -11,65 +11,51 @@
 
 
 <html lang="ko">
+<%@include file="../fragments/head.jspf" %>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>메일 쓰기 화면</title>
-    <link type="text/css" rel="stylesheet" href="css/main_style.css"/>
 </head>
 <body>
 <%@include file="../fragments/header.jspf" %>
 
-<div id="sidebar">
-    <jsp:include page="../sidebar_previous_menu.jsp"/>
-</div>
-
-<div id="main">
-    <%-- <jsp:include page="mail_send_form.jsp" /> --%>
-    <form enctype="multipart/form-data" method="POST" action="write_mail.do">
-        <table>
-            <caption>
-                메일 쓰기
-            </caption>
-            <tr>
-                <td> 수신</td>
-                <td><input type="text" name="to" size="80"
-                           value="${!empty param['sender'] ? param['sender'] : ''}">
-                </td>
-            </tr>
-            <tr>
-                <td>참조</td>
-                <td><input type="text" name="cc" size="80"></td>
-            </tr>
-            <tr>
-                <td> 메일 제목</td>
-                <td><input type="text" name="subj" size="80"
-                           value="${!empty param['sender'] ? "RE: " += sessionScope['subject'] : ''}"></td>
-            </tr>
-            <tr>
-                <td colspan="2">본 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 문</td>
-            </tr>
-            <tr>  <%-- TextArea    --%>
-                <td colspan="2">
-                            <textarea rows="15" name="body" cols="80">${!empty param['sender'] ?
-                                    "
-
-
-                                            ----
-                                            " += sessionScope['body'] : ''}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>첨부 파일</td>
-                <td><input type="file" name="file1" size="80"></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="메일 보내기">
-                    <input type="reset" value="다시 입력">
-                </td>
-            </tr>
-        </table>
-    </form>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <jsp:include page="../sidebar_previous_menu.jsp"/>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">메일 쓰기</h5>
+                    <form enctype="multipart/form-data" method="POST" action="write_mail.do">
+                        <div class="mb-3">
+                            <label for="to" class="form-label">수신</label>
+                            <input type="text" class="form-control" id="to" name="to" aria-describedby="toHelp">
+                            <div id="toHelp" class="form-text">여러 수신자는 쉼표로 구분하세요.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cc" class="form-label">참조</label>
+                            <input type="text" class="form-control" id="cc" name="cc">
+                        </div>
+                        <div class="mb-3">
+                            <label for="subj" class="form-label">메일 제목</label>
+                            <input type="text" class="form-control" id="subj" name="subj">
+                        </div>
+                        <div class="mb-3">
+                            <label for="body" class="form-label">본문</label>
+                            <textarea class="form-control" id="body" name="body" rows="10"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="file1" class="form-label">첨부 파일</label>
+                            <input type="file" class="form-control" id="file1" name="file1">
+                        </div>
+                        <button type="submit" class="btn btn-primary">메일 보내기</button>
+                        <button type="reset" class="btn btn-secondary">다시 입력</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%@include file="../footer.jspf" %>
