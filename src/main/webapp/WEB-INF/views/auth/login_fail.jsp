@@ -15,13 +15,13 @@
     <link type="text/css" rel="stylesheet" href="css/main_style.css"/>
     <script type="text/javascript">
         function gohome() {
-            window.location = "${pageContext.request.contextPath}"
+            window.location = "/"
         }
     </script>
 </head>
 <body onload="setTimeout('gohome()', 5000)">
 
-<%@include file="fragments/header.jspf" %>
+<%@include file="../fragments/header.jspf" %>
 
 <p id="login_fail">
     로그인에 실패하였습니다.
@@ -31,11 +31,12 @@
     5초 뒤 자동으로 초기 화면으로 돌아갑니다.
 
     자동으로 화면 전환이 일어나지 않을 경우
-    <!-- <a href="/WebMailSystem/" title="초기 화면">초기 화면</a>을 선택해 주세요.-->
-    <a href="${pageContext.request.contextPath}" title="초기 화면">초기 화면</a>을 선택해 주세요.
+    <!-- 홈 화면으로 이동 하는 링크 -->
+    <a href="/" title="초기 화면">초기 화면</a>을 선택해 주세요.
+
 </p>
 
-<%@include file="footer.jspf" %>
+<%@include file="../fragments/footer.jspf" %>
 
 </body>
 </html>

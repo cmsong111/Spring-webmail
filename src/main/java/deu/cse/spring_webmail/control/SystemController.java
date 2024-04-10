@@ -5,6 +5,7 @@
 package deu.cse.spring_webmail.control;
 
 import deu.cse.spring_webmail.auth.AuthService;
+import deu.cse.spring_webmail.auth.AuthServiceJPA;
 import deu.cse.spring_webmail.auth.LoginForm;
 import deu.cse.spring_webmail.mail.MailService;
 import jakarta.servlet.ServletContext;
@@ -35,19 +36,16 @@ import java.util.List;
 @AllArgsConstructor
 public class SystemController {
 
-    AuthService authService;
     MailService mailService;
+    AuthServiceJPA authService;
 
-    @GetMapping("/login_fail")
-    public String loginFail() {
-        return "login_fail";
-    }
+
 
     @GetMapping("/main_menu")
     public String mainMenu(Model model, HttpSession session, Principal principal) {
         String userid = principal.getName();
         model.addAttribute("messageList", mailService.getMailsByUserName(userid));
-        return "main_menu";
+        return "fragments/main_menu";
     }
 
     @GetMapping("/admin_menu")

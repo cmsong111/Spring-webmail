@@ -14,7 +14,7 @@ public class MailConfig {
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("localhost");
-        mailSender.setPort(25);
+        mailSender.setPort(587);
         mailSender.setJavaMailProperties(getProperties());
         return mailSender;
     }

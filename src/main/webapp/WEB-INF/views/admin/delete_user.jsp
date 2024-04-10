@@ -49,6 +49,6 @@
     </form>
 </div>
 
-<%@include file="../footer.jspf" %>
+<%@include file="../fragments/footer.jspf" %>
 </body>
 </html>

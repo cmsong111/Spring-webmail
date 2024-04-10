@@ -44,7 +44,7 @@ logging:
 # System properties 통합
 james:
   admin:
-    host: localhost
+    host: http://localhost
     port: ${JAMES_WEB_ADMIN_PORT:8000}
 
 file:

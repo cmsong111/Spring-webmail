@@ -21,7 +21,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-3">
-            <jsp:include page="../sidebar_previous_menu.jsp"/>
+            <jsp:include page="../fragments/sidebar_previous_menu.jsp"/>
         </div>
         <div class="col-md-9">
             <div class="card">
@@ -58,6 +58,6 @@
     </div>
 </div>
 
-<%@include file="../footer.jspf" %>
+<%@include file="../fragments/footer.jspf" %>
 </body>
 </html>

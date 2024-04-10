@@ -21,7 +21,7 @@ public class MailController {
     public String mailbox(Model model, Principal principal) {
         String userid = principal.getName();
         model.addAttribute("messageList", mailService.getMailsByUserName(userid));
-        return "main_menu";
+        return "fragments/main_menu";
     }
 
     @GetMapping("/{id}")

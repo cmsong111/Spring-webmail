@@ -1,5 +1,6 @@
 package deu.cse.spring_webmail.auth;
 
+import deu.cse.spring_webmail.james.JamesWebAdmin;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
@@ -10,10 +11,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+/**
+ * WebAdmin을 이용한 사용자 인증 서비스
+ */
 @Slf4j
-@Service
+//@Service
 @AllArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceWebAdmin implements AuthService {
 
 
     private final UserRepository userRepository;

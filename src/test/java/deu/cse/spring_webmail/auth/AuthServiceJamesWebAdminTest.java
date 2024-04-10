@@ -1,5 +1,6 @@
 package deu.cse.spring_webmail.auth;
 
+import deu.cse.spring_webmail.james.JamesWebAdmin;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
@@ -18,7 +19,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @ExtendWith(MockitoExtension.class)
-class AuthServiceImplTest {
+class AuthServiceJamesWebAdminTest {
 
     @Mock
     private UserRepository userRepository;
@@ -28,7 +29,7 @@ class AuthServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private AuthServiceImpl authService;
+    private AuthServiceWebAdmin authService;
 
     @Test
     @DisplayName("사용 가능한 아이디 테스트 - 사용 가능한 아이디")

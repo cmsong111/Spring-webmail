@@ -26,6 +26,7 @@ public class SecurityConfig {
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                                 .requestMatchers("/css/**").permitAll()
                                 .requestMatchers("/js/**").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
 
                 )

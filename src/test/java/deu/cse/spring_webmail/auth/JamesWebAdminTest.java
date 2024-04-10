@@ -1,7 +1,7 @@
 package deu.cse.spring_webmail.auth;
 
 import deu.cse.spring_webmail.exception.CustomException;
-import org.junit.jupiter.api.BeforeAll;
+import deu.cse.spring_webmail.james.JamesWebAdmin;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,11 +34,6 @@ class JamesWebAdminTest {
     private static Integer jamesWebAdminPort;
 
 
-    @BeforeAll
-    public static void setUp() {
-        jamesWebAdmin = new JamesWebAdmin(jamesWebAdminUrl, jamesWebAdminPort);
-    }
-
     @Test
     @DisplayName("James 서버에 사용자 추가 테스트")
     void addUserSuccess() {
@@ -47,7 +42,7 @@ class JamesWebAdminTest {
         String password = "testpassword";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        String url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
+        String url = jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
 
         // 모의 객체를 사용하여 응답 설정
         ResponseEntity<String> successResponse = new ResponseEntity<>("User added successfully", HttpStatus.NO_CONTENT);
@@ -67,7 +62,7 @@ class JamesWebAdminTest {
         String password = "testpassword";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        String url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
+        String url = jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
 
         // 모의 객체를 사용하여 응답 설정
         ResponseEntity<String> failResponse = new ResponseEntity<>("Failed to add user", HttpStatus.BAD_REQUEST);
@@ -84,11 +79,11 @@ class JamesWebAdminTest {
         String password = "testpassword";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        String url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
+        String url = jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
 
         // 모의 객체를 사용하여 응답 설정
         ResponseEntity<String> successResponse = new ResponseEntity<>("Password changed successfully", HttpStatus.NO_CONTENT);
-        given(restTemplate.exchange(eq(String.format(url, userid)), eq(HttpMethod.PUT), any(HttpEntity.class), eq(String.class))).willReturn(successResponse);
+        given(restTemplate.exchange(any(String.class), eq(HttpMethod.PUT), any(HttpEntity.class), eq(String.class))).willReturn(successResponse);
         // When
         boolean result = jamesWebAdmin.changePassword(userid, password);
 
@@ -104,11 +99,11 @@ class JamesWebAdminTest {
         String password = "testpassword";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        String url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
+        String url = jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
 
         // 모의 객체를 사용하여 응답 설정
         ResponseEntity<String> failResponse = new ResponseEntity<>("Failed to change password", HttpStatus.BAD_REQUEST);
-        given(restTemplate.exchange(eq(String.format(url, userid)), eq(HttpMethod.PUT), any(HttpEntity.class), eq(String.class))).willThrow(new CustomException("Failed to change password" + failResponse.getStatusCode()));
+        given(restTemplate.exchange(any(String.class), eq(HttpMethod.PUT), any(HttpEntity.class), eq(String.class))).willThrow(new CustomException("Failed to change password" + failResponse.getStatusCode()));
         // When
         assertThrows(CustomException.class, () -> jamesWebAdmin.changePassword(userid, password));
     }
@@ -120,11 +115,11 @@ class JamesWebAdminTest {
         String userid = "testuser";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        String url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
+        String url = jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
 
         // 모의 객체를 사용하여 응답 설정
         ResponseEntity<String> successResponse = new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);
-        given(restTemplate.exchange(eq(String.format(url, userid)), eq(HttpMethod.DELETE), any(), eq(String.class))).willReturn(successResponse);
+        given(restTemplate.exchange(any(String.class), eq(HttpMethod.DELETE), any(), eq(String.class))).willReturn(successResponse);
         // When
         boolean result = jamesWebAdmin.deleteUser(userid);
 
@@ -139,7 +134,7 @@ class JamesWebAdminTest {
         String userid = "testuser";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        String url = "http://" + jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
+        String url = jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/%s";
 
         // 모의 객체를 사용하여 응답 설정
         ResponseEntity<String> failResponse = new ResponseEntity<>("Failed to delete user", HttpStatus.BAD_REQUEST);
