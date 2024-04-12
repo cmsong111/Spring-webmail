@@ -1,4 +1,4 @@
-package deu.cse.spring_webmail.mail;
+package deu.cse.spring_webmail.mail.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

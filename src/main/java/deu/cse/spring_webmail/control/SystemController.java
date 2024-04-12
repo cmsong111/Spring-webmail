@@ -4,15 +4,13 @@
  */
 package deu.cse.spring_webmail.control;
 
-import deu.cse.spring_webmail.auth.AuthService;
 import deu.cse.spring_webmail.auth.AuthServiceJPA;
 import deu.cse.spring_webmail.auth.LoginForm;
-import deu.cse.spring_webmail.mail.MailService;
+import deu.cse.spring_webmail.mail.service.MailService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,20 +38,13 @@ public class SystemController {
     AuthServiceJPA authService;
 
 
-
     @GetMapping("/main_menu")
     public String mainMenu(Model model, HttpSession session, Principal principal) {
         String userid = principal.getName();
         model.addAttribute("messageList", mailService.getMailsByUserName(userid));
-        return "fragments/main_menu";
+        return "read_mail/main_menu";
     }
 
-    @GetMapping("/admin_menu")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String adminMenu(Model model) {
-        model.addAttribute("userList", authService.getUserList());
-        return "admin/admin_menu";
-    }
 
     @GetMapping("/add_user")
     public String addUser() {

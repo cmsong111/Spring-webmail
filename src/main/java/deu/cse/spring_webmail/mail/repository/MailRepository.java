@@ -1,6 +1,7 @@
-package deu.cse.spring_webmail.mail;
+package deu.cse.spring_webmail.mail.repository;
 
 
+import deu.cse.spring_webmail.mail.entity.Mail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

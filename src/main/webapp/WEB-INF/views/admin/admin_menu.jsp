@@ -19,34 +19,37 @@
 <body>
 <%@ include file="../fragments/header.jspf" %>
 
-<div id="sidebar">
-    <jsp:include page="sidebar_admin_menu.jsp"/>
+<div class="container">
+    <div class="row">
+        <div class="col-3"> <!-- 왼쪽 사이드바 -->
+            <jsp:include page="../admin/sidebar_admin_menu.jsp"/>
+        </div>
+        <div class="col-9"> <!-- 오른쪽 메일 보기 -->
+            <h2> 메일 사용자 목록 </h2>
+            <table class="table table-bordered">
+                <caption>사용자 목록</caption>
+                <tr>
+                    <th>이름</th>
+                    <th>암호화</th>
+                    <th>비밀번호</th>
+                    <th>역할</th>
+                    <th>버전</th>
+                </tr>
+                <c:forEach items="${userList}" var="user">
+                    <tr>
+                        <td> ${user.getUsername()} </td>
+                        <td> ${user.passwordHashAlgorithm}</td>
+                        <td> ${user.password} </td>
+                        <td> ${user.role} </td>
+                        <td> ${user.version} </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+
+    </div>
 </div>
 
-
-<div id="main">
-    <h2> 메일 사용자 목록 </h2>
-
-    <table>
-        <caption>사용자 목록</caption>
-        <tr>
-            <th>이름</th>
-            <th>암호화 알고리즘</th>
-            <th>비밀번호</th>
-            <th>역할</th>
-            <th>버전</th>
-        </tr>
-        <c:forEach items="${userList}" var="user">
-            <tr>
-                <td> ${user.getUsername()} </td>
-                <td> ${user.passwordHashAlgorithm}</td>
-                <td> ${user.password} </td>
-                <td> ${user.role} </td>
-                <td> ${user.version} </td>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
 
 <%@include file="../fragments/footer.jspf" %>
 </body>

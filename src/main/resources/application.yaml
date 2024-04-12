@@ -49,5 +49,5 @@ james:
 
 file:
   upload_folder: /WEB-INF/upload
-  download_folder: /WEB-INF/download
+  download_folder: /James/download
   max_size: 52428800

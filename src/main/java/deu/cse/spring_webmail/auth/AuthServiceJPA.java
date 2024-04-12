@@ -4,11 +4,16 @@ import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * JPA기반의 사용자 인증 서비스
+ */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AuthServiceJPA implements AuthService {

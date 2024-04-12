@@ -10,18 +10,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <%@include file="head.jspf" %>
+    <%@include file="../fragments/head.jspf" %>
     <title>주메뉴 화면</title>
 </head>
 <body>
-<%@include file="header.jspf" %>
+<%@include file="../fragments/header.jspf" %>
 
 
 <!-- 메시지 삭제 링크를 누르면 바로 삭제되어 실수할 수 있음. 해결 방법은? -->
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-3">
-            <jsp:include page="sidebar_menu.jsp"/>
+            <jsp:include page="../fragments/sidebar_menu.jsp"/>
         </div>
         <div class="col-md-9">
             <table class="table table-bordered">
@@ -39,12 +39,12 @@
                 <tbody>
                 <c:forEach var="message" items="${messageList}" varStatus="status">
                     <tr>
-                        <td>${message.mailUid()}</td>
-                        <td><a href="/mail/${message.mailUid()}">${message.message().subject}</a></td>
-                        <td>${message.message().from[0]}</td>
-                        <td>${message.mailIsSeen()}</td>
-                        <td>${message.mailMimeType()}</td>
-                        <td>${message.mailDate()}</td>
+                        <td>${message.mailUid}</td>
+                        <td><a href="/mail/${message.mailUid}">${message.mimeMessage.subject}</a></td>
+                        <td>${message.mimeMessage.from[0]}</td>
+                        <td>${message.mailIsSeen}</td>
+                        <td>${message.mailMimeType}</td>
+                        <td>${message.mailDate}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -55,7 +55,7 @@
 
 
 <footer>
-    <%@include file="footer.jspf" %>
+    <%@include file="../fragments/footer.jspf" %>
 </footer>
 
 </body>

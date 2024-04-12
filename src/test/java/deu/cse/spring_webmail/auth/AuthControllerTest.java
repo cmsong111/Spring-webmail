@@ -32,7 +32,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("회원가입 페이지 이동 테스트")
     void signup() throws Exception {
-        mockMvc.perform(get("/signup"))
+        mockMvc.perform(get("/auth/signup"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("auth/sign_up"))
                 .andExpect(status().isOk());
@@ -46,7 +46,7 @@ class AuthControllerTest {
         String password = "testpassword";
         when(authService.addUser(new LoginForm(username, password))).thenReturn(true);
         // When & Then
-        mockMvc.perform(post("/signup.do")
+        mockMvc.perform(post("/auth/signup.do")
                         .param("username", username)
                         .param("password", password))
                 .andExpect(status().is3xxRedirection())
@@ -56,7 +56,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("로그인 실패 페이지 이동 테스트")
     void loginFail() throws Exception {
-        mockMvc.perform(get("/login_fail"))
+        mockMvc.perform(get("/auth/login_fail"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("auth/login_fail"))
                 .andExpect(status().isOk());

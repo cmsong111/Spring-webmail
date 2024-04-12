@@ -1,4 +1,4 @@
-package deu.cse.spring_webmail.mail;
+package deu.cse.spring_webmail.mail.service;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-@Service
+@Component
 @AllArgsConstructor
-public class EmailService {
+public class EmailSender {
 
     private final JavaMailSender javaMailSender;
 

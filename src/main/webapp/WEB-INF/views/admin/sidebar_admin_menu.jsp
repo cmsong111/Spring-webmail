@@ -5,23 +5,33 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<!DOCTYPE html>
-
-<html lang="ko">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>웹메일 시스템 메뉴</title>
-</head>
-<body>
-<br> <br>
-
-<span style="color: indigo"> <strong>사용자: <sec:authentication property="principal.username"/> </strong> </span> <br>
-
-<p><a href="add_user">사용자 추가</a></p>
-<p><a href="delete_user"> 사용자 제거</a></p>
-<p><a href="<c:url value="/logout"/>">로그아웃</a></p>
-</body>
-</html>
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="/add_user" class="nav-link active" aria-current="page">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                    <use xlink:href="#home"/>
+                </svg>
+                사용자 추가
+            </a>
+        </li>
+        <li>
+            <a href="/delete_user" class="nav-link link-body-emphasis">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                    <use xlink:href="#speedometer2"/>
+                </svg>
+                사용자 제거
+            </a>
+        </li>
+        <li>
+            <a href="/logout" class="nav-link link-body-emphasis">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                    <use xlink:href="#speedometer2"/>
+                </svg>
+                로그아웃
+            </a>
+        </li>
+    </ul>
+</div>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
 
@@ -29,6 +30,4 @@ public class AuthController {
     public String loginFail() {
         return "auth/login_fail";
     }
-
-
 }

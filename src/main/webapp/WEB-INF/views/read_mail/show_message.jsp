@@ -39,22 +39,22 @@
                                 <caption>메일</caption>
                                 <tr>
                                     <th>보낸 사람</th>
-                                    <td>${message.mailFrom()}</td>
+                                    <td>${message.mimeMessage.from[0]}</td>
                                 </tr>
                                 <tr>
                                     <th>보낸 시간</th>
-                                    <td>${message.mailDate()}</td>
+                                    <td>${message.mailDate}</td>
                                 </tr>
                                 <tr>
                                     <th>제목</th>
-                                    <td>${message.subject()}</td>
+                                    <td>${message.mimeMessage.subject}</td>
                                 </tr>
-                                <c:if test="${message.attachments().size() > 0}">
+                                <c:if test="${message.attachments.size() > 0}">
                                     <tr>
                                         <th>첨부파일</th>
                                         <td>
-                                            <c:forEach var="attachment" items="${message.attachments()}">
-                                                <p>${attachment}</p>
+                                            <c:forEach var="attachment" items="${message.attachments}">
+                                                <a href="${id}/download?filename=${attachment}">${attachment}</a>
                                                 <br>
                                             </c:forEach>
                                         </td>
@@ -62,7 +62,7 @@
                                 </c:if>
                                 <tr>
                                     <th>내용</th>
-                                    <td>${message.body()}</td>
+                                    <td>${message.mailContent}</td>
                                 </tr>
                             </table>
                         </div>

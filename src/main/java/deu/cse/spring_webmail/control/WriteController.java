@@ -4,7 +4,7 @@
  */
 package deu.cse.spring_webmail.control;
 
-import deu.cse.spring_webmail.mail.EmailService;
+import deu.cse.spring_webmail.mail.service.EmailSender;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +33,11 @@ public class WriteController {
     @Value("${file.max_size}")
     private String MAX_SIZE;
 
-    private EmailService emailService;
+    private EmailSender emailSender;
 
     @Autowired
-    public WriteController(EmailService emailService) {
-        this.emailService = emailService;
+    public WriteController(EmailSender emailSender) {
+        this.emailSender = emailSender;
     }
 
     @GetMapping("/write_mail")
@@ -62,9 +62,9 @@ public class WriteController {
         String from = principal.getName() + "@localhost";
 
         if (files.isEmpty()) {
-            sendSuccessful = emailService.sendMail(from, to, cc, subj, body);
+            sendSuccessful = emailSender.sendMail(from, to, cc, subj, body);
         } else {
-            sendSuccessful = emailService.sendEmail(from, to, cc, subj, body, files);
+            sendSuccessful = emailSender.sendEmail(from, to, cc, subj, body, files);
         }
 
         if (sendSuccessful) {

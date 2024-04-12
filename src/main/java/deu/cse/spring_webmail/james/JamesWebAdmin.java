@@ -1,7 +1,7 @@
 package deu.cse.spring_webmail.james;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import deu.cse.spring_webmail.exception.CustomException;
+import deu.cse.spring_webmail.james.dto.HealthDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

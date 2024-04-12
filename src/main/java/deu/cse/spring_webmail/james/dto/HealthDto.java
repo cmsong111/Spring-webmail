@@ -1,4 +1,4 @@
-package deu.cse.spring_webmail.james;
+package deu.cse.spring_webmail.james.dto;
 
 import lombok.Data;
 
