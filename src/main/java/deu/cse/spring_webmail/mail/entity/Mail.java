@@ -2,6 +2,7 @@ package deu.cse.spring_webmail.mail.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @ToString
 @Entity
+@DynamicUpdate
 @Table(name = "JAMES_MAIL")
 public class Mail {
     @JoinColumn(name = "MAILBOX_ID")

@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * JPA기반의 사용자 인증 서비스
+ * 데이터베이스에 단순히 유저 정보를 Insert 하더라도, 정상작동하는것을 확인하였음
  */
 @Slf4j
 @Service

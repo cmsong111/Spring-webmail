@@ -48,6 +48,6 @@ james:
     port: ${JAMES_WEB_ADMIN_PORT:8000}
 
 file:
-  upload_folder: /WEB-INF/upload
+  upload_folder: /James/upload
   download_folder: /James/download
   max_size: 52428800

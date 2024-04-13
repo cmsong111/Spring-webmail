@@ -1,6 +1,6 @@
-package deu.cse.spring_webmail.mail;
+package deu.cse.spring_webmail.mail.controller;
 
-import deu.cse.spring_webmail.mail.service.MailService;
+import deu.cse.spring_webmail.mail.service.MailReceiver;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,29 +18,31 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/mail")
 public class MailController {
-    private final MailService mailService;
+    private final MailReceiver mailReceiver;
 
-    public MailController(MailService mailService) {
-        this.mailService = mailService;
+    public MailController(MailReceiver mailReceiver) {
+        this.mailReceiver = mailReceiver;
     }
 
     @GetMapping
-    public String mailbox(Model model, Principal principal) {
+    public String mailbox(Model model, Principal principal,
+                          @RequestParam(value = "page", defaultValue = "1") int page,
+                          @RequestParam(value = "size", defaultValue = "10") int size) {
         String userid = principal.getName();
-        model.addAttribute("messageList", mailService.getMailsByUserName(userid));
+        model.addAttribute("messageList", mailReceiver.getMailsByUserName(userid, page, size));
         return "read_mail/main_menu";
     }
 
     @GetMapping("/{id}")
     public String getMail(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("message", mailService.getMail(id));
+        model.addAttribute("message", mailReceiver.getMail(id));
         model.addAttribute("id", id);
         return "read_mail/show_message";
     }
 
     @GetMapping("/{id}/download")
     public ResponseEntity<Resource> downloadAttachment(@PathVariable("id") Long id, @RequestParam("filename") String filename) {
-        Resource file = mailService.downloadAttachment(id, filename);
+        Resource file = mailReceiver.downloadAttachment(id, filename);
 
         String encodedFilename = UriUtils.encode(filename, StandardCharsets.UTF_8);
         String contentDisposition = String.format("attachment; filename=\"%s\"", encodedFilename);

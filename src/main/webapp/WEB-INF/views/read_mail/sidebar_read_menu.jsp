@@ -21,6 +21,6 @@
         </span> <br> <br>
 
 <p><a href="write_mail?sender="> 답장 하기 </a></p>
-<p><a href="main_menu"> 이전 메뉴로 </a></p>
+<p><a href="mail"> 이전 메뉴로 </a></p>
 </body>
 </html>

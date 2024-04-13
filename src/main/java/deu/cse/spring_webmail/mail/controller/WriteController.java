@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package deu.cse.spring_webmail.control;
+package deu.cse.spring_webmail.mail.controller;
 
 import deu.cse.spring_webmail.mail.service.EmailSender;
 import jakarta.mail.MessagingException;
@@ -58,21 +58,16 @@ public class WriteController {
         if (upFile != null && !upFile.isEmpty()) {
             files.add(upFile);
         }
-        boolean sendSuccessful;
+        String resultMessage = "";
         String from = principal.getName() + "@localhost";
 
         if (files.isEmpty()) {
-            sendSuccessful = emailSender.sendMail(from, to, cc, subj, body);
+            resultMessage = emailSender.sendEmail(from, to, cc, subj, body);
         } else {
-            sendSuccessful = emailSender.sendEmail(from, to, cc, subj, body, files);
+            resultMessage = emailSender.sendEmail(from, to, cc, subj, body, files);
         }
+        attrs.addFlashAttribute("msg", resultMessage);
 
-        if (sendSuccessful) {
-            attrs.addFlashAttribute("msg", "메일 전송이 성공했습니다.");
-        } else {
-            attrs.addFlashAttribute("msg", "메일 전송이 실패했습니다.");
-        }
-
-        return "redirect:/main_menu";
+        return "redirect:/mail";
     }
 }

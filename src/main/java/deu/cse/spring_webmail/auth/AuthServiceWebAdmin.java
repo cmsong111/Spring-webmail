@@ -13,7 +13,7 @@ import java.util.List;
 
 
 /**
- * Web Admin 이용한 사용자 인증 서비스
+ * James Web Admin 이용한 사용자 인증 서비스
  *
  * @deprecated Web Admin 사용을 중단하고 JPA를 이용한 사용자 인증 서비스를 사용합니다.
  */

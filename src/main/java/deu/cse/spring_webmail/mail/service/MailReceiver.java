@@ -5,6 +5,7 @@ import deu.cse.spring_webmail.mail.entity.Mail;
 import deu.cse.spring_webmail.mail.entity.MailBox;
 import deu.cse.spring_webmail.mail.mapper.MailMapper;
 import deu.cse.spring_webmail.mail.repository.MailBoxRepository;
+import deu.cse.spring_webmail.mail.repository.MailPageableRepository;
 import deu.cse.spring_webmail.mail.repository.MailRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,18 +28,20 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class MailService {
+public class MailReceiver {
 
     @Autowired
-    public MailService(MailMapper mailMapper, MailRepository mailRepository, MailBoxRepository mailBoxRepository) {
+    public MailReceiver(MailMapper mailMapper, MailRepository mailRepository, MailBoxRepository mailBoxRepository, MailPageableRepository mailPageableRepository) {
         this.mailMapper = mailMapper;
         this.mailRepository = mailRepository;
         this.mailBoxRepository = mailBoxRepository;
+        this.mailPageableRepository = mailPageableRepository;
     }
 
     private final MailMapper mailMapper;
     private final MailRepository mailRepository;
     private final MailBoxRepository mailBoxRepository;
+    private final MailPageableRepository mailPageableRepository;
 
     // file.download_folder = Base directory for storing attachments
     @Value("${file.download_folder}")
@@ -47,9 +52,12 @@ public class MailService {
      * DTO로 변환하여 반환 (메일 내용과 첨부파일은 제외)
      *
      * @param userName 사용자 아이디
+     *                 (메일함은 사용자 이름으로 생성되므로 사용자 이름이 메일함 이름과 동일)
+     * @param page     페이지 번호
+     * @param size     페이지 크기
      * @return 사용자 메일함에 있는 모든 메일
      */
-    public List<MailDto> getMailsByUserName(String userName) {
+    public List<MailDto> getMailsByUserName(String userName, int page, int size) {
         // 사용자 이름으로 메일함을 찾음
         MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
                 () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
@@ -57,9 +65,10 @@ public class MailService {
 
         // 메일함에 있는 모든 메일을 가져옴
         List<MailDto> userMails = new ArrayList<>();
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         // 사용자 메일함에 존재하는 메일들을 DTO로 변환
-        for (Mail mail : mailRepository.findAllByMailbox_MailboxId(mailBox.getMailboxId())) {
+        for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), false, pageable)) {
             userMails.add(mailMapper.toMailDto(mail));
         }
         return userMails;
@@ -102,7 +111,7 @@ public class MailService {
      * @param filename 첨부파일 이름
      */
     public Resource downloadAttachment(Long id, String filename) {
-        try{
+        try {
             File file = new File(downloadFolder + File.separator + id + File.separator + filename);
             Resource resource = new UrlResource(file.toURI());
             if (resource.exists() || resource.isReadable()) {

@@ -37,7 +37,7 @@ public class EmailSender {
      * @param body    내용
      * @return 메일 전송 성공 여부
      */
-    public boolean sendMail(String from, String to, String cc, String subject, String body) {
+    public String sendEmail(String from, String to, String cc, String subject, String body) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, false, "UTF-8");
@@ -48,10 +48,10 @@ public class EmailSender {
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(body);
             javaMailSender.send(message);
-            return true;
+            return "메일 전송 성공";
         } catch (MessagingException e) {
             log.error(e.toString());
-            return false;
+            return "메일 전송 실패";
         }
     }
 
@@ -66,7 +66,7 @@ public class EmailSender {
      * @param multipartFiles 첨부파일
      * @return 메일 전송 성공 여부
      */
-    public boolean sendEmail(String from, String to, String cc, String subject, String body, List<MultipartFile> multipartFiles) {
+    public String sendEmail(String from, String to, String cc, String subject, String body, List<MultipartFile> multipartFiles) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -97,10 +97,10 @@ public class EmailSender {
             // 본문과 첨부파일을 MimeMessage에 설정
             message.setContent(multipart);
             javaMailSender.send(message);
-            return true;
+            return "메일 전송 성공";
         } catch (MessagingException | IOException e) {
             log.error(e.toString());
-            return false;
+            return "메일 전송 실패";
         }
     }
 }
