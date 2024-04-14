@@ -6,10 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -98,6 +95,13 @@ public class MailController {
         return "read_mail/show_message";
     }
 
+    /**
+     * 첨부파일 다운로드
+     *
+     * @param id       메일 아이디
+     * @param filename 파일 이름
+     * @return 파일 다운로드
+     */
     @GetMapping("/{id}/download")
     public ResponseEntity<Resource> downloadAttachment(@PathVariable("id") Long id, @RequestParam("filename") String filename) {
         Resource file = mailReceiver.downloadAttachment(id, filename);
@@ -109,4 +113,29 @@ public class MailController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(file);
     }
+
+    /**
+     * 메일 삭제
+     *
+     * @param id 메일 아이디
+     * @return 메일함 페이지
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteMail(@PathVariable("id") Long id) {
+        mailReceiver.deleteMail(id);
+        return "redirect:/mail";
+    }
+
+    /**
+     * 메일 복구
+     *
+     * @param id 메일 아이디
+     * @return 메일함 페이지
+     */
+    @GetMapping("/restore/{id}")
+    public String restoreMail(@PathVariable("id") Long id) {
+        mailReceiver.restoreMail(id);
+        return "redirect:/mail/deleted";
+    }
+
 }

@@ -179,6 +179,26 @@ public class MailReceiver {
         return mailRepository.countByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(mailBox.getMailboxId(), false, false);
     }
 
+    /**
+     * 메일을 삭제함
+     *
+     * @param id 메일 UID
+     */
+    public void deleteMail(Long id) {
+        Mail mail = mailRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Mail not found for id: " + id)
+        );
+        mail.setMailIsDeleted(true);
+        mailRepository.save(mail);
+    }
+
+    public void restoreMail(Long id) {
+        Mail mail = mailRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Mail not found for id: " + id)
+        );
+        mail.setMailIsDeleted(false);
+        mailRepository.save(mail);
+    }
 
 
     /**

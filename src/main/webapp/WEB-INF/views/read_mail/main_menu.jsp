@@ -12,6 +12,19 @@
 <head>
     <%@include file="../fragments/head.jspf" %>
     <title>주메뉴 화면</title>
+    <script>
+        function deleteMail(mailUid) {
+            if (confirm("정말 삭제하시겠습니까?")) {
+                location.href = "/mail/delete/" + mailUid;
+            }
+        }
+
+        function restoreMail(mailUid) {
+            if (confirm("정말 복구하시겠습니까?")) {
+                location.href = "/mail/restore/" + mailUid;
+            }
+        }
+    </script>
 </head>
 <body>
 <%@include file="../fragments/header.jspf" %>
@@ -37,6 +50,7 @@
                     <th scope="col">읽음 여부</th>
                     <th scope="col">메일 분류</th>
                     <th scope="col">수신 날짜</th>
+                    <th scope="col">삭제</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,6 +62,12 @@
                         <td>${message.mailIsSeen}</td>
                         <td>${message.mailMimeType}</td>
                         <td>${message.mailDate}</td>
+                        <c:if test="${message.mailIsDeleted == 'true'}">
+                            <td><a href="javascript:restoreMail(${message.mailUid})">복구</a></td>
+                        </c:if>
+                        <c:if test="${message.mailIsDeleted == 'false'}">
+                            <td><a href="javascript:deleteMail(${message.mailUid})">삭제</a></td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>
