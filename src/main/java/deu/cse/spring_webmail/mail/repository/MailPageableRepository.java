@@ -29,4 +29,13 @@ public interface MailPageableRepository extends PagingAndSortingRepository<Mail,
      * @return 메일함에 있는 모든 메일
      */
     List<Mail> findAllByMailbox_MailboxIdAndMailIsDeleted(Long mailboxId, boolean isDeleted, Pageable pageable);
+
+    /**
+     * 메일함 아이디로 읽지 않은, 삭제되지 않은 메일을 가져옴
+     *
+     * @param mailboxId 메일함 아이디
+     * @param isSeen    읽음 여부
+     * @param isDeleted 삭제 여부
+     */
+    List<Mail> findAllByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(Long mailboxId, boolean isSeen, boolean isDeleted, Pageable pageable);
 }

@@ -24,15 +24,73 @@ public class MailController {
         this.mailReceiver = mailReceiver;
     }
 
+    /**
+     * 메일함 페이지 요청 (받은 메일함)
+     *
+     * @param model     Model
+     * @param principal Principal
+     * @param page      페이지 번호
+     * @param size      페이지 크기
+     * @return 메일함 페이지
+     */
     @GetMapping
     public String mailbox(Model model, Principal principal,
                           @RequestParam(value = "page", defaultValue = "1") int page,
                           @RequestParam(value = "size", defaultValue = "10") int size) {
         String userid = principal.getName();
         model.addAttribute("messageList", mailReceiver.getMailsByUserName(userid, page, size));
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("total", mailReceiver.countMailsByUserName(userid));
+        model.addAttribute("unread", mailReceiver.countUnreadMailsByUserName(userid));
+        model.addAttribute("type", "/mail");
         return "read_mail/main_menu";
     }
 
+    /**
+     * 휴지통 페이지 요청
+     *
+     * @param model     Model
+     * @param principal Principal
+     * @param page      페이지 번호
+     * @param size      페이지 크기
+     * @return 휴지통 페이지
+     */
+    @GetMapping("deleted")
+    public String deletedMailbox(Model model, Principal principal,
+                                 @RequestParam(value = "page", defaultValue = "1") int page,
+                                 @RequestParam(value = "size", defaultValue = "10") int size) {
+        String userid = principal.getName();
+        model.addAttribute("messageList", mailReceiver.getDeletedMailsByUserName(userid, page, size));
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("total", mailReceiver.countDeletedMailsByUserName(userid));
+        model.addAttribute("unread", mailReceiver.countUnreadDeletedMailsByUserName(userid));
+        model.addAttribute("type", "/mail/deleted");
+        return "read_mail/main_menu";
+    }
+
+    @GetMapping("unread")
+    public String unreadMailbox(Model model, Principal principal,
+                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "size", defaultValue = "10") int size) {
+        String userid = principal.getName();
+        model.addAttribute("messageList", mailReceiver.getUnreadMailsByUserName(userid, page, size));
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("total", mailReceiver.countUnreadMailsByUserName(userid));
+        model.addAttribute("unread", mailReceiver.countUnreadMailsByUserName(userid));
+        model.addAttribute("type", "/mail/unread");
+        return "read_mail/main_menu";
+    }
+
+    /**
+     * 메일 자세히 보기
+     *
+     * @param model Model
+     * @param id    메일 아이디
+     * @return 메일 자세히 보기 페이지
+     */
     @GetMapping("/{id}")
     public String getMail(Model model, @PathVariable("id") Long id) {
         model.addAttribute("message", mailReceiver.getMail(id));

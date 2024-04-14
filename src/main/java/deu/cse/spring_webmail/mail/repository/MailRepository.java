@@ -29,4 +29,13 @@ public interface MailRepository extends JpaRepository<Mail, Long> {
      * @return 메일함에 있는 모든 메일
      */
     Long countByMailbox_MailboxIdAndMailIsDeleted(Long mailboxId, boolean isDeleted);
+
+    /**
+     * 메일함 아이디로 읽지 않은, 삭제되지 않은 메일의 개수를 가져옴
+     *
+     * @param mailboxId 메일함 아이디
+     * @param isSeen    읽음 여부
+     * @param isDeleted 삭제 여부
+     */
+    Long countByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(Long mailboxId, boolean isSeen, boolean isDeleted);
 }

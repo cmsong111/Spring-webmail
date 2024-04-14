@@ -24,6 +24,9 @@
             <jsp:include page="../fragments/sidebar_menu.jsp"/>
         </div>
         <div class="col-md-9">
+            <div>
+                <p>전체 메일 <a href="/mail/unread">${unread}</a> / ${total}</p>
+            </div>
             <table class="table table-bordered">
                 <caption>메일 목록</caption>
                 <thead class="thead-dark">
@@ -49,6 +52,18 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <div> 페이지
+                <c:out value="${pageContext.request.requestURI}}"/>
+                <c:forEach var="i" begin="1" end="${total / size +1 }" step="1">
+                    <c:if test="${i == page}">
+
+                        <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>"><b>${i}</b></a>
+                    </c:if>
+                    <c:if test="${i != page}">
+                        <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>">${i}</a>
+                    </c:if>
+                </c:forEach>
+            </div>
         </div>
     </div>
 </div>
