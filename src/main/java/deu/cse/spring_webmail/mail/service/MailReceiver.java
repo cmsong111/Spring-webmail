@@ -17,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -65,7 +66,7 @@ public class MailReceiver {
 
         // 메일함에 있는 모든 메일을 가져옴
         List<MailDto> userMails = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size,Sort.by("mailDate").descending());
 
         // 사용자 메일함에 존재하는 메일들을 DTO로 변환
         for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), false, pageable)) {
@@ -156,7 +157,7 @@ public class MailReceiver {
         );
 
         List<MailDto> userMails = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
 
         for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(mailBox.getMailboxId(), false, false, pageable)) {
             userMails.add(mailMapper.toMailDto(mail));
