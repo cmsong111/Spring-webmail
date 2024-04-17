@@ -66,7 +66,7 @@ public class MailReceiver {
 
         // 메일함에 있는 모든 메일을 가져옴
         List<MailDto> userMails = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page - 1, size,Sort.by("mailDate").descending());
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
 
         // 사용자 메일함에 존재하는 메일들을 DTO로 변환
         for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), false, pageable)) {
@@ -184,17 +184,19 @@ public class MailReceiver {
      *
      * @param id 메일 UID
      */
-    public void deleteMail(Long id) {
-        Mail mail = mailRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Mail not found for id: " + id)
+    public void deleteMail(Long mailBoxId, Long mailUid) {
+        Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
+        Mail mail = mailRepository.findById(mailKey).orElseThrow(
+                () -> new IllegalArgumentException("Mail not found for id: ")
         );
         mail.setMailIsDeleted(true);
         mailRepository.save(mail);
     }
 
-    public void restoreMail(Long id) {
-        Mail mail = mailRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Mail not found for id: " + id)
+    public void restoreMail(Long mailBoxId, Long mailUid) {
+        Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
+        Mail mail = mailRepository.findById(mailKey).orElseThrow(
+                () -> new IllegalArgumentException("Mail not found for id: " + mailKey)
         );
         mail.setMailIsDeleted(false);
         mailRepository.save(mail);
@@ -208,9 +210,10 @@ public class MailReceiver {
      * @param id 메일 UID
      * @return 메일 DTO
      */
-    public MailDto getMail(Long id) {
-        Mail mail = mailRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Mail not found for id: " + id)
+    public MailDto getMail(Long mailBoxId, Long mailUid) {
+        Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
+        Mail mail = mailRepository.findById(mailKey).orElseThrow(
+                () -> new IllegalArgumentException("Mail not found for id: " + mailKey)
         );
         // 메일을 읽은 것으로 처리
         mail.setMailIsSeen(true);

@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +63,7 @@ class AuthServiceJamesWebAdminTest {
     void authenticateSuccess() {
         //given
         given(userRepository.findById("test")).willReturn(Optional.of(new User
-                ("test", "None", "encodedPassword", 1, Role.USER)));
+                ("test", "None", "encodedPassword", 1, List.of(Role.USER))));
         given(passwordEncoder.matches("rightPassword", "encodedPassword")).willReturn(true);
 
         //when
@@ -90,7 +91,7 @@ class AuthServiceJamesWebAdminTest {
     void authenticateFailWrongPassword() {
         //given
         given(userRepository.findById("test")).willReturn(Optional.of(new User
-                ("test", "None", "encodedPassword", 1, Role.USER)));
+                ("test", "None", "encodedPassword", 1, List.of(Role.USER))));
         given(passwordEncoder.matches("wrongPassword", "encodedPassword")).willReturn(false);
 
         //when
@@ -105,7 +106,7 @@ class AuthServiceJamesWebAdminTest {
     void changePassword() {
         //given
         given(userRepository.findById("test")).willReturn(Optional.of(new User
-                ("test", "None", "encodedPassword", 1, Role.USER)));
+                ("test", "None", "encodedPassword", 1, List.of(Role.USER))));
         given(passwordEncoder.encode("newPassword")).willReturn("newEncodedPassword");
         given(jamesWebAdmin.changePassword("test", "newEncodedPassword")).willReturn(true);
 
@@ -134,7 +135,7 @@ class AuthServiceJamesWebAdminTest {
     void changePasswordFailChangePasswordFail() {
         //given
         given(userRepository.findById("test")).willReturn(Optional.of(new User
-                ("test", "None", "encodedPassword", 1, Role.USER)));
+                ("test", "None", "encodedPassword", 1, List.of(Role.USER))));
         given(passwordEncoder.encode("newPassword")).willReturn("newEncodedPassword");
         given(jamesWebAdmin.changePassword("test", "newEncodedPassword")).willReturn(false);
 
@@ -150,7 +151,7 @@ class AuthServiceJamesWebAdminTest {
     void changePasswordFailWrongPassword() {
         //given
         given(userRepository.findById("test")).willReturn(Optional.of(new User
-                ("test", "None", "encodedPassword", 1, Role.USER)));
+                ("test", "None", "encodedPassword", 1, List.of(Role.USER))));
         given(passwordEncoder.matches("wrongPassword", "encodedPassword")).willReturn(false);
 
         //when
@@ -159,5 +160,5 @@ class AuthServiceJamesWebAdminTest {
         //then
         assertNull(result);
     }
-    
+
 }

@@ -49,7 +49,7 @@ public class AuthServiceWebAdmin implements AuthService {
         User user = userRepository.findById(loginForm.username()).orElseThrow(
                 () -> new CustomException("해당 사용자를 찾을 수 없습니다.")
         );
-        user.setRole(Role.USER);
+        user.setRoles(List.of(Role.USER));
         userRepository.save(user);
 
         return true;

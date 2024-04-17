@@ -6,14 +6,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/mail")
+@RequestMapping("/mail/{mailBoxId}")
 public class MailController {
     private final MailReceiver mailReceiver;
 
@@ -32,6 +35,7 @@ public class MailController {
      */
     @GetMapping
     public String mailbox(Model model, Principal principal,
+                          @PathVariable("mailBoxId") Long mailBoxId,
                           @RequestParam(value = "page", defaultValue = "1") int page,
                           @RequestParam(value = "size", defaultValue = "10") int size) {
         String userid = principal.getName();
@@ -55,6 +59,7 @@ public class MailController {
      */
     @GetMapping("deleted")
     public String deletedMailbox(Model model, Principal principal,
+                                 @PathVariable("mailBoxId") Long mailBoxId,
                                  @RequestParam(value = "page", defaultValue = "1") int page,
                                  @RequestParam(value = "size", defaultValue = "10") int size) {
         String userid = principal.getName();
@@ -89,8 +94,8 @@ public class MailController {
      * @return 메일 자세히 보기 페이지
      */
     @GetMapping("/{id}")
-    public String getMail(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("message", mailReceiver.getMail(id));
+    public String getMail(Model model, @PathVariable("id") Long id, @PathVariable("mailBoxId") Long mailBoxId) {
+        model.addAttribute("message", mailReceiver.getMail(mailBoxId, id));
         model.addAttribute("id", id);
         return "read_mail/show_message";
     }
@@ -121,8 +126,10 @@ public class MailController {
      * @return 메일함 페이지
      */
     @GetMapping("/delete/{id}")
-    public String deleteMail(@PathVariable("id") Long id) {
-        mailReceiver.deleteMail(id);
+    public String deleteMail(
+            @PathVariable("mailBoxId") Long mailBoxId,
+            @PathVariable("id") Long id) {
+        mailReceiver.deleteMail(mailBoxId, id);
         return "redirect:/mail";
     }
 
@@ -133,8 +140,10 @@ public class MailController {
      * @return 메일함 페이지
      */
     @GetMapping("/restore/{id}")
-    public String restoreMail(@PathVariable("id") Long id) {
-        mailReceiver.restoreMail(id);
+    public String restoreMail(
+            @PathVariable("mailBoxId") Long mailBoxId,
+            @PathVariable("id") Long id) {
+        mailReceiver.restoreMail(mailBoxId, id);
         return "redirect:/mail/deleted";
     }
 

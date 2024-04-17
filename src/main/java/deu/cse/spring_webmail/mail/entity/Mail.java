@@ -4,25 +4,28 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Timestamp;
+
 
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@ToString
 @Entity
-@DynamicUpdate
 @Table(name = "JAMES_MAIL")
+@DynamicUpdate
 public class Mail {
-    @JoinColumn(name = "MAILBOX_ID")
-    @ManyToOne
+
+    @EmbeddedId
+    private MailKey mailKey;
+
+    @JoinColumn(name = "MAILBOX_ID", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private MailBox mailbox;
-    @Id
-    @Column(name = "MAIL_UID")
-    private Long mailUid;
+
 
     @Column(name = "MAIL_IS_ANSWERED")
     private Boolean mailIsAnswered;
@@ -70,4 +73,21 @@ public class Mail {
     @Lob
     @Column(name = "HEADER_BYTES", columnDefinition = "MEDIUMBLOB")
     private Blob headerBytes;
+
+    @Embeddable
+    public static class MailKey implements Serializable {
+        @Column(name = "MAILBOX_ID")
+        private Long mailboxMailboxId;
+
+        @Column(name = "MAIL_UID")
+        private Long mailUid;
+
+        public MailKey() {
+        }
+
+        public MailKey(Long mailboxMailboxId, Long mailUid) {
+            this.mailboxMailboxId = mailboxMailboxId;
+            this.mailUid = mailUid;
+        }
+    }
 }

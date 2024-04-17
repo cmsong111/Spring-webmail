@@ -28,14 +28,9 @@ spring:
         use_sql_comments: true
     defer-datasource-initialization: true
 
-  sql:
-    init:
-      mode: embedded
-
 
 server:
   port: 8080
-
 
 logging:
   level:

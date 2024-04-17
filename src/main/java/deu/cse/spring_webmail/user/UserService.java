@@ -1,22 +1,33 @@
 package deu.cse.spring_webmail.user;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-@Slf4j
+/**
+ * Spring Security에서 사용할 UserDetailsService 구현체
+ */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     UserRepository userRepository;
 
     @Override
-    public User loadUserByUsername(String username) {
-        log.info("loadUserByUsername: {}", username);
-        return userRepository.findById(username).orElseThrow(
-                () -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.")
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findById(username).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다.")
         );
+
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getUserName())
+                .password(user.getPassword())
+                .authorities(user.getRoles())
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(false)
+                .build();
     }
 }

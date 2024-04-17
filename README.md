@@ -36,3 +36,5 @@
 - 사용자 인터페이스(UI) 개선 (반응형 웹 디자인)
 - 사용자 인증 및 보안 기능 강화
 - [Sonar Cloud](https://sonarcloud.io/project/overview?id=cmsong111_Spring-webmail)를 통한 코드 품질 관리
+
+

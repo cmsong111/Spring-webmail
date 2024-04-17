@@ -76,7 +76,7 @@ class AuthServiceJPATest {
     @DisplayName("로그인 테스트 - 로그인 성공")
     void authenticateSuccess() {
         // given
-        User user = new User("test", "None", "encodedPassword", 1, Role.USER);
+        User user = new User("test", "None", "encodedPassword", 1, List.of(Role.USER));
         when(userRepository.findById("test")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("rightPassword", "encodedPassword")).thenReturn(true);
 
@@ -104,7 +104,7 @@ class AuthServiceJPATest {
     @DisplayName("로그인 테스트 - 로그인 실패(비밀번호 불일치)")
     void authenticateFailWrongPassword() {
         // given
-        User user = new User("test", "None", "encodedPassword", 1, Role.USER);
+        User user = new User("test", "None", "encodedPassword", 1, List.of(Role.USER));
         when(userRepository.findById("test")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
 
@@ -141,7 +141,7 @@ class AuthServiceJPATest {
     @DisplayName("비밀번호 변경 테스트 - 사용자 존재, 비밀번호 일치")
     void changePassword() {
         // given
-        User user = new User("test", "None", "encodedPassword", 1, Role.USER);
+        User user = new User("test", "None", "encodedPassword", 1, List.of(Role.USER));
         when(userRepository.findById("test")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("rightPassword", "encodedPassword")).thenReturn(true);
         when(passwordEncoder.encode("newPassword")).thenReturn("newEncodedPassword");
@@ -165,7 +165,7 @@ class AuthServiceJPATest {
     @DisplayName("비밀번호 변경 테스트 - 사용자 존재, 비밀번호 불일치")
     void changePassword3() {
         // given
-        User user = new User("test", "None", "encodedPassword", 1, Role.USER);
+        User user = new User("test", "None", "encodedPassword", 1, List.of(Role.USER));
         when(userRepository.findById("test")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
         // when
@@ -176,7 +176,7 @@ class AuthServiceJPATest {
     @DisplayName("비밀번호 변경 테스트 - 사용자 존재, 비밀번호 일치, 비밀번호 변경 실패")
     void changePassword4() {
         // given
-        User user = new User("test", "None", "encodedPassword", 1, Role.USER);
+        User user = new User("test", "None", "encodedPassword", 1, List.of(Role.USER));
         when(userRepository.findById("test")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("rightPassword", "encodedPassword")).thenReturn(true);
         // when
@@ -189,7 +189,7 @@ class AuthServiceJPATest {
     @DisplayName("비밀번호 변경 테스트(어드민 용) - 사용자 존재")
     void changePassword5() {
         // given
-        User user = new User("test", "None", "encodedPassword", 1, Role.USER);
+        User user = new User("test", "None", "encodedPassword", 1, List.of(Role.USER));
         when(userRepository.findById("test")).thenReturn(Optional.of(user));
         when(passwordEncoder.encode("newPassword")).thenReturn("newEncodedPassword");
         when(userRepository.save(user)).thenReturn(user);
@@ -214,8 +214,8 @@ class AuthServiceJPATest {
     void getUserList() {
         // given
         when(userRepository.findAll()).thenReturn(List.of(
-                new User("test1", "None", "encodedPassword1", 1, Role.USER),
-                new User("test2", "None", "encodedPassword2", 1, Role.USER)
+                new User("test1", "None", "encodedPassword1", 1, List.of(Role.USER)),
+                new User("test2", "None", "encodedPassword2", 1, List.of(Role.USER))
         ));
 
         // when

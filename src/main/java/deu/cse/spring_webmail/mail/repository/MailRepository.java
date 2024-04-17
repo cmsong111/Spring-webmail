@@ -11,7 +11,7 @@ import java.util.List;
  * 메일 레파지토리 인터페이스
  */
 @Repository
-public interface MailRepository extends JpaRepository<Mail, Long> {
+public interface MailRepository extends JpaRepository<Mail, Mail.MailKey> {
 
     /**
      * 메일함 아이디로 메일을 찾아서 해당 메일함에 있는 모든 메일을 가져옴(휴지통, 스팸 포함)

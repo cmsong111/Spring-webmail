@@ -29,8 +29,6 @@ server:
   port: 8080
 
 
-
-
 # System properties 통합
 james:
   host: localhost

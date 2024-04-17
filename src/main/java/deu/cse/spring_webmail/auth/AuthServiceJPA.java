@@ -36,7 +36,7 @@ public class AuthServiceJPA implements AuthService {
         User user = new User();
         user.setUserName(loginForm.username());
         user.setPassword(passwordEncoder.encode(loginForm.password()));
-        user.setRole(Role.USER);
+        user.setRoles(List.of(Role.USER));
         user.setPasswordHashAlgorithm("NONE");
         user.setVersion(1);
         userRepository.save(user);
