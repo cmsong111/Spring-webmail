@@ -75,7 +75,10 @@ public class JamesAdminMailBox {
      * @return 메일 개수 (0 이상의 정수 반환, 조회 실패 시 -1 반환)
      */
     public Integer getMailCount(String usernameToBeUsed, String mailboxName) {
-        ResponseEntity<Integer> response = restTemplate.getForEntity(jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/" + usernameToBeUsed + "/mailboxes/" + mailboxName + "/messageCount", Integer.class);
+        String url = "%s:%d/users/%s/mailboxes/%s/messageCount";
+        url = String.format(url, jamesWebAdminUrl, jamesWebAdminPort, usernameToBeUsed, mailboxName);
+        ResponseEntity<Integer> response = restTemplate.getForEntity(url, Integer.class);
+
         if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {

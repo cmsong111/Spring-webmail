@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/auth")
@@ -22,8 +23,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup.do")
-    public String signupDo(String username, String password) {
-        authService.addUser(new LoginForm(username, password));
+    public String signupDo(String username, String password, RedirectAttributes attrs) {
+        boolean result =  authService.addUser(new LoginForm(username, password));
+        if (result) {
+            attrs.addFlashAttribute("msg", "회원가입에 성공하였습니다.");
+        } else {
+            attrs.addFlashAttribute("msg", "회원가입에 실패하였습니다.");
+        }
         return "redirect:/";
     }
 

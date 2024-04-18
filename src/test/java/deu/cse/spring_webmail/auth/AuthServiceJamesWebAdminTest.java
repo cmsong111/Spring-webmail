@@ -36,26 +36,28 @@ class AuthServiceJamesWebAdminTest {
     @DisplayName("사용 가능한 아이디 테스트 - 사용 가능한 아이디")
     void isAvailableUserId() {
         //given
-        given(userRepository.findById("test")).willReturn(Optional.of(new User()));
+        String userid = "test";
+        given(jamesWebAdmin.testUserExist(userid)).willReturn(false);
 
         //when
-        boolean result = authService.isAvailableUserId("test");
+        boolean result = authService.isAvailableUserId(userid);
 
         //then
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test
     @DisplayName("사용 가능한 아이디 테스트 - 사용 불가능한 아이디")
     void isAvailableUserId2() {
         //given
-        given(userRepository.findById("test")).willReturn(Optional.empty());
+        String userid = "test";
+        given(jamesWebAdmin.testUserExist(userid)).willReturn(true);
 
         //when
-        boolean result = authService.isAvailableUserId("test");
+        boolean result = authService.isAvailableUserId(userid);
 
         //then
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test

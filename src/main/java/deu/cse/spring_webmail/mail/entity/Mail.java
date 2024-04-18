@@ -76,19 +76,13 @@ public class Mail {
 
     @Getter
     @Embeddable
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class MailKey implements Serializable {
         @Column(name = "MAILBOX_ID")
         private Long mailboxMailboxId;
 
         @Column(name = "MAIL_UID")
         private Long mailUid;
-
-        public MailKey() {
-        }
-
-        public MailKey(Long mailboxMailboxId, Long mailUid) {
-            this.mailboxMailboxId = mailboxMailboxId;
-            this.mailUid = mailUid;
-        }
     }
 }

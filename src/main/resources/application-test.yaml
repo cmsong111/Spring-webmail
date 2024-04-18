@@ -23,7 +23,7 @@ spring:
 
   sql:
     init:
-      mode: embedded
+      mode: never
 
 server:
   port: 8080

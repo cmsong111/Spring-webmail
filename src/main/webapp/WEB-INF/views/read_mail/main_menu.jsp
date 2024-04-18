@@ -75,7 +75,6 @@
             <div> 페이지
                 <c:forEach var="i" begin="1" end="${total / size +1 }" step="1">
                     <c:if test="${i == page}">
-
                         <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>"><b>${i}</b></a>
                     </c:if>
                     <c:if test="${i != page}">
