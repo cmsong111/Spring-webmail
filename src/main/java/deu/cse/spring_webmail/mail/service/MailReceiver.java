@@ -60,17 +60,17 @@ public class MailReceiver {
      */
     public List<MailDto> getMailsByUserName(String userName, int page, int size) {
         // 사용자 이름으로 메일함을 찾음
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
+        List<MailBox> mailBoxes = mailBoxRepository.findByUserName(userName);
 
         // 메일함에 있는 모든 메일을 가져옴
         List<MailDto> userMails = new ArrayList<>();
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
 
         // 사용자 메일함에 존재하는 메일들을 DTO로 변환
-        for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), false, pageable)) {
-            userMails.add(mailMapper.toMailDto(mail));
+        for (MailBox mailbox : mailBoxes) {
+            for (Mail mail : mailbox.getMails()) {
+                userMails.add(mailMapper.toMailDto(mail));
+            }
         }
         return userMails;
     }

@@ -1,7 +1,8 @@
 package deu.cse.spring_webmail.auth;
 
 import deu.cse.spring_webmail.exception.CustomException;
-import deu.cse.spring_webmail.james.JamesUsers;
+import deu.cse.spring_webmail.james.JamesAdminMailBox;
+import deu.cse.spring_webmail.james.JamesAdminUser;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,37 +23,40 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class AuthServiceWebAdmin implements AuthService {
+public class AuthServiceImpl implements AuthService {
 
-
+    private final JamesAdminUser jamesWebAdmin;
+    private final JamesAdminMailBox jamesAdminMailBox;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JamesUsers jamesWebAdmin;
 
 
     @Override
     public boolean isAvailableUserId(String userid) {
-        return userRepository.findById(userid).isEmpty();
+        return !jamesWebAdmin.testUserExist(userid);
     }
 
     @Override
     public boolean addUser(LoginForm loginForm) {
-        // 이미 사용중인 아이디인 경우 null 반환
-        if (!isAvailableUserId(loginForm.username())) {
+        // If the user already exists, return false
+        if (jamesWebAdmin.testUserExist(loginForm.username())) {
             return false;
         }
 
-        // 비밀번호 암호화
+        // Password encoding and user creation
         String encodedPassword = passwordEncoder.encode(loginForm.password());
         jamesWebAdmin.createUser(loginForm.username(), encodedPassword);
 
-        // 사용자 역할 설정
-        User user = userRepository.findById(loginForm.username()).orElseThrow(
-                () -> new CustomException("해당 사용자를 찾을 수 없습니다.")
-        );
-        user.setRoles(List.of(Role.USER));
-        userRepository.save(user);
+        // Create a mailbox for the user
+        String[] mailboxes = {"INBOX", "Outbox", "Sent", "Draft", "Trash"};
+        for (String mailbox : mailboxes) {
+            jamesAdminMailBox.createMailBox(loginForm.username(), mailbox);
+        }
 
+        // 사용자 역할 설정
+        User user = userRepository.findById(loginForm.username()).orElseThrow();
+        user.getRoles().add(Role.USER);
+        userRepository.save(user);
         return true;
     }
 

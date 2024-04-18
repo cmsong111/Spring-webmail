@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @Slf4j
-public class JamesUsers {
+public class JamesAdminUser {
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -43,8 +43,13 @@ public class JamesUsers {
      * @return 사용자 존재 여부 (true: 존재, false: 미존재)
      */
     public boolean testUserExist(String userid) {
-        ResponseEntity<String> response = restTemplate.exchange(jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/" + userid, HttpMethod.HEAD, null, String.class);
-        return response.getStatusCode().is2xxSuccessful();
+        try {
+            HttpEntity<String> requst = new HttpEntity<>("", getHeaders());
+            ResponseEntity<String> response = restTemplate.exchange(jamesWebAdminUrl + ":" + jamesWebAdminPort + "/users/" + userid, HttpMethod.HEAD, requst, String.class);
+            return response.getStatusCode().is2xxSuccessful();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**

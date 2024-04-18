@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class JamesHealthCheck {
+public class JamesAdminHealth {
     RestTemplate restTemplate = new RestTemplate();
 
 

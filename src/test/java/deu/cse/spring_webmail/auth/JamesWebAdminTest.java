@@ -1,7 +1,7 @@
 package deu.cse.spring_webmail.auth;
 
 import deu.cse.spring_webmail.exception.CustomException;
-import deu.cse.spring_webmail.james.JamesUsers;
+import deu.cse.spring_webmail.james.JamesAdminUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 class JamesWebAdminTest {
 
     @InjectMocks
-    static JamesUsers jamesWebAdmin;
+    static JamesAdminUser jamesWebAdmin;
 
     @Mock
     private RestTemplate restTemplate;

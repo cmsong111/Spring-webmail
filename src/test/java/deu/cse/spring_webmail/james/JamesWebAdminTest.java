@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class JamesWebAdminTest {
 
     @Autowired
-    JamesHealthCheck jamesWebAdmin;
+    JamesAdminHealth jamesWebAdmin;
 
     @Test
     @Disabled

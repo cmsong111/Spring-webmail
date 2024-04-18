@@ -1,6 +1,6 @@
 package deu.cse.spring_webmail.auth;
 
-import deu.cse.spring_webmail.james.JamesUsers;
+import deu.cse.spring_webmail.james.JamesAdminUser;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
@@ -25,12 +25,12 @@ class AuthServiceJamesWebAdminTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private JamesUsers jamesWebAdmin;
+    private JamesAdminUser jamesWebAdmin;
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private AuthServiceWebAdmin authService;
+    private AuthServiceImpl authService;
 
     @Test
     @DisplayName("사용 가능한 아이디 테스트 - 사용 가능한 아이디")
