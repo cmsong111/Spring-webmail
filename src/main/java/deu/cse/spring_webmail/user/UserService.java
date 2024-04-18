@@ -1,5 +1,6 @@
 package deu.cse.spring_webmail.user;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
  * Spring Security에서 사용할 UserDetailsService 구현체
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     UserRepository userRepository;

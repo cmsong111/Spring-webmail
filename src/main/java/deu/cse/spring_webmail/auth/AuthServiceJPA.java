@@ -15,7 +15,7 @@ import java.util.List;
  * 데이터베이스에 단순히 유저 정보를 Insert 하더라도, 정상작동하는것을 확인하였음
  */
 @Slf4j
-@Service
+//@Service
 @AllArgsConstructor
 public class AuthServiceJPA implements AuthService {
     private final UserRepository userRepository;

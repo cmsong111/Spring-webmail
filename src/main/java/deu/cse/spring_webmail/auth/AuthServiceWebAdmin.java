@@ -1,13 +1,14 @@
 package deu.cse.spring_webmail.auth;
 
 import deu.cse.spring_webmail.exception.CustomException;
-import deu.cse.spring_webmail.james.JamesWebAdmin;
+import deu.cse.spring_webmail.james.JamesUsers;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -18,15 +19,14 @@ import java.util.List;
  * @deprecated Web Admin 사용을 중단하고 JPA를 이용한 사용자 인증 서비스를 사용합니다.
  */
 @Slf4j
-//@Service
-@Deprecated
+@Service
 @AllArgsConstructor
 public class AuthServiceWebAdmin implements AuthService {
 
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JamesWebAdmin jamesWebAdmin;
+    private final JamesUsers jamesWebAdmin;
 
 
     @Override
@@ -43,7 +43,7 @@ public class AuthServiceWebAdmin implements AuthService {
 
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(loginForm.password());
-        jamesWebAdmin.addUser(loginForm.username(), encodedPassword);
+        jamesWebAdmin.createUser(loginForm.username(), encodedPassword);
 
         // 사용자 역할 설정
         User user = userRepository.findById(loginForm.username()).orElseThrow(

@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 class JamesWebAdminTest {
 
     @Autowired
-    JamesWebAdmin jamesWebAdmin;
+    JamesHealthCheck jamesWebAdmin;
 
     @Test
     @Disabled
     void getHealthCheck() {
-        HealthDto healthCheck = jamesWebAdmin.getHealthCheck();
+        HealthDto healthCheck = jamesWebAdmin.checkAllComponents();
         System.out.println(healthCheck);
     }
 }

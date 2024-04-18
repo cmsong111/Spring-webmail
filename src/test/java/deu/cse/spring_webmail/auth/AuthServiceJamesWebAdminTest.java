@@ -1,6 +1,6 @@
 package deu.cse.spring_webmail.auth;
 
-import deu.cse.spring_webmail.james.JamesWebAdmin;
+import deu.cse.spring_webmail.james.JamesUsers;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
@@ -25,7 +25,7 @@ class AuthServiceJamesWebAdminTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private JamesWebAdmin jamesWebAdmin;
+    private JamesUsers jamesWebAdmin;
     @Mock
     private PasswordEncoder passwordEncoder;
 

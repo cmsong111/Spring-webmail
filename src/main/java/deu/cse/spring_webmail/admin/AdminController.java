@@ -1,6 +1,6 @@
 package deu.cse.spring_webmail.admin;
 
-import deu.cse.spring_webmail.auth.AuthServiceJPA;
+import deu.cse.spring_webmail.auth.AuthService;
 import deu.cse.spring_webmail.auth.LoginForm;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AdminController {
 
     AdminService adminService;
-    AuthServiceJPA authService;
+    AuthService authService;
 
     @GetMapping("/admin_menu")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

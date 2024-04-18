@@ -1,7 +1,7 @@
 package deu.cse.spring_webmail.auth;
 
 import deu.cse.spring_webmail.exception.CustomException;
-import deu.cse.spring_webmail.james.JamesWebAdmin;
+import deu.cse.spring_webmail.james.JamesUsers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 class JamesWebAdminTest {
 
     @InjectMocks
-    static JamesWebAdmin jamesWebAdmin;
+    static JamesUsers jamesWebAdmin;
 
     @Mock
     private RestTemplate restTemplate;
@@ -48,7 +48,7 @@ class JamesWebAdminTest {
         ResponseEntity<String> successResponse = new ResponseEntity<>("User added successfully", HttpStatus.NO_CONTENT);
         given(restTemplate.exchange(eq(String.format(url, userid)), eq(HttpMethod.PUT), any(HttpEntity.class), eq(String.class))).willReturn(successResponse);
         // When
-        boolean result = jamesWebAdmin.addUser(userid, password);
+        boolean result = jamesWebAdmin.createUser(userid, password);
 
         // Then
         assertTrue(result);
@@ -68,7 +68,7 @@ class JamesWebAdminTest {
         ResponseEntity<String> failResponse = new ResponseEntity<>("Failed to add user", HttpStatus.BAD_REQUEST);
         given(restTemplate.exchange(eq(String.format(url, userid)), eq(HttpMethod.PUT), any(HttpEntity.class), eq(String.class))).willThrow(new CustomException("Failed to add user" + failResponse.getStatusCode()));
         // When
-        assertThrows(CustomException.class, () -> jamesWebAdmin.addUser(userid, password));
+        assertThrows(CustomException.class, () -> jamesWebAdmin.createUser(userid, password));
     }
 
     @Test
