@@ -28,6 +28,8 @@ public interface MailMapper {
      */
     @Mapping(target = "mailContent", ignore = true)
     @Mapping(target = "attachments", ignore = true)
+    @Mapping(target = "mailUid", source = "mailKey.mailUid")
+    @Mapping(target = "mailboxMailboxId", source = "mailKey.mailboxMailboxId")
     @Mapping(target = "mimeMessage", source = "headerBytes", qualifiedByName = "blobToMessage")
     MailDto toMailDto(Mail mail);
 

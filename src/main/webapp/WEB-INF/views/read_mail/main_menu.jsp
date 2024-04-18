@@ -15,13 +15,13 @@
     <script>
         function deleteMail(mailUid) {
             if (confirm("정말 삭제하시겠습니까?")) {
-                location.href = "/mail/delete/" + mailUid;
+                location.href = "/mail/" + mailUid + "/delete";
             }
         }
 
         function restoreMail(mailUid) {
             if (confirm("정말 복구하시겠습니까?")) {
-                location.href = "/mail/restore/" + mailUid;
+                location.href = "/mail/" + mailUid + "/restore";
             }
         }
     </script>
@@ -57,7 +57,7 @@
                 <c:forEach var="message" items="${messageList}" varStatus="status">
                     <tr>
                         <td>${message.mailUid}</td>
-                        <td><a href="/mail/${message.mailUid}">${message.mimeMessage.subject}</a></td>
+                        <td><a href="/mail/${message.mailboxMailboxId}/${message.mailUid}">${message.mimeMessage.subject}</a></td>
                         <td>${message.mimeMessage.from[0]}</td>
                         <td>${message.mailIsSeen}</td>
                         <td>${message.mailMimeType}</td>
@@ -73,7 +73,6 @@
                 </tbody>
             </table>
             <div> 페이지
-                <c:out value="${pageContext.request.requestURI}}"/>
                 <c:forEach var="i" begin="1" end="${total / size +1 }" step="1">
                     <c:if test="${i == page}">
 

@@ -1,8 +1,8 @@
 package deu.cse.spring_webmail.auth;
 
-import deu.cse.spring_webmail.exception.CustomException;
 import deu.cse.spring_webmail.james.JamesAdminMailBox;
 import deu.cse.spring_webmail.james.JamesAdminUser;
+import deu.cse.spring_webmail.mail.dto.MailBoxType;
 import deu.cse.spring_webmail.user.Role;
 import deu.cse.spring_webmail.user.User;
 import deu.cse.spring_webmail.user.UserRepository;
@@ -11,14 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * James Web Admin 이용한 사용자 인증 서비스
- *
- * @deprecated Web Admin 사용을 중단하고 JPA를 이용한 사용자 인증 서비스를 사용합니다.
  */
 @Slf4j
 @Service
@@ -48,9 +45,8 @@ public class AuthServiceImpl implements AuthService {
         jamesWebAdmin.createUser(loginForm.username(), encodedPassword);
 
         // Create a mailbox for the user
-        String[] mailboxes = {"INBOX", "Outbox", "Sent", "Draft", "Trash"};
-        for (String mailbox : mailboxes) {
-            jamesAdminMailBox.createMailBox(loginForm.username(), mailbox);
+        for (MailBoxType mailboxType : MailBoxType.values()) {
+            jamesAdminMailBox.createMailBox(loginForm.username(), mailboxType.getMailBoxName());
         }
 
         // 사용자 역할 설정

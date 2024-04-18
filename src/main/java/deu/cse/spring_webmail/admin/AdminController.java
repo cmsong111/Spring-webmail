@@ -17,6 +17,7 @@ import java.util.List;
 @Slf4j
 @Controller
 //@RequestMapping("/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @AllArgsConstructor
 public class AdminController {
 
@@ -24,7 +25,7 @@ public class AdminController {
     AuthService authService;
 
     @GetMapping("/admin_menu")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     public String adminMenu(Model model) {
         model.addAttribute("userList", authService.getUserList());
         return "admin/admin_menu";

@@ -74,6 +74,7 @@ public class Mail {
     @Column(name = "HEADER_BYTES", columnDefinition = "MEDIUMBLOB")
     private Blob headerBytes;
 
+    @Getter
     @Embeddable
     public static class MailKey implements Serializable {
         @Column(name = "MAILBOX_ID")

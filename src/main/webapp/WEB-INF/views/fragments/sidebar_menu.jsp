@@ -1,5 +1,6 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="deu.cse.spring_webmail.mail.dto.MailBoxType" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <%--
     Document   : sidebar_menu
@@ -12,12 +13,9 @@
 
 <%
     Map<String, String> menuMap = new HashMap<String, String>();
-    menuMap.put("받은 편지함", "/mail");
-    menuMap.put("읽지 않은 편지함", "/mail/unread");
-    menuMap.put("중요 편지함(개발중)", "/mail/important");
-    menuMap.put("보낸 편지함(개발중)", "/mail/sent");
-    menuMap.put("임시 보관함(개발중)", "/mail/draft");
-    menuMap.put("휴지통", "/mail/deleted");
+    for (MailBoxType type : MailBoxType.values()) {
+        menuMap.put(type.getDescription(), "/mail/" + type.getValue());
+    }
     pageContext.setAttribute("menuList", menuMap);
 %>
 
@@ -32,12 +30,12 @@
     <ul class="nav nav-pills flex-column mb-auto">
         <c:forEach var="menu" items="${menuList}">
             <li class="nav-item">
-                <c:if test="${menu.value eq type}">
+                <c:if test="${menu.value eq  mailBoxType}">
                     <a href="${menu.value}" class="nav-link active" aria-current="page">
                             ${menu.key}
                     </a>
                 </c:if>
-                <c:if test="${menu.value ne type}">
+                <c:if test="${menu.value ne mailBoxType}">
                     <a href="${menu.value}" class="nav-link link-body-emphasis">
                             ${menu.key}
                     </a>

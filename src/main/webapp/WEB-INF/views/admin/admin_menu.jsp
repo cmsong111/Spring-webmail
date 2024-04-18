@@ -37,10 +37,10 @@
                 </tr>
                 <c:forEach items="${userList}" var="user">
                     <tr>
-                        <td> ${user.getUsername()} </td>
+                        <td> ${user.userName} </td>
                         <td> ${user.passwordHashAlgorithm}</td>
                         <td> ${user.password} </td>
-                        <td> ${user.role} </td>
+                        <td> ${user.roles} </td>
                         <td> ${user.version} </td>
                     </tr>
                 </c:forEach>

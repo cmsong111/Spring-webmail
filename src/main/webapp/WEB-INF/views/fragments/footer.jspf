@@ -6,9 +6,9 @@
     <div class="container">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <p>
-                &copy; 2022, Professor Jong Min Lee <br/>
+                &copy; 2024, Team 1st (조봉균, 김남주, 김찬솔, 이재영) <br/>
                 Dept. of Computer Software Engineering, Dong-eui University <br/>
-                WebMail System (Revised for the Spring Framework)
+                WebMail System (Based on Spring Boot 3.2.4)
             </p>
         </ul>
         <p class="text-center text-body-secondary">© 2024 Company, Inc</p>

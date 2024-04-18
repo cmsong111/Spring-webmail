@@ -1,5 +1,7 @@
 package deu.cse.spring_webmail.mail.service;
 
+import deu.cse.spring_webmail.james.JamesAdminMailBox;
+import deu.cse.spring_webmail.mail.dto.MailBoxType;
 import deu.cse.spring_webmail.mail.dto.MailDto;
 import deu.cse.spring_webmail.mail.entity.Mail;
 import deu.cse.spring_webmail.mail.entity.MailBox;
@@ -32,157 +34,76 @@ import java.util.List;
 public class MailReceiver {
 
     @Autowired
-    public MailReceiver(MailMapper mailMapper, MailRepository mailRepository, MailBoxRepository mailBoxRepository, MailPageableRepository mailPageableRepository) {
+    public MailReceiver(MailMapper mailMapper, MailRepository mailRepository, MailBoxRepository mailBoxRepository, MailPageableRepository mailPageableRepository, JamesAdminMailBox jamesAdminMailBox) {
         this.mailMapper = mailMapper;
         this.mailRepository = mailRepository;
         this.mailBoxRepository = mailBoxRepository;
         this.mailPageableRepository = mailPageableRepository;
+        this.jamesAdminMailBox = jamesAdminMailBox;
     }
 
     private final MailMapper mailMapper;
     private final MailRepository mailRepository;
     private final MailBoxRepository mailBoxRepository;
     private final MailPageableRepository mailPageableRepository;
+    private final JamesAdminMailBox jamesAdminMailBox;
 
     // file.download_folder = Base directory for storing attachments
     @Value("${file.download_folder}")
     private String downloadFolder;
 
     /**
-     * 사용자 이름으로 메일함을 찾아서 해당 메일함에 있는 모든 메일을 가져옴
-     * DTO로 변환하여 반환 (메일 내용과 첨부파일은 제외)
+     * 메일함에 있는 메일을 조회 함
      *
-     * @param userName 사용자 아이디
-     *                 (메일함은 사용자 이름으로 생성되므로 사용자 이름이 메일함 이름과 동일)
-     * @param page     페이지 번호
-     * @param size     페이지 크기
+     * @param userName  사용자 아이디
+     *                  (메일함은 사용자 이름으로 생성되므로 사용자 이름이 메일함 이름과 동일)
+     * @param mailBoxType 메일함 종류
+     * @param page      페이지 번호
+     * @param size      페이지 크기
      * @return 사용자 메일함에 있는 모든 메일
      */
-    public List<MailDto> getMailsByUserName(String userName, int page, int size) {
+    public List<MailDto> getMailFromMailBox(String userName, MailBoxType mailBoxType,  int page, int size) {
         // 사용자 이름으로 메일함을 찾음
-        List<MailBox> mailBoxes = mailBoxRepository.findByUserName(userName);
-
-        // 메일함에 있는 모든 메일을 가져옴
-        List<MailDto> userMails = new ArrayList<>();
+        MailBox mailbox = mailBoxRepository.findByUserNameAndMailboxName(userName, mailBoxType.name())
+                .orElseThrow(() -> new IllegalArgumentException("Mailbox not found for user: " + userName));
+        
+        // 페이지네이션
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
 
         // 사용자 메일함에 존재하는 메일들을 DTO로 변환
-        for (MailBox mailbox : mailBoxes) {
-            for (Mail mail : mailbox.getMails()) {
-                userMails.add(mailMapper.toMailDto(mail));
-            }
+        List<MailDto> userMails = new ArrayList<>();
+        for (Mail mail : mailPageableRepository.findAllByMailbox(mailbox, pageable)) {
+            userMails.add(mailMapper.toMailDto(mail));
         }
+
         return userMails;
     }
 
     /**
      * 사용자 이름으로 메일함을 찾아서 해당 메일함에 있는 모든 메일의 개수를 가져옴
      *
-     * @param userName 사용자 아이디
+     * @param userName    사용자 아이디
+     * @param mailboxName 메일함 이름
      * @return 사용자 메일함에 있는 모든 메일의 개수
      */
-    public Long countMailsByUserName(String userName) {
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
-        return mailRepository.countByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), false);
-    }
-
-
-    /**
-     * 사용자 이름으로 삭제된 메일함을 찾아서 해당 메일함에 있는 모든 메일을 가져옴
-     * DTO로 변환하여 반환 (메일 내용과 첨부파일은 제외)
-     *
-     * @param userName 사용자 아이디
-     *                 (메일함은 사용자 이름으로 생성되므로 사용자 이름이 메일함 이름과 동일)
-     * @param page     페이지 번호
-     * @param size     페이지 크기
-     * @return 사용자 메일함에 있는 모든 메일
-     */
-    public List<MailDto> getDeletedMailsByUserName(String userName, int page, int size) {
-        // 사용자 이름으로 메일함을 찾음
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
-
-        // 메일함에 있는 모든 메일을 가져옴
-        List<MailDto> userMails = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page - 1, size);
-
-        // 사용자 메일함에 존재하는 메일들을 DTO로 변환
-        for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), true, pageable)) {
-            userMails.add(mailMapper.toMailDto(mail));
-        }
-        return userMails;
+    public Long getCountMailAtMailbox(String userName, MailBoxType mailboxName) {
+        return jamesAdminMailBox.getMailCount(userName, mailboxName.name()).longValue();
     }
 
     /**
-     * 사용자 이름으로 삭제된 메일의 개수를 가져옴
+     * 사용자 이름으로 메일함을 찾아서 해당 메일함에 있는 읽지 않은 메일의 개수를 가져옴
      *
-     * @param userName 사용자 아이디
-     * @return 사용자 메일함에 있는 모든 메일의 개수
+     * @param userName    사용자 아이디
+     * @param mailboxName 메일함 이름
+     * @return 사용자 메일함에 있는 읽지 않은 메일의 개수
      */
-    public Long countDeletedMailsByUserName(String userName) {
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
-        return mailRepository.countByMailbox_MailboxIdAndMailIsDeleted(mailBox.getMailboxId(), true);
+    public Long getCountUnReadMailAtMailbox(String userName, MailBoxType mailboxName) {
+        return jamesAdminMailBox.getUnseenMailCount(userName, mailboxName.name()).longValue();
     }
 
-    /**
-     * 사용자 이름으로 삭제된 메일 중 읽지 않은 메일의 개수를 가져옴
-     * (휴지통에 있는 메일은 읽지 않은 것으로 처리)
-     *
-     * @param userName 사용자 아이디
-     * @return 읽지 않은, 삭제된 메일의 개수
-     */
-    public Long countUnreadDeletedMailsByUserName(String userName) {
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
-        return mailRepository.countByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(mailBox.getMailboxId(), false, true);
-    }
-
-    /**
-     * 사용자 이름으로 읽지 않은 메일을 가져옴
-     *
-     * @param userName 사용자 아이디
-     * @param page     페이지 번호
-     * @param size     페이지 크기
-     * @return 읽지 않은 메일
-     */
-    public List<MailDto> getUnreadMailsByUserName(String userName, int page, int size) {
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
-
-        List<MailDto> userMails = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
-
-        for (Mail mail : mailPageableRepository.findAllByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(mailBox.getMailboxId(), false, false, pageable)) {
-            userMails.add(mailMapper.toMailDto(mail));
-        }
-        return userMails;
-    }
-
-    /**
-     * 사용자 이름으로 읽지 않은 메일의 개수를 가져옴
-     * (휴지통에 있는 메일은 읽지 않은 것으로 처리)
-     *
-     * @param userName 사용자 아이디
-     * @return 읽지 않은 메일의 개수
-     */
-    public Long countUnreadMailsByUserName(String userName) {
-        MailBox mailBox = mailBoxRepository.findByUserName(userName).orElseThrow(
-                () -> new IllegalArgumentException("MailBox not found for userName: " + userName)
-        );
-        return mailRepository.countByMailbox_MailboxIdAndMailIsSeenAndMailIsDeleted(mailBox.getMailboxId(), false, false);
-    }
 
     /**
      * 메일을 삭제함
-     *
-     * @param id 메일 UID
      */
     public void deleteMail(Long mailBoxId, Long mailUid) {
         Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
@@ -207,14 +128,20 @@ public class MailReceiver {
      * 메일 UID를 통해 메일을 가져옴 - 메일 내용과 첨부파일을 포함
      * (메일을 가져오면 메일을 읽은 것으로 처리)
      *
-     * @param id 메일 UID
+     * @param mailBoxType 메일함 아이디
+     * @param mailUid     메일 UID
      * @return 메일 DTO
      */
-    public MailDto getMail(Long mailBoxId, Long mailUid) {
-        Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
+    public MailDto getMail(int mailBoxType, Long mailUid, String userName) {
+        MailBox mailbox = mailBoxRepository.findByUserNameAndMailboxName(userName, MailBoxType.fromValue(mailBoxType).name())
+                .orElseThrow(() -> new IllegalArgumentException("Mailbox not found for user: " + userName));
+
+        Mail.MailKey mailKey = new Mail.MailKey(mailbox.getMailboxId(), mailUid);
+
         Mail mail = mailRepository.findById(mailKey).orElseThrow(
                 () -> new IllegalArgumentException("Mail not found for id: " + mailKey)
         );
+
         // 메일을 읽은 것으로 처리
         mail.setMailIsSeen(true);
         mailRepository.save(mail);
