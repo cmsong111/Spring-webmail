@@ -1,7 +1,11 @@
 # James Web Mail System Maintanance Project
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
+[![Test CI](https://github.com/cmsong111/Spring-webmail/actions/workflows/sonar_cloud.yml/badge.svg)](https://github.com/cmsong111/Spring-webmail/actions/workflows/sonar_cloud.yml)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
 
 > 동의대학교 컴퓨터소프트웨어공학 2024학년도 1학기 팀프로젝트
 
