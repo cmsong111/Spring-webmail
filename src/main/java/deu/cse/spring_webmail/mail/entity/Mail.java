@@ -1,8 +1,9 @@
 package deu.cse.spring_webmail.mail.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 
 import java.io.Serializable;
 import java.sql.Blob;
@@ -17,6 +18,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "JAMES_MAIL")
 @DynamicUpdate
+@SQLDelete(sql = "UPDATE JAMES_MAIL SET MAIL_IS_DELETED = 1 WHERE MAILBOX_ID = ? AND MAIL_UID = ?")
+@SQLRestriction("MAIL_IS_DELETED = 0")
 public class Mail {
 
     @EmbeddedId

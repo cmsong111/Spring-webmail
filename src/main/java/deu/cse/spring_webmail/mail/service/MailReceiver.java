@@ -55,18 +55,18 @@ public class MailReceiver {
     /**
      * 메일함에 있는 메일을 조회 함
      *
-     * @param userName  사용자 아이디
-     *                  (메일함은 사용자 이름으로 생성되므로 사용자 이름이 메일함 이름과 동일)
+     * @param userName    사용자 아이디
+     *                    (메일함은 사용자 이름으로 생성되므로 사용자 이름이 메일함 이름과 동일)
      * @param mailBoxType 메일함 종류
-     * @param page      페이지 번호
-     * @param size      페이지 크기
+     * @param page        페이지 번호
+     * @param size        페이지 크기
      * @return 사용자 메일함에 있는 모든 메일
      */
-    public List<MailDto> getMailFromMailBox(String userName, MailBoxType mailBoxType,  int page, int size) {
+    public List<MailDto> getMailFromMailBox(String userName, MailBoxType mailBoxType, int page, int size) {
         // 사용자 이름으로 메일함을 찾음
         MailBox mailbox = mailBoxRepository.findByUserNameAndMailboxName(userName, mailBoxType.name())
                 .orElseThrow(() -> new IllegalArgumentException("Mailbox not found for user: " + userName));
-        
+
         // 페이지네이션
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
 
@@ -74,6 +74,11 @@ public class MailReceiver {
         List<MailDto> userMails = new ArrayList<>();
         for (Mail mail : mailPageableRepository.findAllByMailbox(mailbox, pageable)) {
             userMails.add(mailMapper.toMailDto(mail));
+        }
+
+        // 삭제된 메일 조회
+        for (Mail mail : mailRepository.findDeletedMailByMailBoxId(mailbox.getMailboxId())) {
+            log.info("Mail: {}", mailMapper.toMailDto(mail).toString());
         }
 
         return userMails;
@@ -188,9 +193,9 @@ public class MailReceiver {
      * @return 합쳐진 Blob
      * @throws SQLException SQL 예외
      */
-    protected Blob mergeBlobs(Blob mailHeaders, Blob MailBytes) throws SQLException {
+    protected Blob mergeBlobs(Blob mailHeaders, Blob mailBytes) throws SQLException {
         byte[] mailHeadersBytes = mailHeaders.getBytes(1, (int) mailHeaders.length());
-        byte[] mailBodyBytes = MailBytes.getBytes(1, (int) MailBytes.length());
+        byte[] mailBodyBytes = mailBytes.getBytes(1, (int) mailBytes.length());
 
         byte[] mergedBytes = new byte[mailHeadersBytes.length + mailBodyBytes.length];
         System.arraycopy(mailHeadersBytes, 0, mergedBytes, 0, mailHeadersBytes.length);
