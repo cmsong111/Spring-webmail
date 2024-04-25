@@ -2,7 +2,6 @@
 <%@ page pageEncoding="UTF-8" %>
 
 
-
 <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
@@ -14,7 +13,12 @@
 
         <ul class="nav nav-pills">
             <sec:authorize access="isAuthenticated()">
-                <li class="nav-item"><a href="/logout" class="nav-link">로그아웃</a></li>
+                <li class="nav-item">
+                    <form action="/logout" method="post">
+                        <sec:csrfInput/>
+                        <input type="submit" value="로그아웃" class="nav-link">
+                    </form>
+                </li>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <li class="nav-item"><a href="/admin_menu" class="nav-link">관리자 페이지</a></li>

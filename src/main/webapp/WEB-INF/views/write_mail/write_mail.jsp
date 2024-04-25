@@ -28,6 +28,7 @@
                 <div class="card-body">
                     <h5 class="card-title">메일 쓰기</h5>
                     <form enctype="multipart/form-data" method="POST" action="write_mail.do">
+                        <sec:csrfInput/>
                         <div class="mb-3">
                             <label for="to" class="form-label">수신</label>
                             <input type="text" class="form-control" id="to" name="to" aria-describedby="toHelp">

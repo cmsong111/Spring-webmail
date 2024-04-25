@@ -26,6 +26,7 @@
 <sec:authorize access="!isAuthenticated()">
     <div id="login_form" class="container">
         <form method="POST" action="<c:url value="/login.do"/>" class="needs-validation" novalidate>
+            <sec:csrfInput/>
             <div class="mb-3">
                 <label for="userid" class="form-label">사용자</label>
                 <input type="text" class="form-control" id="userid" name="userid" size="20" autofocus required>
