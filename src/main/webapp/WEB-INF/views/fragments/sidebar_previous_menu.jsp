@@ -1,9 +1,10 @@
-<%-- 
+<%--
     Document   : sidebar_adduser_menu
     Author     : jongmin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 
@@ -16,7 +17,8 @@
 <br> <br>
 
 <span style="color: indigo">
-            <strong>사용자: <%= session.getAttribute("userid") %> </strong>
+                <sec:authentication property="principal.username" var="username"/>
+                <strong>사용자: ${username} </strong>
         </span> <br> <br>
 
 <a href="mail"> 이전 메뉴로 </a>

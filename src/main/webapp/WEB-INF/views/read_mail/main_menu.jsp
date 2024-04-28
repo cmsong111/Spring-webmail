@@ -13,15 +13,9 @@
     <%@include file="../fragments/head.jspf" %>
     <title>주메뉴 화면</title>
     <script>
-        function deleteMail(mailUid) {
+        function deleteMail(mailboxUid, mailUid) {
             if (confirm("정말 삭제하시겠습니까?")) {
-                location.href = "/mail/" + mailUid + "/delete";
-            }
-        }
-
-        function restoreMail(mailUid) {
-            if (confirm("정말 복구하시겠습니까?")) {
-                location.href = "/mail/" + mailUid + "/restore";
+                location.href = "/mail/" + mailboxUid + "/" + mailUid + "/delete";
             }
         }
     </script>
@@ -57,17 +51,12 @@
                 <c:forEach var="message" items="${messageList}" varStatus="status">
                     <tr>
                         <td>${message.mailUid}</td>
-                        <td><a href="/mail/${message.mailboxMailboxId}/${message.mailUid}">${message.mimeMessage.subject}</a></td>
+                        <td><a href="${mailBoxType}/${message.mailUid}">${message.mimeMessage.subject}</a></td>
                         <td>${message.mimeMessage.from[0]}</td>
                         <td>${message.mailIsSeen}</td>
                         <td>${message.mailMimeType}</td>
                         <td>${message.mailDate}</td>
-                        <c:if test="${message.mailIsDeleted == 'true'}">
-                            <td><a href="javascript:restoreMail(${message.mailUid})">복구</a></td>
-                        </c:if>
-                        <c:if test="${message.mailIsDeleted == 'false'}">
-                            <td><a href="javascript:deleteMail(${message.mailUid})">삭제</a></td>
-                        </c:if>
+                        <td><a href="javascript:deleteMail(${message.mailboxMailboxId}, ${message.mailUid})">삭제</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

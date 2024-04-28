@@ -51,7 +51,6 @@ public class MailWriteController {
 
         List<MultipartFile> files = new ArrayList<>();
         String resultMessage = "";
-        String from = principal.getName() + "@localhost";
 
         // 첨부파일 크기 제한
         if (!upFile.isEmpty() && upFile.getSize() > Long.parseLong(MAX_SIZE)) {
@@ -62,15 +61,22 @@ public class MailWriteController {
         if (!upFile.isEmpty()) {
             files.add(upFile);
         }
-        // 첨부파일 유무에 따른 메일 발송
-        if (files.isEmpty()) { // 첨부파일이 없는 경우
-            resultMessage = emailSender.sendEmail(from, to, cc, subj, body);
-        } else { // 첨부파일이 있는 경우
-            resultMessage = emailSender.sendEmail(from, to, cc, subj, body, files);
-        }
 
+        resultMessage = emailSender.sendEmail(principal.getName(), to, cc, subj, body, files);
         attrs.addFlashAttribute("msg", resultMessage);
 
         return "redirect:/mail";
     }
+
+    @PostMapping("write_mail.temp")
+    public String writeMailTemp(@RequestParam String to, @RequestParam String cc,
+                                @RequestParam String subj, @RequestParam String body,
+                                @RequestParam(name = "file1", required = false) MultipartFile upFile,
+                                RedirectAttributes attrs, Principal principal) {
+        List<MultipartFile> files = new ArrayList<>();
+        String result = emailSender.saveTempMail(principal.getName(), to, cc, subj, body, files);
+        attrs.addFlashAttribute("msg", result);
+        return "redirect:/mail";
+    }
+
 }

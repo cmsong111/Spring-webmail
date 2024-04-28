@@ -71,14 +71,10 @@ public class MailReceiver {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("mailDate").descending());
 
         // 사용자 메일함에 존재하는 메일들을 DTO로 변환
+        // (메일 내용과 첨부파일은 제외)
         List<MailDto> userMails = new ArrayList<>();
         for (Mail mail : mailPageableRepository.findAllByMailbox(mailbox, pageable)) {
             userMails.add(mailMapper.toMailDto(mail));
-        }
-
-        // 삭제된 메일 조회
-        for (Mail mail : mailRepository.findDeletedMailByMailBoxId(mailbox.getMailboxId())) {
-            log.info("Mail: {}", mailMapper.toMailDto(mail).toString());
         }
 
         return userMails;
@@ -108,28 +104,6 @@ public class MailReceiver {
 
 
     /**
-     * 메일을 삭제함
-     */
-    public void deleteMail(Long mailBoxId, Long mailUid) {
-        Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
-        Mail mail = mailRepository.findById(mailKey).orElseThrow(
-                () -> new IllegalArgumentException("Mail not found for id: ")
-        );
-        mail.setMailIsDeleted(true);
-        mailRepository.save(mail);
-    }
-
-    public void restoreMail(Long mailBoxId, Long mailUid) {
-        Mail.MailKey mailKey = new Mail.MailKey(mailBoxId, mailUid);
-        Mail mail = mailRepository.findById(mailKey).orElseThrow(
-                () -> new IllegalArgumentException("Mail not found for id: " + mailKey)
-        );
-        mail.setMailIsDeleted(false);
-        mailRepository.save(mail);
-    }
-
-
-    /**
      * 메일 UID를 통해 메일을 가져옴 - 메일 내용과 첨부파일을 포함
      * (메일을 가져오면 메일을 읽은 것으로 처리)
      *
@@ -138,11 +112,12 @@ public class MailReceiver {
      * @return 메일 DTO
      */
     public MailDto getMail(int mailBoxType, Long mailUid, String userName) {
+        // 사용자 이름으로 메일함을 찾음
         MailBox mailbox = mailBoxRepository.findByUserNameAndMailboxName(userName, MailBoxType.fromValue(mailBoxType).name())
                 .orElseThrow(() -> new IllegalArgumentException("Mailbox not found for user: " + userName));
 
+        // 메일을 찾음
         Mail.MailKey mailKey = new Mail.MailKey(mailbox.getMailboxId(), mailUid);
-
         Mail mail = mailRepository.findById(mailKey).orElseThrow(
                 () -> new IllegalArgumentException("Mail not found for id: " + mailKey)
         );
@@ -233,7 +208,6 @@ public class MailReceiver {
      * @param mailContents 메일 Contents
      */
     protected List<String> extractAttachments(Object mailContents, Long mailUid) throws MessagingException, IOException {
-        log.info("Extracting attachments for mail UID: {}", mailUid);
         List<String> attachments = new ArrayList<>();
         // 본문이 Multipart인 경우
         if (mailContents instanceof MimeMultipart multipart) {
@@ -247,7 +221,6 @@ public class MailReceiver {
                     File attachment = new File(downloadFolder + File.separator + mailUid + File.separator + bodyPart.getFileName());
                     attachment.getParentFile().mkdirs();
                     bodyPart.saveFile(attachment);
-                    log.info("Attachment saved to: {}", attachment.getAbsolutePath());
                 }
             }
         }

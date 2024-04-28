@@ -14,6 +14,15 @@
 <%@include file="../fragments/head.jspf" %>
 <head>
     <title>메일 쓰기 화면</title>
+    <script>
+        // 임시 저장 버튼 클릭 시 이벤트 처리 "write_mail.temp"로 Post 요청
+        function saveMailtoTemp() {
+            const form = document.getElementById('write_mail_form');
+            form.action = 'write_mail.temp';
+            form.submit();
+            console.log('임시 저장')
+        }
+    </script>
 </head>
 <body>
 <%@include file="../fragments/header.jspf" %>
@@ -27,7 +36,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">메일 쓰기</h5>
-                    <form enctype="multipart/form-data" method="POST" action="write_mail.do">
+                    <form enctype="multipart/form-data" method="POST" action="write_mail.do" id="write_mail_form">
                         <sec:csrfInput/>
                         <div class="mb-3">
                             <label for="to" class="form-label">수신</label>
@@ -51,6 +60,7 @@
                             <input type="file" class="form-control" id="file1" name="file1">
                         </div>
                         <button type="submit" class="btn btn-primary">메일 보내기</button>
+                        <button type="button" class="btn btn-secondary" onclick="saveMailtoTemp()">임시 보관</button>
                         <button type="reset" class="btn btn-secondary">다시 입력</button>
                     </form>
                 </div>

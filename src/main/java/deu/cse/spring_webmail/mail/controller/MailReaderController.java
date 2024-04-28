@@ -1,7 +1,9 @@
 package deu.cse.spring_webmail.mail.controller;
 
 import deu.cse.spring_webmail.mail.dto.MailBoxType;
+import deu.cse.spring_webmail.mail.service.MailManager;
 import deu.cse.spring_webmail.mail.service.MailReceiver;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.security.Principal;
 
 @Controller
@@ -23,6 +26,7 @@ import java.security.Principal;
 public class MailReaderController {
 
     private final MailReceiver mailReceiver;
+    private final MailManager mailManager;
 
 
     /**
@@ -48,8 +52,8 @@ public class MailReaderController {
      * 첨부파일 다운로드
      *
      * @param mailBoxType 메일함 유형
-     * @param mailId    메일 아이디
-     * @param filename  파일 이름
+     * @param mailId      메일 아이디
+     * @param filename    파일 이름
      * @return 파일 다운로드
      */
     @GetMapping("/{mailId}/download")
@@ -76,10 +80,10 @@ public class MailReaderController {
      */
     @GetMapping("/{id}/delete")
     public String deleteMail(
-            @PathVariable("mailBoxId") Long mailBoxId,
+            @PathVariable("mailBoxType") Long mailBoxId,
             @PathVariable("id") Long id,
-            Principal principal) {
-        mailReceiver.deleteMail(mailBoxId, id);
+            Principal principal) throws MessagingException, GeneralSecurityException {
+        mailManager.moveMail(principal.getName(), id, MailBoxType.TRASH, MailBoxType.INBOX);
         return "redirect:/mail";
     }
 
@@ -91,10 +95,9 @@ public class MailReaderController {
      */
     @GetMapping("/{id}/restore")
     public String restoreMail(
-            @PathVariable("mailBoxId") Long mailBoxId,
-            @PathVariable("id") Long id) {
-        mailReceiver.restoreMail(mailBoxId, id);
+            @PathVariable("mailBoxType") Long mailBoxId,
+            @PathVariable("id") Long id, Principal principal) throws MessagingException,GeneralSecurityException {
+        mailManager.moveMail(principal.getName(), id, MailBoxType.INBOX, MailBoxType.TRASH);
         return "redirect:/mail/deleted";
     }
-
 }
