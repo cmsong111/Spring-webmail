@@ -1,0 +1,13 @@
+.form-group {
+    margin-bottom: 15px;
+}
+.password-match, .password-not-match {
+    font-size: 0.85em; /* Smaller font size */
+    display: none;
+}
+.password-match {
+    color: green;
+}
+.password-not-match {
+    color: red;
+}
