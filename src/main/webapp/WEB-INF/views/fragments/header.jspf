@@ -14,7 +14,7 @@
         <ul class="nav nav-pills">
             <sec:authorize access="isAuthenticated()">
                 <li class="nav-item">
-                    <form action="/logout" method="post">
+                    <form action="<c:url value="/logout"/>" method="post">
                         <sec:csrfInput/>
                         <input type="submit" value="로그아웃" class="nav-link">
                     </form>

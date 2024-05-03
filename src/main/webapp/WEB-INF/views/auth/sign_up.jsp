@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -46,6 +47,7 @@
         <div class="col-md-12">
             <h1>회원가입</h1>
             <form action="/auth/signup.do" method="post" id="signup-form">
+                <sec:csrfInput />
                 <div class="form-group col-md-6">
                     <label for="username">아이디</label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요">

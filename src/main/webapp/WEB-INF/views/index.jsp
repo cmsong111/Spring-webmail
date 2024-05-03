@@ -20,7 +20,10 @@
     <sec:authentication property="principal.username" var="username"/>
     <p>안녕하세요, <c:out value="${username}"/>님</p>
     <a href="<c:url value="/mail"/>">메일함으로 가기</a>
-    <a href="<c:url value="/logout"/>">로그아웃</a>
+    <form action="<c:url value="/logout"/>" method="post">
+        <sec:csrfInput/>
+        <input type="submit" value="로그아웃" class="nav-link">
+    </form>
 </sec:authorize>
 
 <sec:authorize access="!isAuthenticated()">
