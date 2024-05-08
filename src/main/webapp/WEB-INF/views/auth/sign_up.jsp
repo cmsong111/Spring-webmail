@@ -32,9 +32,10 @@
             background-color: red;
             transition: width 0.3s;
         }
-        #password_warning{
-            font-size: 10px;
+        #requirements{
+            font-size: 12px;
             opacity: 70%;
+            display: inline;
         }
     </style>
     <title>Title</title>
@@ -55,8 +56,15 @@
 
                 <div class="form-group col-md-6">
                     <label for="password">비밀번호</label>
-                    <label id="password_warning">대소문자,숫자,특수문자 포함 8자리이상</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" oninput="checkPasswordStrength(); checkPasswords();">
+                    <div id="requirements">
+                        <span id="uppercase" style="color: gray;">대문자</span>,
+                        <span id="lowercase" style="color: gray;">소문자</span>,
+                        <span id="number" style="color: gray;">숫자</span>,
+                        <span id="special" style="color: gray;">특수문자</span>,
+                        <span id="length" style="color: gray;">8자리 이상</span>
+                    </div>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" oninput="checkPasswordStrength(); checkPasswords(); checkPasswordStrengthtwo();">
+
                 </div>
 
                 <div class="form-group col-md-6">
@@ -83,16 +91,16 @@
         var password = document.getElementById('password').value;
         var strength = 0;
 
-        if (password.match(/[a-z]+/)) {
+        if (password.match(/[a-z]/)) {
             strength += 1;
         }
-        if (password.match(/[A-Z]+/)) {
+        if (password.match(/[A-Z]/)) {
             strength += 1;
         }
-        if (password.match(/[0-9]+/)) {
+        if (password.match(/[0-9]/)) {
             strength += 1;
         }
-        if (password.match(/[\W]+/)) {
+        if (password.match(/[\W]/)) {
             strength += 1;
         }
         if (password.length >= 8) {
@@ -105,13 +113,16 @@
                 strengthBar.style.backgroundColor = 'red';
                 break;
             case 1:
+                strengthBar.style.width = '20%';
+                strengthBar.style.backgroundColor = 'red';
+                break;
             case 2:
                 strengthBar.style.width = '40%';
-                strengthBar.style.backgroundColor = 'red';
+                strengthBar.style.backgroundColor = 'orange';
                 break;
             case 3:
                 strengthBar.style.width = '60%';
-                strengthBar.style.backgroundColor = 'orange';
+                strengthBar.style.backgroundColor = 'yellow';
                 break;
             case 4:
                 strengthBar.style.width = '80%';
@@ -141,6 +152,51 @@
             submitButton.disabled = true;
         }
     }
+
+    function checkPasswordStrengthtwo() {
+        var password = document.getElementById('password').value;
+        var lowercaseSpan = document.getElementById('lowercase');
+        var uppercaseSpan = document.getElementById('uppercase');
+        var numberSpan = document.getElementById('number');
+        var specialSpan = document.getElementById('special');
+        var lengthSpan = document.getElementById('length');
+
+        // 소문자 검사
+        if (password.match(/[a-z]/)) {
+            lowercaseSpan.style.color = 'blue';
+        } else {
+            lowercaseSpan.style.color = 'gray';
+        }
+
+        // 대문자 검사
+        if (password.match(/[A-Z]/)) {
+            uppercaseSpan.style.color = 'blue';
+        } else {
+            uppercaseSpan.style.color = 'gray';
+        }
+
+        // 숫자 검사
+        if (password.match(/[0-9]/)) {
+            numberSpan.style.color = 'blue';
+        } else {
+            numberSpan.style.color = 'gray';
+        }
+
+        // 특수문자 검사
+        if (password.match(/[\W]/)) {
+            specialSpan.style.color = 'blue';
+        } else {
+            specialSpan.style.color = 'gray';
+        }
+
+        // 길이 검사
+        if (password.length >= 8) {
+            lengthSpan.style.color = 'blue';
+        } else {
+            lengthSpan.style.color = 'gray';
+        }
+    }
+
 </script>
 
 </body>

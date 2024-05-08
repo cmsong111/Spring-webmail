@@ -31,9 +31,9 @@
         <form method="POST" action="<c:url value="/login.do"/>" class="needs-validation" novalidate>
             <sec:csrfInput/>
             <div class="mb-3">
-                <label for="userid" class="form-label">사용자</label>
+                <label for="userid" class="form-label">아이디</label>
                 <input type="text" class="form-control" id="userid" name="userid" size="20" autofocus required>
-                <div class="invalid-feedback">사용자를 입력해주세요.</div>
+                <div class="invalid-feedback">아이디를 입력해주세요.</div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">암호</label>
