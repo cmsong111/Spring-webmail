@@ -10,6 +10,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="../css/mail_main_menu.css"/>
     <%@include file="../fragments/head.jspf" %>
     <title>주메뉴 화면</title>
     <script>
@@ -23,9 +25,8 @@
 <body>
 <%@include file="../fragments/header.jspf" %>
 
-
 <!-- 메시지 삭제 링크를 누르면 바로 삭제되어 실수할 수 있음. 해결 방법은? -->
-<div class="container mt-4">
+<div  class="container mt-4">
     <div class="row">
         <div class="col-md-3">
             <jsp:include page="../fragments/sidebar_menu.jsp"/>
