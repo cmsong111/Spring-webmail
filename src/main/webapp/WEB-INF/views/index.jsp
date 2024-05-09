@@ -18,9 +18,33 @@
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal.username" var="username"/>
-    <p>안녕하세요, <c:out value="${username}"/>님</p>
-    <a href="<c:url value="/mail"/>">메일함으로 가기</a>
-    <a href="<c:url value="/logout"/>">로그아웃</a>
+<%--<div class="container mt-4">--%>
+<%--    <div class="row">--%>
+<%--        <div class="card" style="width: auto;">--%>
+<%--            <dotlottie-player src="https://lottie.host/493aaf35-73e8-4e69-a2a4-b0d1875e082e/QX6Hs3wmqf.json" class="card-img-top" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>--%>
+<%--            <div class="card-body">--%>
+<%--                <p class="card-title fs-3 d-inline-flex p-2 justify-content-center">안녕하세요, <c:out value="${username}"/>님</p>--%>
+<%--                <a class="btn btn-outline-primary d-md-flex justify-content-center" href="<c:url value="/mail"/>">메일함으로 가기</a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--&lt;%&ndash;    <p class="text-center fs-3 d-inline-flex p-2 justify-content-center">안녕하세요, <c:out value="${username}"/>님</p>&ndash;%&gt;--%>
+<%--&lt;%&ndash;    <a class="btn btn-outline-primary d-md-flex justify-content-center" href="<c:url value="/mail"/>">메일함으로 가기</a>&ndash;%&gt;--%>
+<%--&lt;%&ndash;    <a href="<c:url value="/logout"/>">로그아웃</a>&ndash;%&gt;--%>
+<%--    </div>--%>
+<%--</div>--%>
+
+    <div class="container mt-4 d-flex justify-content-center">
+        <div class="row">
+            <div class="card" style="width: auto;">
+                <dotlottie-player src="https://lottie.host/493aaf35-73e8-4e69-a2a4-b0d1875e082e/QX6Hs3wmqf.json" class="card-img-top" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+                <div class="card-body">
+                    <p class="card-title fs-3 d-inline-flex p-2 justify-content-center">안녕하세요, <c:out value="${username}"/>님</p>
+                    <a class="btn btn-outline-primary d-md-flex justify-content-center" href="<c:url value="/mail"/>">메일함으로 가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </sec:authorize>
 
 <sec:authorize access="!isAuthenticated()">
@@ -45,5 +69,6 @@
 
 </sec:authorize>
 <%@include file="fragments/footer.jspf" %>
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </body>
 </html>
