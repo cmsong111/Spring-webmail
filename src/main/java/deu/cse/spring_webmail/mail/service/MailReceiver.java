@@ -164,7 +164,7 @@ public class MailReceiver {
      * 메일 Headers와 Body를 합쳐서 Blob으로 반환
      *
      * @param mailHeaders 메일 Headers
-     * @param MailBytes   메일 Body
+     * @param mailBytes   메일 Body
      * @return 합쳐진 Blob
      * @throws SQLException SQL 예외
      */

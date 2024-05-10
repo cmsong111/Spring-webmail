@@ -64,8 +64,8 @@ public class AdminController {
     }
 
     /**
-     * @param selectedUsers <input type=checkbox> 필드의 선택된 이메일 ID. 자료형: String[]
-     * @return
+     * @param selectedUsers : 삭제할 사용자 아이디 목록
+     * @return "redirect:/admin_menu" : 사용자 삭제 성공 시, 관리자 메뉴로 이동
      */
     @PostMapping("delete_user.do")
     public String deleteUserDo(@RequestParam String[] selectedUsers) {

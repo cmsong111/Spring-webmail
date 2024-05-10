@@ -37,7 +37,7 @@ public class MailBoxController {
      *
      * @param model       Model
      * @param principal   Principal
-     * @param mailBoxType 메일함 아이디 (1: 받은 메일함, 2: 보낸 메일함, 3: 임시보관함, 4: 휴지통)
+     * @param mailBoxTypeId 메일함 아이디 (1: 받은 메일함, 2: 보낸 메일함, 3: 임시보관함, 4: 휴지통)
      * @param page        페이지 번호
      * @param size        페이지 크기
      * @return 메일함 페이지
@@ -66,7 +66,7 @@ public class MailBoxController {
      *
      * @param model       Model
      * @param principal   Principal
-     * @param mailBoxType 메일함 아이디 (1: 받은 메일함, 2: 보낸 메일함, 3: 임시보관함, 4: 휴지통)
+     * @param mailBoxTypeId 메일함 아이디 (1: 받은 메일함, 2: 보낸 메일함, 3: 임시보관함, 4: 휴지통)
      * @param page        페이지 번호
      * @param size        페이지 크기
      * @return 메일함 페이지
