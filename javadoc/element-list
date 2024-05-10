@@ -1,0 +1,14 @@
+deu.cse.spring_webmail
+deu.cse.spring_webmail.admin
+deu.cse.spring_webmail.auth
+deu.cse.spring_webmail.configuration
+deu.cse.spring_webmail.exception
+deu.cse.spring_webmail.james
+deu.cse.spring_webmail.james.dto
+deu.cse.spring_webmail.mail.controller
+deu.cse.spring_webmail.mail.dto
+deu.cse.spring_webmail.mail.entity
+deu.cse.spring_webmail.mail.mapper
+deu.cse.spring_webmail.mail.repository
+deu.cse.spring_webmail.mail.service
+deu.cse.spring_webmail.user
