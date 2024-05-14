@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-9">
             <div>
-                <p>전체 메일 <a href="/mail/unread">${unread}</a> / ${total}</p>
+                <p>전체 메일 <a href="/mail/unread" style="color:black;">${unread}</a> / ${total}</p>
             </div>
             <table class="table table-bordered">
                 <caption>메일 목록</caption>
@@ -65,7 +65,7 @@
             <div> 페이지
                 <c:forEach var="i" begin="1" end="${total / size +1 }" step="1">
                     <c:if test="${i == page}">
-                        <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>"><b>${i}</b></a>
+                        <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>" style="color:black;"><b>${i}</b></a>
                     </c:if>
                     <c:if test="${i != page}">
                         <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>">${i}</a>
