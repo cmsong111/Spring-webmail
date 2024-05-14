@@ -10,7 +10,11 @@
             </svg>
             <span class="fs-4">웹 메일 시스템</span>
         </a>
-
+<span>
+    <head>
+    <link type="text/css" rel="stylesheet" href="../css/header.css"/>
+</head>
+</span>
         <ul class="nav nav-pills">
             <sec:authorize access="isAuthenticated()">
                 <li class="nav-item">
