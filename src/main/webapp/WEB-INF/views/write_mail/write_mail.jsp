@@ -13,6 +13,7 @@
 <html lang="ko">
 <%@include file="../fragments/head.jspf" %>
 <head>
+    <link type="text/css" rel="stylesheet" href="../css/mail_write.css"/>
     <title>메일 쓰기 화면</title>
     <script>
         // 임시 저장 버튼 클릭 시 이벤트 처리 "write_mail.temp"로 Post 요청
