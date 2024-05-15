@@ -52,7 +52,14 @@
                 <c:forEach var="message" items="${messageList}" varStatus="status">
                     <tr>
                         <td>${message.mailUid}</td>
-                        <td><a href="${mailBoxType}/${message.mailUid}">${message.mimeMessage.subject}</a></td>
+                        <c:choose>
+                            <c:when test="${mailBoxType == '/mail/3'}">
+                                <td><a href="${mailBoxType}/${message.mailUid}/draft">${message.mimeMessage.subject}</a></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><a href="${mailBoxType}/${message.mailUid}">${message.mimeMessage.subject}</a></td>
+                            </c:otherwise>
+                        </c:choose>
                         <td>${message.mimeMessage.from[0]}</td>
                         <td>${message.mailIsSeen}</td>
                         <td>${message.mailMimeType}</td>
