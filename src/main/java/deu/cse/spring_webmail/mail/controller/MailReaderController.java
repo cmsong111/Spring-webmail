@@ -48,6 +48,16 @@ public class MailReaderController {
         return "read_mail/show_message";
     }
 
+    @GetMapping("/{mailId}/draft")
+    public String getMailDraft(Model model,
+                               @PathVariable("mailId") Long mailId,
+                               @PathVariable("mailBoxType") int mailBoxType,
+                               Principal principal) {
+        model.addAttribute("message", mailReceiver.getMail(mailBoxType, mailId, principal.getName()));
+        model.addAttribute("id", mailId);
+        return "write_mail/write_mail";
+    }
+
     /**
      * 첨부파일 다운로드
      *
@@ -100,4 +110,5 @@ public class MailReaderController {
         mailManager.moveMail(principal.getName(), id, MailBoxType.INBOX, MailBoxType.TRASH);
         return "redirect:/mail/deleted";
     }
+
 }
