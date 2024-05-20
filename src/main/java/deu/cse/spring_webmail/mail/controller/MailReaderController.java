@@ -48,6 +48,16 @@ public class MailReaderController {
         return "read_mail/show_message";
     }
 
+    /**
+     * 임시 저장 메일 작성 페이지로 이동
+     *
+     * @param model       Model
+     * @param mailBoxType 메일 아이디
+     *                    (1: 받은 메일함, 2: 보낸 메일함, 3: 임시보관함, 4: 휴지통)
+     * @param mailId      메일 아이디
+     * @return 메일 자세히 보기 페이지
+     */
+    /* 현재 수신자와 제목 본문은 정상적으로 옮겨와지나, 임시저장을 시도한 메일의 경우 첨부파일이 저장이 안 되고 있어 이를 수정해야 함 */
     @GetMapping("/{mailId}/draft")
     public String getMailDraft(Model model,
                                @PathVariable("mailId") Long mailId,
@@ -108,7 +118,23 @@ public class MailReaderController {
             @PathVariable("mailBoxType") Long mailBoxId,
             @PathVariable("id") Long id, Principal principal) throws MessagingException,GeneralSecurityException {
         mailManager.moveMail(principal.getName(), id, MailBoxType.INBOX, MailBoxType.TRASH);
-        return "redirect:/mail/deleted";
+        return "redirect:/mail";
+    }
+
+
+    /**
+     * 메일 영구 삭제
+     *
+     * @param id 메일 아이디
+     * @return 메일함 페이지
+     */
+    /* 현재 정상적으로 동작 안 됨 (clearMail 실행시 메일함 경로에 '70'이 붙는 오류가 있음) */
+    @GetMapping("/{id}/clear")
+    public String clearMail(
+            @PathVariable("mailBoxType") Long mailBoxType,
+            @PathVariable("id") Long id, Principal principal, Model model) {
+        mailManager.deleteMail(principal.getName(), MailBoxType.TRASH, id);
+        return "redirect:/mail";
     }
 
 }

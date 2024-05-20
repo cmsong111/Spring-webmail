@@ -20,6 +20,18 @@
                 location.href = "/mail/" + mailboxUid + "/" + mailUid + "/delete";
             }
         }
+
+        function clearMail(mailboxUid, mailUid) {
+            if (confirm("영구 삭제하시겠습니까?")) {
+                location.href = "/mail/" + mailboxUid + "/" + mailUid + "/clear";
+            }
+        }
+
+        function restoreMail(mailboxUid, mailUid) {
+            if (confirm("메일을 복구하시겠습니까?")) {
+                location.href = "/mail/" + mailboxUid + "/" + mailUid + "/restore";
+            }
+        }
     </script>
 </head>
 <body>
@@ -46,12 +58,19 @@
                     <th scope="col">메일 분류</th>
                     <th scope="col">수신 날짜</th>
                     <th scope="col">삭제</th>
+                    <!-- 휴지통 화면에서 복구 버튼 목록 활성화 -->
+                    <c:choose>
+                        <c:when test="${mailBoxType == '/mail/4'}">
+                            <th scope="col">복구</th>
+                        </c:when>
+                    </c:choose>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="message" items="${messageList}" varStatus="status">
                     <tr>
                         <td>${message.mailUid}</td>
+                        <!-- 임시 보관함 화면에서 메일 작성 페이지로 이동 활성화 -->
                         <c:choose>
                             <c:when test="${mailBoxType == '/mail/3'}">
                                 <td><a href="${mailBoxType}/${message.mailUid}/draft">${message.mimeMessage.subject}</a></td>
@@ -64,7 +83,21 @@
                         <td>${message.mailIsSeen}</td>
                         <td>${message.mailMimeType}</td>
                         <td>${message.mailDate}</td>
-                        <td><a href="javascript:deleteMail(${message.mailboxMailboxId}, ${message.mailUid})">삭제</a></td>
+                        <!-- 휴지통 화면에서 메일 영구 삭제 버튼 활성화 -->
+                        <c:choose>
+                            <c:when test="${mailBoxType == '/mail/4'}">
+                                <td><a href="javascript:clearMail(${message.mailboxMailboxId}, ${message.mailUid})">삭제</a></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><a href="javascript:deleteMail(${message.mailboxMailboxId}, ${message.mailUid})">삭제</a></td>
+                            </c:otherwise>
+                        </c:choose>
+                        <!-- 휴지통 화면에서 복구 버튼 활성화 -->
+                        <c:choose>
+                            <c:when test="${mailBoxType == '/mail/4'}">
+                                <td><a href="javascript:restoreMail(${message.mailboxMailboxId}, ${message.mailUid})">복구</a></td>
+                            </c:when>
+                        </c:choose>
                     </tr>
                 </c:forEach>
                 </tbody>
