@@ -17,6 +17,9 @@
 </span>
         <ul class="nav nav-pills">
             <sec:authorize access="isAuthenticated()">
+                <li class="nav-item"><span class="nav-link">안녕하세요, <sec:authentication property="name"/>님</span></li>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
                 <li class="nav-item">
                     <form action="<c:url value="/logout"/>" method="post">
                         <sec:csrfInput/>
