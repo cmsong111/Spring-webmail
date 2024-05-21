@@ -223,9 +223,8 @@ public class MailReceiver {
             // 첨부파일을 찾아서 반환
             for (int i = 0; i < multipart.getCount(); i++) {
                 MimeBodyPart bodyPart = (MimeBodyPart) multipart.getBodyPart(i);
-                if (!bodyPart.getContentType().startsWith("text")) {
+                if (!bodyPart.getContentType().equals("text/html")) {
                     attachments.add(bodyPart.getFileName());
-
                     // 첨부파일을 서버의 임시 디렉토리에 저장
                     File attachment = new File(downloadFolder + File.separator + mailUid + File.separator + bodyPart.getFileName());
                     attachment.getParentFile().mkdirs();
