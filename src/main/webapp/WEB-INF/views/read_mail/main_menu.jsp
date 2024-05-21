@@ -26,7 +26,7 @@
 <%@include file="../fragments/header.jspf" %>
 
 <!-- 메시지 삭제 링크를 누르면 바로 삭제되어 실수할 수 있음. 해결 방법은? -->
-<div  class="container mt-4">
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-3">
             <jsp:include page="../fragments/sidebar_menu.jsp"/>
@@ -63,7 +63,9 @@
                 </tbody>
             </table>
             <div> 페이지
-                <c:forEach var="i" begin="1" end="${total / size +1 }" step="1">
+                <%-- page 수는 total/size의 나머지가 0 이면 +1 안하고, 0이 아니면 +1 해준다. --%>
+
+                <c:forEach var="i" begin="1" end="${ (total % size == 0) ? total / size : total / size + 1}" step="1">
                     <c:if test="${i == page}">
                         <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>" style="color:black;"><b>${i}</b></a>
                     </c:if>

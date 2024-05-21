@@ -28,6 +28,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -88,7 +89,11 @@ public class MailReceiver {
      * @return 사용자 메일함에 있는 모든 메일의 개수
      */
     public Long getCountMailAtMailbox(String userName, MailBoxType mailboxName) {
-        return jamesAdminMailBox.getMailCount(userName, mailboxName.name()).longValue();
+        Optional<MailBox> mailBox = mailBoxRepository.findByUserNameAndMailboxName(userName, mailboxName.name());
+        if (mailBox.isEmpty()) {
+            return 0L;
+        }
+        return mailRepository.countByMailbox(mailBox.get());
     }
 
     /**
@@ -99,7 +104,11 @@ public class MailReceiver {
      * @return 사용자 메일함에 있는 읽지 않은 메일의 개수
      */
     public Long getCountUnReadMailAtMailbox(String userName, MailBoxType mailboxName) {
-        return jamesAdminMailBox.getUnseenMailCount(userName, mailboxName.name()).longValue();
+        Optional<MailBox> mailBox = mailBoxRepository.findByUserNameAndMailboxName(userName, mailboxName.name());
+        if (mailBox.isEmpty()) {
+            return 0L;
+        }
+        return mailRepository.countByMailboxAndMailIsSeen(mailBox.get(), false);
     }
 
 
