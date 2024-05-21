@@ -74,6 +74,9 @@ public class MailWriteController {
                                 @RequestParam(name = "file1", required = false) MultipartFile upFile,
                                 RedirectAttributes attrs, Principal principal) {
         List<MultipartFile> files = new ArrayList<>();
+        if (!upFile.isEmpty()) {
+            files.add(upFile);
+        }
         String result = emailSender.saveTempMail(principal.getName(), to, cc, subj, body, files);
         attrs.addFlashAttribute("msg", result);
         return "redirect:/mail";

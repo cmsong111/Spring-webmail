@@ -16,15 +16,15 @@
     <%@include file="../fragments/head.jspf" %>
     <title>주메뉴 화면</title>
     <script>
-        function deleteMail(mailboxUid, mailUid) {
+        function deleteMail(mailBoxType, mailUid) {
             if (confirm("정말 삭제하시겠습니까?")) {
-                location.href = "/mail/" + mailboxUid + "/" + mailUid + "/delete";
+                location.href = mailBoxType + "/" + mailUid + "/delete";
             }
         }
 
         function clearMail(mailboxUid, mailUid) {
             if (confirm("영구 삭제하시겠습니까?")) {
-                location.href = "/mail/" + mailboxUid + "/" + mailUid + "/clear";
+                location.href = mailboxUid + "/" + mailUid + "/clear";
             }
         }
 
@@ -33,6 +33,7 @@
                 location.href = "/mail/" + mailboxUid + "/" + mailUid + "/restore";
             }
         }
+
         function formatDate(dateStr) {
             var date = new Date(dateStr);
 
@@ -105,16 +106,24 @@
                             </c:otherwise>
                         </c:choose>
                         <td style="text-align: center;">${message.mailIsSeen}</td>
-                        <td style="text-align: center;"><script>document.write(formatDate("${message.mailDate}"));</script></td>
+                        <td style="text-align: center;">
+                            <script>document.write(formatDate("${message.mailDate}"));</script>
+                        </td>
 
                         <!-- 휴지통 화면에서 메일 영구 삭제 버튼 활성화 -->
                         <c:choose>
-                            <c:when test="${mailBoxType == '/mail/4'}">
-                                <td style="text-align: center;"><a href="javascript:clearMail(${message.mailboxMailboxId}, ${message.mailUid})">삭제</a></td>
+                            <c:when test="${mailBoxType == '/mail/1'}">
+                                <td style="text-align: center;"><a href="javascript:deleteMail('${mailBoxType}', ${message.mailUid})">삭제</a></td>
                             </c:when>
-                            <c:otherwise>
-                                <td style="text-align: center;"><a href="javascript:deleteMail(${message.mailboxMailboxId}, ${message.mailUid})">삭제</a></td>
-                            </c:otherwise>
+                            <c:when test="${mailBoxType == '/mail/2'}">
+                                <td style="text-align: center;"><a href="javascript:clearMail(2, ${message.mailUid})">영구 삭제</a></td>
+                            </c:when>
+                            <c:when test="${mailBoxType == '/mail/3'}">
+                                <td style="text-align: center;"><a href="javascript:clearMail(3, ${message.mailUid})">영구 삭제</a></td>
+                            </c:when>
+                            <c:when test="${mailBoxType == '/mail/4'}">
+                                <td style="text-align: center;"><a href="javascript:clearMail(4, ${message.mailUid})">영구 삭제</a></td>
+                            </c:when>
                         </c:choose>
                         <!-- 휴지통 화면에서 복구 버튼 활성화 -->
                         <c:choose>
@@ -127,7 +136,9 @@
                 </tbody>
             </table>
             <div> 페이지
-                <c:forEach var="i" begin="1" end="${total / size +1 }" step="1">
+                <%-- page 수는 total/size의 나머지가 0 이면 +1 안하고, 0이 아니면 +1 해준다. --%>
+
+                <c:forEach var="i" begin="1" end="${ (total % size == 0) ? total / size : total / size + 1}" step="1">
                     <c:if test="${i == page}">
                         <a href="<c:url value="${pageContext.request.contextPath}${type}?page=${i}"/>" style="color:black;"><b>${i}</b></a>
                     </c:if>
