@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.angus.mail.imap.IMAPFolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.GeneralSecurityException;
 import java.util.Properties;
@@ -70,11 +71,16 @@ public class MailManager {
      * @param toMailBox 삭제할 메일함
      * @param mailId    메일 아이디
      */
+    @Transactional
     public void deleteMail(String userName, MailBoxType toMailBox, Long mailId) {
         MailBox mailBox = mailBoxRepository.findByUserNameAndMailboxName(userName, toMailBox.getMailBoxName()).orElseThrow();
-        Mail.MailKey mailKey = new Mail.MailKey(mailId, mailBox.getMailboxId());
+        Mail.MailKey mailKey = new Mail.MailKey(mailBox.getMailboxId(), mailId);
 
+
+        log.info("mailBoxId: {}, mailId: {}", mailKey.getMailboxMailboxId(), mailKey.getMailUid());
         Mail mail = mailRepository.findById(mailKey).orElseThrow();
-        mailRepository.delete(mail);
+
+        mail.setMailIsDeleted(true);
+        mailRepository.save(mail);
     }
 }

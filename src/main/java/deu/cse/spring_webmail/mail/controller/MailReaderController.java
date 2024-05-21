@@ -131,9 +131,9 @@ public class MailReaderController {
     /* 현재 정상적으로 동작 안 됨 (clearMail 실행시 메일함 경로에 '70'이 붙는 오류가 있음) */
     @GetMapping("/{id}/clear")
     public String clearMail(
-            @PathVariable("mailBoxType") Long mailBoxType,
-            @PathVariable("id") Long id, Principal principal, Model model) {
-        mailManager.deleteMail(principal.getName(), MailBoxType.TRASH, id);
+            @PathVariable("mailBoxType") int mailBoxType,
+            @PathVariable("id") Long id, Principal principal) {
+        mailManager.deleteMail(principal.getName(), MailBoxType.fromValue(mailBoxType), id);
         return "redirect:/mail";
     }
 

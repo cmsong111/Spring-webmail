@@ -41,4 +41,6 @@ public interface MailRepository extends JpaRepository<Mail, Mail.MailKey> {
      */
     @Query(value = "select * from JAMES_MAIL where MAILBOX_ID = ?1 and MAIL_IS_DELETED = true", nativeQuery = true)
     List<Mail> findDeletedMailByMailBoxId(Long mailboxId);
+
+
 }
