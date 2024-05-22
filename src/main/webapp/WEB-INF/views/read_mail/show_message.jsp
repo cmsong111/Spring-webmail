@@ -12,6 +12,12 @@
 <jsp:include page="../fragments/head.jspf"/>
 <head>
     <title>메일 보기 화면</title>
+    <style>
+
+        .table-bordered{
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
 <%@include file="../fragments/header.jspf" %>
@@ -34,7 +40,7 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 ">
                             <table class="table table-bordered">
                                 <caption>메일</caption>
                                 <tr>
@@ -62,7 +68,7 @@
                                 </c:if>
                                 <tr>
                                     <th>내용</th>
-                                    <td>${message.mailContent}</td>
+                                    <td style="word-break:break-all; max-height: 300px; overflow-y: auto">${message.mailContent}</td>
                                 </tr>
                             </table>
                         </div>
