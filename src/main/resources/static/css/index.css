@@ -1,0 +1,23 @@
+#login_form{
+    margin: auto;
+    width:40%;
+    position: relative;
+    padding:20px;
+}
+#mb-3-style{
+    width: 70%;
+    margin: auto;
+}
+
+#userid, #password{
+    width:90%;
+    height: 40px;
+}
+button{
+    position: relative;
+    left:20.5%;
+    top:25px;
+}
+label{
+    font-size: 15px;
+}
