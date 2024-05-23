@@ -1,8 +1,11 @@
 #login_form{
     margin: auto;
-    width:40%;
+    width:34%;
+    height: 300px;
     position: relative;
     padding:20px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 #mb-3-style{
     width: 70%;
@@ -15,7 +18,7 @@
 }
 button{
     position: relative;
-    left:20.5%;
+    left:17%;
     top:25px;
 }
 label{
