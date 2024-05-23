@@ -23,6 +23,26 @@
             form.submit();
             console.log('임시 저장')
         }
+
+        // 메일 보내기 버튼 클릭 시 폼 유효성 검사
+        function validateForm(event) {
+            const to = document.getElementById('to').value.trim();
+            const subj = document.getElementById('subj').value.trim();
+
+            if (to === "") {
+                alert("수신자를 입력하세요.");
+                event.preventDefault();
+                return false;
+            }
+
+            if (subj === "") {
+                alert("메일 제목을 입력하세요.");
+                event.preventDefault();
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </head>
 <body>
@@ -37,7 +57,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">메일 쓰기</h5>
-                    <form enctype="multipart/form-data" method="POST" action="write_mail.do" id="write_mail_form">
+                    <form enctype="multipart/form-data" method="POST" action="write_mail.do" id="write_mail_form" onsubmit="return validateForm(event)">
                         <sec:csrfInput/>
                         <div class="mb-3">
                             <label for="to" class="form-label">수신</label>
