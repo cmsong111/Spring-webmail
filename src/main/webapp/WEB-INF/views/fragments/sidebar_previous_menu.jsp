@@ -20,7 +20,7 @@
 
 <span class="user_name">
                 <sec:authentication property="principal.username" var="username"/>
-                <strong>${username}<span style="font-size: 17px">님</span> </strong>
+                ${username}<span style="font-size: 17px">님</span>
         </span> <br> <br>
 
 <a href="mail" id="previous_link" class="btn btn-primary"> 돌아가기 </a>

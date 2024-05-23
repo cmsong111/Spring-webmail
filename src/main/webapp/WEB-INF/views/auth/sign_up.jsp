@@ -51,8 +51,10 @@
                 <sec:csrfInput />
                 <div class="form-group col-md-6">
                     <label for="username">아이디</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요" oninput="checkEmailFormat();">
+                    <span id="email-feedback" style="font-size: 14px;"></span> <!-- 이메일 형식 피드백을 위한 span 태그 추가 -->
                 </div>
+
 
                 <div class="form-group col-md-6">
                     <label for="password">비밀번호</label>
@@ -194,6 +196,24 @@
             lengthSpan.style.color = 'blue';
         } else {
             lengthSpan.style.color = 'gray';
+        }
+    }
+    function checkEmailFormat() {
+        var email = document.getElementById('username').value;
+        var emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식을 검사하는 정규 표현식
+        var submitButton = document.getElementById("submit-button");
+        var emailFeedback = document.getElementById("email-feedback"); // span 태그 선택
+
+        if(emailFormat.test(email)) {
+            // 이메일 형식이 올바른 경우
+            submitButton.disabled = false; // 회원가입 버튼 활성화
+            emailFeedback.textContent = "이메일 형식이 맞습니다"; // 피드백 메시지 업데이트
+            emailFeedback.style.color = "green"; // 텍스트 색상을 녹색으로 설정
+        } else {
+            // 이메일 형식이 올바르지 않은 경우
+            submitButton.disabled = true; // 회원가입 버튼 비활성화
+            emailFeedback.textContent = "이메일 형식이 맞지 않습니다"; // 피드백 메시지 업데이트
+            emailFeedback.style.color = "red"; // 텍스트 색상을 빨간색으로 설정
         }
     }
 
