@@ -57,15 +57,14 @@ public class MailReaderController {
      * @param mailId      메일 아이디
      * @return 메일 자세히 보기 페이지
      */
-    /* 현재 수신자와 제목 본문은 정상적으로 옮겨와지나, 임시저장을 시도한 메일의 경우 첨부파일이 저장이 안 되고 있어 이를 수정해야 함 */
-    @GetMapping("/{mailId}/draft")
-    public String getMailDraft(Model model,
+    @GetMapping("/{mailId}/edit")
+    public String getMailEdit(Model model,
                                @PathVariable("mailId") Long mailId,
                                @PathVariable("mailBoxType") int mailBoxType,
                                Principal principal) {
         model.addAttribute("message", mailReceiver.getMail(mailBoxType, mailId, principal.getName()));
         model.addAttribute("id", mailId);
-        return "write_mail/write_mail";
+        return "write_mail/write_mail_edit";
     }
 
     /**
@@ -128,7 +127,6 @@ public class MailReaderController {
      * @param id 메일 아이디
      * @return 메일함 페이지
      */
-    /* 현재 정상적으로 동작 안 됨 (clearMail 실행시 메일함 경로에 '70'이 붙는 오류가 있음) */
     @GetMapping("/{id}/clear")
     public String clearMail(
             @PathVariable("mailBoxType") int mailBoxType,

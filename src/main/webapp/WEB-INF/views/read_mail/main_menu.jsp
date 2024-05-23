@@ -99,7 +99,7 @@
                         <!-- 임시 보관함 화면에서 메일 작성 페이지로 이동 활성화 -->
                         <c:choose>
                             <c:when test="${mailBoxType == '/mail/3'}">
-                                <td><a href="${mailBoxType}/${message.mailUid}/draft">${message.mimeMessage.subject}</a></td>
+                                <td><a href="${mailBoxType}/${message.mailUid}/edit">${message.mimeMessage.subject}</a></td>
                             </c:when>
                             <c:otherwise>
                                 <td><a href="${mailBoxType}/${message.mailUid}">${message.mimeMessage.subject}</a></td>
