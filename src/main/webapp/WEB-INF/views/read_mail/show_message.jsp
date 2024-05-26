@@ -42,6 +42,10 @@
                                     <td>${message.mimeMessage.from[0]}</td>
                                 </tr>
                                 <tr>
+                                    <th>받는 사람</th>
+                                    <td><c:forEach var="recipient" items="${message.to}">${recipient}<c:if test="${recipient != message.to[message.to.size() - 1]}">, </c:if></c:forEach></td>
+                                </tr>
+                                <tr>
                                     <th>보낸 시간</th>
                                     <td>${message.mailDate}</td>
                                 </tr>

@@ -1,6 +1,7 @@
 package deu.cse.spring_webmail.mail.controller;
 
 import deu.cse.spring_webmail.mail.dto.MailBoxType;
+import deu.cse.spring_webmail.mail.dto.MailDto;
 import deu.cse.spring_webmail.mail.service.MailManager;
 import deu.cse.spring_webmail.mail.service.MailReceiver;
 import jakarta.mail.MessagingException;
@@ -66,6 +67,18 @@ public class MailReaderController {
         model.addAttribute("id", mailId);
         return "write_mail/write_mail_edit";
     }
+
+    @GetMapping("/{mailId}/reply")
+    public String getMailReply(Model model,
+                               @PathVariable("mailId") Long mailId,
+                               @PathVariable("mailBoxType") int mailBoxType,
+                               Principal principal) {
+        MailDto message = mailReceiver.getMail(mailBoxType, mailId, principal.getName());
+        model.addAttribute("message", message);
+        model.addAttribute("id", mailId);
+        return "write_mail/write_mail_reply";
+    }
+
 
     /**
      * 첨부파일 다운로드
