@@ -6,6 +6,7 @@ deu.cse.spring_webmail.contacts
 deu.cse.spring_webmail.exception
 deu.cse.spring_webmail.james
 deu.cse.spring_webmail.james.dto
+deu.cse.spring_webmail.mail
 deu.cse.spring_webmail.mail.controller
 deu.cse.spring_webmail.mail.dto
 deu.cse.spring_webmail.mail.entity
