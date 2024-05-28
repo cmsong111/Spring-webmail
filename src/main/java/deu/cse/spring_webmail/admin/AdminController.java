@@ -25,7 +25,6 @@ public class AdminController {
     AuthService authService;
 
     @GetMapping("/admin_menu")
-
     public String adminMenu(Model model) {
         model.addAttribute("userList", authService.getUserList());
         return "admin/admin_menu";
