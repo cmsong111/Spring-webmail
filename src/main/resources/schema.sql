@@ -5,7 +5,7 @@ create table IF NOT EXISTS User_roles
     FOREIGN KEY (User_USER_NAME) REFERENCES JAMES_USER(USER_NAME)
 );
 
-CREATE TABLE IF NOT EXISTS contact
+CREATE TABLE IF NOT EXISTS Contact
 (
     id               BIGINT NOT NULL auto_increment PRIMARY KEY,
     nickname         VARCHAR(255),

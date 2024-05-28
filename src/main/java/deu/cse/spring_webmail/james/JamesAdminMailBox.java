@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * James Admin Mail Box 관리 컴포넌트
+ */
 @Component
 public class JamesAdminMailBox {
     RestTemplate restTemplate = new RestTemplate();

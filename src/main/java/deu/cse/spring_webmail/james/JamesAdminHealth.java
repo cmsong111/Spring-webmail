@@ -7,14 +7,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * James Admin Health Check
+ */
 @Component
 public class JamesAdminHealth {
     RestTemplate restTemplate = new RestTemplate();
 
 
+    /**
+     * James Web Admin URL
+     */
     @Value("${james.admin.host}")
     String jamesWebAdminUrl;
 
+    /**
+     * James Web Admin Port
+     */
     @Value("${james.admin.port}")
     Integer jamesWebAdminPort;
 

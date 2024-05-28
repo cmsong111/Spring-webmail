@@ -15,6 +15,9 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * 매일 엔티티와 매일 DTO 사이의 매핑을 처리하는 매퍼 인터페이스
+ */
 @Mapper(componentModel = "spring")
 public interface MailMapper {
 

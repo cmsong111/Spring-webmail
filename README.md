@@ -2,7 +2,7 @@
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
 [![Test CI](https://github.com/cmsong111/Spring-webmail/actions/workflows/sonar_cloud.yml/badge.svg)](https://github.com/cmsong111/Spring-webmail/actions/workflows/sonar_cloud.yml)
-[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://cmsong111.github.io/Spring-webmail/)
+[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://cmsong111.github.io/Spring-webmail/deu/cse/spring_webmail/package-summary.html)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Spring-webmail&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cmsong111_Spring-webmail)

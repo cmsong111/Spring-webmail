@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 메일을 받아오는 클래스
+ */
 @Slf4j
 @Service
 public class MailReceiver {
@@ -43,13 +46,34 @@ public class MailReceiver {
         this.jamesAdminMailBox = jamesAdminMailBox;
     }
 
+    /**
+     * 메일 변환 매퍼
+     */
     private final MailMapper mailMapper;
+
+    /**
+     * 메일 레포지토리
+     */
     private final MailRepository mailRepository;
+
+    /**
+     * 메일함 레포지토리
+     */
     private final MailBoxRepository mailBoxRepository;
+
+    /**
+     * 페이지네이션을 위한 메일 레포지토리
+     */
     private final MailPageableRepository mailPageableRepository;
+
+    /**
+     * James 관리자 메일함
+     */
     private final JamesAdminMailBox jamesAdminMailBox;
 
-    // file.download_folder = Base directory for storing attachments
+    /**
+     * 다운로드 폴더 경로
+     */
     @Value("${file.download_folder}")
     private String downloadFolder;
 

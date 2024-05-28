@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.util.List;
 
+/**
+ * 메일함 엔티티
+ */
 @Getter
 @Setter
 @Builder
@@ -13,6 +16,9 @@ import java.util.List;
 @Entity
 @Table(name = "JAMES_MAILBOX")
 public class MailBox {
+    /**
+     * 메일함 ID
+     */
     @Id
     @Column(name = "MAILBOX_ID", nullable = false)
     private Long mailboxId;
@@ -23,6 +29,9 @@ public class MailBox {
     @Column(name = "MAILBOX_LAST_UID")
     private Long mailboxLastUid;
 
+    /**
+     * 메일함 이름
+     */
     @Column(name = "MAILBOX_NAME", nullable = false)
     private String mailboxName;
 
@@ -32,9 +41,15 @@ public class MailBox {
     @Column(name = "MAILBOX_UID_VALIDITY", nullable = false)
     private Long mailboxUidValidity;
 
+    /**
+     * 소유자 이름
+     */
     @Column(name = "USER_NAME")
     private String userName;
 
+    /**
+     * 메일 목록(1:N)
+     */
     @OneToMany(mappedBy = "mailbox", fetch = FetchType.LAZY)
     private List<Mail> mails;
 }
