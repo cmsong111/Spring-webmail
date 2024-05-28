@@ -2,6 +2,7 @@ deu.cse.spring_webmail
 deu.cse.spring_webmail.admin
 deu.cse.spring_webmail.auth
 deu.cse.spring_webmail.configuration
+deu.cse.spring_webmail.contacts
 deu.cse.spring_webmail.exception
 deu.cse.spring_webmail.james
 deu.cse.spring_webmail.james.dto
