@@ -7,9 +7,17 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+/**
+ * 메일 설정을 위한 클래스
+ */
 @Configuration
 public class MailConfig {
 
+    /**
+     * JavaMailSender 빈을 생성합니다.
+     *
+     * @return JavaMailSender 빈
+     */
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -19,6 +27,11 @@ public class MailConfig {
         return mailSender;
     }
 
+    /**
+     * 메일 속성을 설정합니다.
+     *
+     * @return 메일 속성
+     */
     protected Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty("mail.debug", "false");

@@ -4,6 +4,9 @@ import deu.cse.spring_webmail.user.User;
 
 import java.util.List;
 
+/**
+ * 인증 서비스 인터페이스 (사용자 관리)
+ */
 public interface AuthService {
 
     /**

@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+/**
+ * 관리자 컨트롤러
+ */
 @Slf4j
 @Controller
 //@RequestMapping("/admin")
@@ -24,17 +27,36 @@ public class AdminController {
     AdminService adminService;
     AuthService authService;
 
+    /**
+     * 관리자 메뉴를 보여주는 페이지
+     *
+     * @param model : 사용자 목록을 전달하기 위한 Model 객체
+     * @return 관리자 메뉴 페이지
+     */
     @GetMapping("/admin_menu")
     public String adminMenu(Model model) {
         model.addAttribute("userList", authService.getUserList());
         return "admin/admin_menu";
     }
 
+    /**
+     * 사용자 추가 페이지 보여주기
+     *
+     * @return 사용자 추가 페이지
+     */
     @GetMapping("/add_user")
     public String addUser() {
         return "admin/add_user";
     }
 
+    /**
+     * 사용자 추가
+     *
+     * @param username : 사용자 아이디
+     * @param password : 사용자 비밀번호
+     * @param attrs    : 사용자 추가 성공 여부 메시지 전달을 위한 RedirectAttributes 객체
+     * @return "redirect:/admin_menu" : 사용자 추가 성공 시, 관리자 메뉴로 이동
+     */
     @PostMapping("/add_user.do")
     public String addUserDo(String username, String password,
                             RedirectAttributes attrs) {

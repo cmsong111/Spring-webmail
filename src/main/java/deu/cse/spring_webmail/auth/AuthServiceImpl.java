@@ -27,12 +27,17 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isAvailableUserId(String userid) {
         return !jamesWebAdmin.testUserExist(userid);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean addUser(LoginForm loginForm) {
         // If the user already exists, return false
@@ -56,12 +61,18 @@ public class AuthServiceImpl implements AuthService {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean authenticate(LoginForm loginForm) {
         User user = userRepository.findById(loginForm.username()).orElse(null);
         return user != null && passwordEncoder.matches(loginForm.password(), user.getPassword());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean deleteUser(String userid) {
         if (userRepository.findById(userid).isPresent()) {
@@ -71,6 +82,9 @@ public class AuthServiceImpl implements AuthService {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User changePassword(String userid, String newPassword) {
         User user = userRepository.findById(userid).orElse(null);
@@ -84,6 +98,9 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User changePassword(String userid, String oldPassword, String newPassword) {
         User user = userRepository.findById(userid).orElse(null);
@@ -95,6 +112,9 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getUserList() {
         return userRepository.findAll();
