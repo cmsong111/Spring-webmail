@@ -60,7 +60,7 @@ public class ContactService {
      *
      * @param id       연락처 고유번호
      * @param nickname 친구 별명
-     * @param partner  친구 아이디
+     * @param email    친구 이메일
      * @return 친구 수정 결과
      */
     String editContact(Long id, String email, String nickname) {
