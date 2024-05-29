@@ -44,6 +44,9 @@ public class MailWriteController {
     public String writeMail(
             @RequestParam(value = "mail", required = false) String mail,
             Model model) {
+        //mail이 null일 때 예외처리
+        if (mail == null) {mail = "";}
+
         if (!mail.contains("@")) {
             mail += "@localhost";
         }
