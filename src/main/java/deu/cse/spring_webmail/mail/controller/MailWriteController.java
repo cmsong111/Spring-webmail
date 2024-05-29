@@ -41,7 +41,13 @@ public class MailWriteController {
     }
 
     @GetMapping("/write_mail")
-    public String writeMail() {
+    public String writeMail(
+            @RequestParam(value = "mail", required = false) String mail,
+            Model model) {
+        if (!mail.contains("@")) {
+            mail += "@localhost";
+        }
+        model.addAttribute("mail", mail);
         return "write_mail/write_mail";
     }
 

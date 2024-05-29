@@ -61,7 +61,7 @@
                         <sec:csrfInput/>
                         <div class="mb-3">
                             <label for="to" class="form-label">수신</label>
-                            <input type="text" class="form-control" id="to" name="to" aria-describedby="toHelp">
+                            <input type="text" class="form-control" id="to" name="to" aria-describedby="toHelp" value="${mail}">
                             <div id="toHelp" class="form-text">여러 수신자는 쉼표로 구분하세요.</div>
                         </div>
                         <div class="mb-3">
