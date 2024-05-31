@@ -139,6 +139,19 @@
 </div>
 
 <script>
+
+    function validateUsername(){
+        var username = document.getElementById("username").value.trim();
+        var submitButton = document.getElementById("submit-button");
+
+        if(username === ""){
+            submitButton.disabled = true;
+        }else{
+            submitButton.disabled = false ;
+        }
+
+    }
+
     function checkPasswordStrength() {
         var strengthBar = document.getElementById('password-strength-bar');
         var password = document.getElementById('password').value;
