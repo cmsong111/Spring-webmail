@@ -1,8 +1,3 @@
-<%-- 
-    Document   : write_mail.jsp
-    Author     : jongmin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -15,7 +10,7 @@
 <%@include file="../fragments/head.jspf" %>
 <head>
     <link type="text/css" rel="stylesheet" href="../css/mail_write.css"/>
-    <title>메일 쓰기 화면</title>
+    <title>메일 답장하기 화면</title>
     <script>
         // 임시 저장 버튼 클릭 시 이벤트 처리 "write_mail.temp"로 Post 요청
         function saveMailtoTemp() {
@@ -23,26 +18,6 @@
             form.action = '/write_mail.temp';
             form.submit();
             console.log('임시 저장')
-        }
-
-        // 메일 보내기 버튼 클릭 시 폼 유효성 검사
-        function validateForm(event) {
-            const to = document.getElementById('to').value.trim();
-            const subj = document.getElementById('subj').value.trim();
-
-            if (to === "") {
-                alert("수신자를 입력하세요.");
-                event.preventDefault();
-                return false;
-            }
-
-            if (subj === "") {
-                alert("메일 제목을 입력하세요.");
-                event.preventDefault();
-                return false;
-            }
-
-            return true;
         }
     </script>
 </head>
@@ -71,11 +46,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="subj" class="form-label">메일 제목</label>
-                            <input type="text" class="form-control" id="subj" name="subj" value="${message.mimeMessage.subject}">
+                            <input type="text" class="form-control" id="subj" name="subj" value="RE: ${message.mimeMessage.subject}">
                         </div>
                         <div class="mb-3">
                             <label for="body" class="form-label">본문</label>
-                            <textarea class="form-control" id="body" name="body" rows="10">${message.mailContent}</textarea>
+                            <textarea class="form-control" id="body" name="body" rows="10">-----Original Message-----
+From: <${message.from}>
+To: <<c:forEach var="recipient" items="${message.to}">${recipient}<c:if test="${recipient != message.to[message.to.size() - 1]}">, </c:if></c:forEach>>;
+Cc:
+Sent: ${message.mailDate}
+Subject: ${message.mimeMessage.subject}
+
+${message.mailContent}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="file1" class="form-label">첨부 파일</label>

@@ -1,6 +1,7 @@
 package deu.cse.spring_webmail.mail.controller;
 
 import deu.cse.spring_webmail.mail.dto.MailBoxType;
+import deu.cse.spring_webmail.mail.dto.MailDto;
 import deu.cse.spring_webmail.mail.service.MailManager;
 import deu.cse.spring_webmail.mail.service.MailReceiver;
 import jakarta.mail.MessagingException;
@@ -47,6 +48,37 @@ public class MailReaderController {
         model.addAttribute("id", mailId);
         return "read_mail/show_message";
     }
+
+    /**
+     * 임시 저장 메일 작성 페이지로 이동
+     *
+     * @param model       Model
+     * @param mailBoxType 메일 아이디
+     *                    (1: 받은 메일함, 2: 보낸 메일함, 3: 임시보관함, 4: 휴지통)
+     * @param mailId      메일 아이디
+     * @return 메일 자세히 보기 페이지
+     */
+    @GetMapping("/{mailId}/edit")
+    public String getMailEdit(Model model,
+                               @PathVariable("mailId") Long mailId,
+                               @PathVariable("mailBoxType") int mailBoxType,
+                               Principal principal) {
+        model.addAttribute("message", mailReceiver.getMail(mailBoxType, mailId, principal.getName()));
+        model.addAttribute("id", mailId);
+        return "write_mail/write_mail_edit";
+    }
+
+    @GetMapping("/{mailId}/reply")
+    public String getMailReply(Model model,
+                               @PathVariable("mailId") Long mailId,
+                               @PathVariable("mailBoxType") int mailBoxType,
+                               Principal principal) {
+        MailDto message = mailReceiver.getMail(mailBoxType, mailId, principal.getName());
+        model.addAttribute("message", message);
+        model.addAttribute("id", mailId);
+        return "write_mail/write_mail_reply";
+    }
+
 
     /**
      * 첨부파일 다운로드
@@ -98,6 +130,22 @@ public class MailReaderController {
             @PathVariable("mailBoxType") Long mailBoxId,
             @PathVariable("id") Long id, Principal principal) throws MessagingException,GeneralSecurityException {
         mailManager.moveMail(principal.getName(), id, MailBoxType.INBOX, MailBoxType.TRASH);
-        return "redirect:/mail/deleted";
+        return "redirect:/mail";
     }
+
+
+    /**
+     * 메일 영구 삭제
+     *
+     * @param id 메일 아이디
+     * @return 메일함 페이지
+     */
+    @GetMapping("/{id}/clear")
+    public String clearMail(
+            @PathVariable("mailBoxType") int mailBoxType,
+            @PathVariable("id") Long id, Principal principal) {
+        mailManager.deleteMail(principal.getName(), MailBoxType.fromValue(mailBoxType), id);
+        return "redirect:/mail";
+    }
+
 }

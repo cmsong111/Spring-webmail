@@ -36,5 +36,15 @@ public class MailDto {
     private MimeMessage mimeMessage;
     private String mailContent;
     private List<String> attachments;
+    private List<String> to;
+    private String from;
+
+    public List<String> getTo() {
+        return to;
+    }
+
+    public String getFrom() {
+        return from;
+    }
 
 }

@@ -9,6 +9,8 @@ import deu.cse.spring_webmail.mail.mapper.MailMapper;
 import deu.cse.spring_webmail.mail.repository.MailBoxRepository;
 import deu.cse.spring_webmail.mail.repository.MailPageableRepository;
 import deu.cse.spring_webmail.mail.repository.MailRepository;
+import jakarta.mail.Address;
+import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
@@ -164,8 +166,24 @@ public class MailReceiver {
             mail.setHeaderBytes(mergeBlobs(mail.getHeaderBytes(), mail.getMailBytes()));
             // 메일 DTO로 변환
             MailDto mailDto = mailMapper.toMailDto(mail);
+
+            // MimeMessage 객체에서 발신자, 수신자 목록을 추출하여 설정
+            Address[] fromAddresses = mailDto.getMimeMessage().getFrom();
+            if (fromAddresses != null && fromAddresses.length > 0) {
+                mailDto.setFrom(fromAddresses[0].toString());
+            }
+
+            List<String> recipientAddresses = new ArrayList<>();
+            Address[] recipients = mailDto.getMimeMessage().getRecipients(Message.RecipientType.TO);
+            if (recipients != null) {
+                for (Address address : recipients) {
+                    recipientAddresses.add(address.toString());
+                }
+            }
+            mailDto.setTo(recipientAddresses);
+
             // 메일 내용과 첨부파일을 추출
-            mailDto.setMailContent(extractMailContent(extractMailContent(mailDto.getMimeMessage().getContent())));
+            mailDto.setMailContent(extractMailContent(mailDto.getMimeMessage().getContent()));
             mailDto.setAttachments(extractAttachments(mailDto.getMimeMessage().getContent(), mailDto.getMailUid()));
             return mailDto;
         } catch (MessagingException | IOException | SQLException e) {

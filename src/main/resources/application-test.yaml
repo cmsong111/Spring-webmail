@@ -21,9 +21,6 @@ spring:
     show-sql: true
     defer-datasource-initialization: true
 
-  sql:
-    init:
-      mode: never
 
 server:
   port: 8080
