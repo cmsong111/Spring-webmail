@@ -104,7 +104,7 @@
                 <sec:csrfInput />
                 <div class="form-group col-md-6">
                     <label for="username">아이디</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요" oninput="validateUsername()">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -187,6 +187,8 @@
                 break;
         }
     }
+
+
 
     function checkPasswords() {
         var password = document.getElementById("password").value;
