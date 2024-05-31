@@ -24,6 +24,26 @@
             form.submit();
             console.log('임시 저장')
         }
+
+        // 메일 보내기 버튼 클릭 시 폼 유효성 검사
+        function validateForm(event) {
+            const to = document.getElementById('to').value.trim();
+            const subj = document.getElementById('subj').value.trim();
+
+            if (to === "") {
+                alert("수신자를 입력하세요.");
+                event.preventDefault();
+                return false;
+            }
+
+            if (subj === "") {
+                alert("메일 제목을 입력하세요.");
+                event.preventDefault();
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </head>
 <body>

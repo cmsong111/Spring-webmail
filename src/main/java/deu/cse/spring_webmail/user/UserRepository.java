@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * 사용자 정보를 관리하는 Repository
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 

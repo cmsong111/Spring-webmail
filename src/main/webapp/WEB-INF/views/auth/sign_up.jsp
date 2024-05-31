@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<head>
+    <link type="text/css" rel="stylesheet" href="../css/sign_up.css"/>
+</head>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -15,6 +18,10 @@
     <style>
         .form-group {
             margin-bottom: 15px;
+            position: relative;
+
+            width: 80%;
+            margin: auto;
         }
         .password-match, .password-not-match {
             font-size: 0.85em; /* Smaller font size */
@@ -37,11 +44,57 @@
             opacity: 70%;
             display: inline;
         }
+
+        .container {
+            background-color: #fff;
+            padding: 70px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            top:180px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .password-match, .password-not-match {
+            font-size: 0.85em; /* Smaller font size */
+            display: none;
+        }
+        .password-match {
+            color: green;
+        }
+        .password-not-match {
+            color: red;
+        }
+        .password-strength-bar {
+            height: 10px;
+            width: 0%;
+            background-color: red;
+            transition: width 0.3s;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 45px;
+            font-size: 28px;
+        }
+        button {
+            width: 30%;
+            margin: auto;
+            position: relative;
+            left:160px;
+            height: 63px;
+        }
+        label{
+            font-size: 15px;
+            font-weight: bolder;
+        }
     </style>
     <title>Title</title>
 </head>
 <body>
-<%@ include file="../fragments/header.jspf" %>
 
 <div class="container">
     <div class="row">
@@ -51,7 +104,7 @@
                 <sec:csrfInput />
                 <div class="form-group col-md-6">
                     <label for="username">아이디</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요" oninput="validateUsername()">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -86,6 +139,19 @@
 </div>
 
 <script>
+
+    function validateUsername(){
+        var username = document.getElementById("username").value.trim();
+        var submitButton = document.getElementById("submit-button");
+
+        if(username === ""){
+            submitButton.disabled = true;
+        }else{
+            submitButton.disabled = false ;
+        }
+
+    }
+
     function checkPasswordStrength() {
         var strengthBar = document.getElementById('password-strength-bar');
         var password = document.getElementById('password').value;
@@ -134,6 +200,8 @@
                 break;
         }
     }
+
+
 
     function checkPasswords() {
         var password = document.getElementById("password").value;

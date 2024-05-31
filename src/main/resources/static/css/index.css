@@ -1,0 +1,26 @@
+#login_form{
+    margin: auto;
+    width:34%;
+    height: 300px;
+    position: relative;
+    padding:20px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+#mb-3-style{
+    width: 70%;
+    margin: auto;
+}
+
+#userid, #password{
+    width:90%;
+    height: 40px;
+}
+button{
+    position: relative;
+    left:17%;
+    top:25px;
+}
+label{
+    font-size: 15px;
+}

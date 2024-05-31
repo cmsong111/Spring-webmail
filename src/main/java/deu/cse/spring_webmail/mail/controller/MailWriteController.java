@@ -8,7 +8,9 @@ import deu.cse.spring_webmail.mail.service.EmailSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,9 +46,30 @@ public class MailWriteController {
     private String downloadFolder;
 
     @GetMapping("/write_mail")
-    public String writeMail() {
+    public String writeMail(
+            @RequestParam(value = "mail", required = false) String mail,
+            Model model) {
+        //mail이 null일 때 예외처리
+        if (mail == null) {mail = "";}
+
+        if (!mail.contains("@")) {
+            mail += "@localhost";
+        }
+        model.addAttribute("mail", mail);
         return "write_mail/write_mail";
     }
+
+    @GetMapping("/write_mail_success")
+    public String writeMailSuccess() {
+        return "write_mail/write_mail_success";
+    }
+
+    @GetMapping("/write_mail_fail")
+    public String writeMailFail(@RequestParam(name = "error", required = false) String error, Model model) {
+        model.addAttribute("error", error);
+        return "write_mail/write_mail_fail";
+    }
+
 
     @PostMapping("/write_mail.do")
     public String writeMailDo(@RequestParam String to, @RequestParam String cc,
@@ -56,6 +79,7 @@ public class MailWriteController {
 
         List<MultipartFile> files = new ArrayList<>();
         String resultMessage = "";
+
 
         // 첨부파일 크기 제한
         if (!upFile.isEmpty() && upFile.getSize() > Long.parseLong(MAX_SIZE)) {
@@ -67,10 +91,15 @@ public class MailWriteController {
             files.add(upFile);
         }
 
-        resultMessage = emailSender.sendEmail(principal.getName(), to, cc, subj, body, files);
-        attrs.addFlashAttribute("msg", resultMessage);
-
-        return "redirect:/mail";
+        try {
+            resultMessage = emailSender.sendEmail(principal.getName(), to, cc, subj, body, files);
+            attrs.addFlashAttribute("msg", resultMessage);
+        } catch (MailException e) {
+            String errorMessage = e.getMessage().replace("\n", "<br>").replace("\"", "\\\"");
+            attrs.addAttribute("error", errorMessage);
+            return "redirect:/write_mail_fail";
+        }
+        return "redirect:/write_mail_success";
     }
 
 

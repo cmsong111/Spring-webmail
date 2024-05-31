@@ -17,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
+/**
+ * 메일 관련 비즈니스 로직을 처리하는 클래스
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

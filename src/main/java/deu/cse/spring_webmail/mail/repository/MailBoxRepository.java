@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 메일함 관련 Repository
+ */
 @Repository
 public interface MailBoxRepository extends JpaRepository<MailBox, Long> {
 
@@ -20,7 +23,8 @@ public interface MailBoxRepository extends JpaRepository<MailBox, Long> {
 
     /**
      * 사용자 이름과 메일함 이름으로 메일함 조회
-     * @param userName 사용자 이름
+     *
+     * @param userName    사용자 이름
      * @param mailboxName 메일함 이름
      *                    (메일함 이름은 INBOX, Outbox, Sent ,Draft ,Trash 중 하나)
      * @return

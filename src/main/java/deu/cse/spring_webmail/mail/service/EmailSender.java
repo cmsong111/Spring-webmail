@@ -22,6 +22,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * 메일 전송 서비스로직을 포함하는 클래스
+ */
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -55,6 +58,15 @@ public class EmailSender {
     /**
      * 임시 보관함에 메일을 보내는 메소드(자기 자신에게 보내는 메일)
      * IMAP 서비스 활용
+     *
+     * @param from           보내는 사람 주소
+     *                       (사용자 이름)
+     * @param to             받는 사람 주소
+     * @param cc             참조 주소
+     * @param subject        제목
+     * @param body           내용
+     * @param multipartFiles 첨부파일
+     * @return 메일 전송 성공 여부 메시지
      */
     public String saveTempMail(String from, String to, String cc, String subject, String body, List<MultipartFile> multipartFiles) {
         try {
@@ -87,6 +99,19 @@ public class EmailSender {
         }
     }
 
+    /**
+     * MimeMessage 객체를 생성하는 메소드
+     *
+     * @param username       사용자 이름
+     * @param to             받는 사람
+     * @param cc             참조
+     * @param subject        제목
+     * @param body           본문
+     * @param multipartFiles 첨부파일
+     * @return MimeMessage 객체
+     * @throws MessagingException MimeMessage 객체 생성 실패
+     * @throws IOException        첨부파일 처리 실패
+     */
     protected MimeMessage createMimeMessage(String username, String to, String cc, String subject, String body, List<MultipartFile> multipartFiles) throws MessagingException, IOException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, multipartFiles.isEmpty(), "UTF-8");

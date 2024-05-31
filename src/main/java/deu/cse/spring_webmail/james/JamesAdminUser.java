@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * James Admin User 관리 컴포넌트
+ */
 @Component
 @Slf4j
 public class JamesAdminUser {

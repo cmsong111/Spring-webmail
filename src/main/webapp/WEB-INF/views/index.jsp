@@ -10,6 +10,7 @@
 <html lang="ko">
 
 <head>
+    <link type="text/css" rel="stylesheet" href="../css/index.css"/>
     <%@include file="fragments/head.jspf" %>
     <title>로그인</title>
 </head>
@@ -37,13 +38,13 @@
     <div id="login_form" class="container">
         <form method="POST" action="<c:url value="/login.do"/>" class="needs-validation" novalidate>
             <sec:csrfInput/>
-            <div class="mb-3">
+            <div class="mb-3" id="mb-3-style">
                 <label for="userid" class="form-label">아이디</label>
                 <input type="text" class="form-control" id="userid" name="userid" size="20" autofocus required>
                 <div class="invalid-feedback">아이디를 입력해주세요.</div>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">암호</label>
+            <div class="mb-3" id="mb-3-style">
+                <label for="password" class="form-label">비밀번호</label>
                 <input type="password" class="form-control" id="password" name="password" size="20" required>
                 <div class="invalid-feedback">암호를 입력해주세요.</div>
             </div>

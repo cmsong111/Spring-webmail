@@ -1,3 +1,9 @@
-.nav-link{
+.nav-link {
     color: black;
+}
+
+#logout-but{
+    color: black;
+    border-color: white;
+    font-size: 15px;
 }

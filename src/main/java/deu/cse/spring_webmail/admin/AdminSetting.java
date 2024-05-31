@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 관리자 초기 세팅용 클래스
+ * <br>@PostConstruct 어노테이션을 사용하여 프로그램 시작시 admin 계정 생성 및 관련 메일박스 생성
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -27,7 +31,8 @@ public class AdminSetting {
     /**
      * 프로그램 시작시 admin 계정 생성 및 관련 메일박스 생성
      * admin 계정이 존재하지 않을 경우 실행<br>
-     * Password의 경우 data.sql에 암호화 된 비밀번호로 업데이트 되기 때문에 임의의 비밀번호로 생성
+     * Password의 경우 data.sql에 암호화 된 비밀번호로 업데이트 되기 때문에 임의의 비밀번호로 생성<br>
+     * admin 계정의 메일박스는 INBOX, SENT, TRASH, DRAFT 생성
      */
     @PostConstruct
     public void init() {
